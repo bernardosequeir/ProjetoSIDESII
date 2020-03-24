@@ -1,0 +1,2 @@
+@ECHO OFF
+mysql -u USER -pPASS BD -e "EXEC STORED_PROCEDURE;"
