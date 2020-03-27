@@ -1,32 +1,52 @@
 <?php
-   //Constants
-   const EXECUTION_TIME = 5; //Execution time (in seconds).
-   
    /*********************************************Auxiliar Functions************************************************/
-   //Time limite of execution.
-   set_time_limit(self::EXECUTION_TIME);   
-
-   //Auxiliar Function to read the .ini file.
-   function readIni() {
-      $fn = fopen("tempo.ini","r");
-      $result = fgets($fn, 20);
-      fclose($fn);
-      return $result;
+   //Auxiliar Functions that read and write to the configuration files [$u_param must be "id" or "time" and $u_data must be an int]
+   function readConfig($u_param) {
+      try {
+         if(($u_param == "id" || $u_param == "time")) {
+            $p = "migration_" .$u_param. ".config";
+            $fn = fopen($p,"r");
+            $r = fgets($fn);
+            fclose($fn);
+            echo $r;
+            return $r;
+            
+         } else {
+            throw new InvalidArgumentException("Problem in the parameter: " . $u_param);
+         }
+      } catch(InvalidArgumentException $e) {
+         echo $e;
+         exit();
+      }
    }
 
-   //Auxiliar Function to determine the periodicity with which the migration should happen (in hours).
+   function writeConfig($u_param, $u_data) {
+      try {
+         if(($u_param == "id" || $u_param == "time") && is_int($u_data)) {
+            file_put_contents("migration_" . $u_param .".config", $u_data);
+         } else {
+            throw new InvalidArgumentException("Problem in the arguments: " . $u_param . ":" . $u_data);
+         }
+      } catch(InvalidArgumentException $e) {
+         echo $e;
+         exit();
+      }
+   }
+
+   //Auxiliar Function: gets migration periodicity.
    function getTimePeriod() {
-      $t = readIni() ;
-      return $t == "" ? 2 * 60 * 60: intVal($t) * 60 * 60;
+      $t = readConfig("time") ;
+      return $t == "" ? 2 * 60 * 60 : intVal($t) * 60 * 60;
    }
 
-   //Auxiliar Functions and variable to aid in migrating the new logs.
-   $originalID = 0;
-   function setOriginalID(int $newValue) {
-      $originalID = $newValue;
-   }
+   //Auxiliar Functions and variable to aid in migrating the new logs with the last ID migrated.
    function getOriginalID() {
-      return $originalID
+      $id = intval(readConfig("id"));
+      return $id == "" ? 0 : $id;
+   }
+   
+   function setOriginalID($n) {
+      writeConfig("id", $n);
    }
 
    //Auxiliar Function to Handle DB connections
@@ -49,7 +69,7 @@
       $new_logs = $conn1->query("SELECT * FROM Log WHERE Log.idLog > " . getOriginalID());
       if($new_logs->num_rows > 0) {
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO Log VALUES (" .$row["idLog"]. ", " .$row["tabela_chave"]. ", " .$row["id_chave"]. ", " .$row["valor_antigo"]. ", " .$row["valor_novo"]. ", " .$row["Tempo"]. ", " .$row["Op"]. ")";
+            $insert_query = "INSERT INTO Log VALUES (" .$row["idLog"]. ", " .$row["tabela_chave"]. ", " .$row["coluna_chave"]. ", " .$row["id_chave"]. ", " .$row["valor_antigo"]. ", " .$row["valor_novo"]. ", " .$row["Tempo"]. ", " .$row["Op"]. ")";
             $insert_new_log = $conn2->query($insert_query);
          }
          setOriginalID($row["idLog"]);
@@ -57,19 +77,16 @@
    }
 
    /********************************Loop in which the DB Migration logic will occur********************************/
-   while(1) {
-      //Open DB Connections
-      $origin_conn = connectToDB("", "", "", ""); // Johnny [Origin]
-      $auditor_conn = connectToDB("", "", "", ""); // Localhost [Auditor]
+   
+   //Open DB Connections
+   $auditor_conn = connectToDB("", "", "", ""); // Johnny [Auditor]
+   $origin_conn = connectToDB("", "", "", ""); // Localhost [Origin]
 
-      //Log Migration
-      migrateLogs($origin_conn, $auditor_conn);
+   //Log Migration
+   migrateLogs($origin_conn, $auditor_conn);
 
-      //Close DB Connections
-      $auditor_conn->close();
-      $origin_conn->close();
-
-      //Sleep the program.
-      sleep(getTimePeriod());
-	}
+   //Close DB Connections
+   $auditor_conn->close();
+   $origin_conn->close();
+	
 ?>
