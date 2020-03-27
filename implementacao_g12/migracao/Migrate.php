@@ -20,7 +20,7 @@
       return $t == "" ? 2 * 60 * 60: intVal($t) * 60 * 60;
    }
 
-   //Auxiliar Functions and variable to aid in migrating only the new logs.
+   //Auxiliar Functions and variable to aid in migrating the new logs.
    $originalID = 0;
    function setOriginalID(int $newValue) {
       $originalID = $newValue;
@@ -72,6 +72,4 @@
       //Sleep the program.
       sleep(getTimePeriod());
 	}
-	
-
 ?>
