@@ -1,0 +1,66 @@
+BEGIN
+
+DECLARE tipo_operacao varchar(50);
+DECLARE estado varchar(50);
+DECLARE data timestamp;
+DECLARE ficheiro varchar(50);
+DECLARE data_inicio timestamp;
+DECLARE data_fim timestamp;
+DECLARE numero_entradas varchar(50);
+DECLARE numero_entradas_total varchar(50);
+DECLARE data_inicio_SP timestamp;
+DECLARE data_fim_SP timestamp;
+
+
+SELECT ficheiro_controlo.tipo_operacao INTO @tipo_operacao FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+SELECT ficheiro_controlo.estado INTO @estado FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+SELECT ficheiro_controlo.data INTO @data FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+SELECT ficheiro_controlo.ficheiro INTO @ficheiro FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+SELECT ficheiro_controlo.data_inicio INTO @data_inicio FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+SELECT ficheiro_controlo.data_fim INTO @data_fim FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+SELECT ficheiro_controlo.numero_entradas INTO @numero_entradas FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+SELECT ficheiro_controlo.numero_entradas_total INTO @numero_entradas_total FROM ficheiro_controlo ORDER BY tipo_operacao LIMIT 1;
+
+
+CASE @estado
+	WHEN 'OK' THEN 
+
+SELECT 'logalerta',logalerta.idlogAlerta AS '',logalerta.IDAlerta,logalerta.TipoAlerta AS '',logalerta.DataHoraAlerta AS '',logalerta.IDMedicao  AS '',logalerta.ValorMedicao AS '',logalerta.TipoSensor AS '',logalerta.DataHoraMedicao AS '',logalerta.EmailUtilizadorConsultor AS '',logalerta.NomeUtilizadorConsultor AS '',logalerta.TipoUtilizadorConsultor AS '',logalerta.Data AS '',logalerta.Comando AS '',logalerta.Resultado AS '', ''  from logalerta WHERE @data < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao AS '', logcartao.idCartao AS '', logcartao.Ativo AS '', logcartao.EmailUtilizador AS '', logcartao.NomeUtilizador AS '', logcartao.TipoUtilizador AS '', logcartao.EmailUtilizadorConsultor AS '', logcartao.NomeUtilizadorConsultor AS '', logcartao.TipoUtilizadorConsultor AS '', logcartao.Data AS '',logcartao.Comando AS '',logcartao.Resultado AS '', '','',''FROM logcartao WHERE @data < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao AS '', logmedicaosensores.IDmedicao AS '', logmedicaosensores.TipoSensor AS '',logmedicaosensores.DataHoraMedicao AS '',logmedicaosensores.EmailUtilizadorConsultor AS '',logmedicaosensores.NomeUtilizadorConsultor AS '',logmedicaosensores.TipoUtilizadorConsultor AS '',logmedicaosensores.Data AS '',logmedicaosensores.Comando AS '', logmedicaosensores.Resultado AS '', logmedicaosensores.PossivelAnomalia AS '', '', '', '', '' FROM logmedicaosensores  WHERE @data < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda AS '', logronda.DiaSemana AS '', logronda.HoraRonda AS '', logronda.Duracao AS '', logronda.EmailUtilizador AS '', logronda.NomeUtilizador AS '', logronda.TipoUtilizador AS '', logronda.EmailUtilizadorConsultor AS '', logronda.NomeUtilizadorConsultor AS '', logronda.TipoUtilizadorConsultor AS '', logronda.Data AS '', logronda.Comando AS '', logronda.Resultado, '', '' from logronda  WHERE @data < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra AS '', logrondaextra.DataHora AS '', logrondaextra.EmailUtilizador AS '', logrondaextra.NomeUtilizador AS '', logrondaextra.TipoUtilizador AS '', logrondaextra.EmailUtilizadorConsultor AS '', logrondaextra.NomeUtilizadorConsultor AS '', logrondaextra.TipoUtilizadorConsultor AS '', logrondaextra.Data AS '', logrondaextra.Comando AS '', logrondaextra.Resultado AS '','','','',''  from logrondaextra  WHERE @data < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema AS '', logsistema.IDSistema AS '', logsistema.LimiteTemperatura AS '', logsistema.LimiteHumidade AS '', logsistema.LimiteLuminosidade AS '', logsistema.LimiarTemperatura AS '', logsistema.LimiarHumidade AS '', logsistema.LimiarLuminosidade AS '', logsistema.DuracaoPadraoRonda AS '', logsistema.EmailUtilizadorConsultor AS '',logsistema.NomeUtilizadorConsultor AS '', logsistema.TipoUtilizadorConsultor AS '', logsistema.Data AS '', logsistema.Comando AS '', logsistema.Resultado AS '' from logsistema  WHERE @data < logsistema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador AS '', logutilizador.EmailUtilizadorConsultado AS '', logutilizador.NomeUtilizadorConsultado AS '', logutilizador.TipoUtilizadorConsultado AS '', logutilizador.EmailUtilizadorConsultor AS '', logutilizador.NomeUtilizadorConsultor AS '', logutilizador.TipoUtilizadorConsultor AS '', logutilizador.Data AS '', logutilizador.Comando AS '', logutilizador.Resultado AS '', '' , '' ,'', '', ''  from logutilizador  WHERE @data < logutilizador.data
+INTO OUTFILE "C:/Users/joaof/OneDrive - ISCTE-IUL/SID/teste1.csv"
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+WHEN 'EXTRA' THEN 
+	IF @data_inicio IS NULL AND @data_fim IS NOT NULL THEN SET @data_inicio_SP = '2013-07-22 12:50:05' ; SET @data_fim_SP = @data_fim; ELSEIF
+     @data_fim IS NULL AND @data_inicio IS NOT NULL  THEN  SET @data_fim_SP = CURRENT_TIMESTAMP; SET @data_inicio_SP = @data_inicio; 
+     ELSE  SET @data_inicio_SP = @data_inicio ; SET @data_fim_SP = @data_fim; END IF;
+     SELECT 'logalerta',logalerta.idlogAlerta AS '',logalerta.IDAlerta,logalerta.TipoAlerta AS '',logalerta.DataHoraAlerta AS '',logalerta.IDMedicao  AS '',logalerta.ValorMedicao AS '',logalerta.TipoSensor AS '',logalerta.DataHoraMedicao AS '',logalerta.EmailUtilizadorConsultor AS '',logalerta.NomeUtilizadorConsultor AS '',logalerta.TipoUtilizadorConsultor AS '',logalerta.Data AS '',logalerta.Comando AS '',logalerta.Resultado AS '', ''  from logalerta WHERE @data_fim_SP > logalerta.data AND @data_inicio_SP < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao AS '', logcartao.idCartao AS '', logcartao.Ativo AS '', logcartao.EmailUtilizador AS '', logcartao.NomeUtilizador AS '', logcartao.TipoUtilizador AS '', logcartao.EmailUtilizadorConsultor AS '', logcartao.NomeUtilizadorConsultor AS '', logcartao.TipoUtilizadorConsultor AS '', logcartao.Data AS '',logcartao.Comando AS '',logcartao.Resultado AS '', '','','' FROM logcartao WHERE @data_fim_SP > logcartao.data AND @data_inicio_SP < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao AS '', logmedicaosensores.IDmedicao AS '', logmedicaosensores.TipoSensor AS '',logmedicaosensores.DataHoraMedicao AS '',logmedicaosensores.EmailUtilizadorConsultor AS '',logmedicaosensores.NomeUtilizadorConsultor AS '',logmedicaosensores.TipoUtilizadorConsultor AS '',logmedicaosensores.Data AS '',logmedicaosensores.Comando AS '', logmedicaosensores.Resultado AS '', logmedicaosensores.PossivelAnomalia AS '', '', '', '', '' FROM logmedicaosensores  WHERE @data_fim_SP > logmedicaosensores.data AND @data_inicio_SP < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda AS '', logronda.DiaSemana AS '', logronda.HoraRonda AS '', logronda.Duracao AS '', logronda.EmailUtilizador AS '', logronda.NomeUtilizador AS '', logronda.TipoUtilizador AS '', logronda.EmailUtilizadorConsultor AS '', logronda.NomeUtilizadorConsultor AS '', logronda.TipoUtilizadorConsultor AS '', logronda.Data AS '', logronda.Comando AS '', logronda.Resultado, '', '' from logronda  WHERE @data_fim_SP > logronda.data AND @data_inicio_SP < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra AS '', logrondaextra.DataHora AS '', logrondaextra.EmailUtilizador AS '', logrondaextra.NomeUtilizador AS '', logrondaextra.TipoUtilizador AS '', logrondaextra.EmailUtilizadorConsultor AS '', logrondaextra.NomeUtilizadorConsultor AS '', logrondaextra.TipoUtilizadorConsultor AS '', logrondaextra.Data AS '', logrondaextra.Comando AS '', logrondaextra.Resultado AS '','','','',''  from logrondaextra  WHERE @data_fim_SP > logrondaextra.data AND @data_inicio_SP < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema AS '', logsistema.IDSistema AS '', logsistema.LimiteTemperatura AS '', logsistema.LimiteHumidade AS '', logsistema.LimiteLuminosidade AS '', logsistema.LimiarTemperatura AS '', logsistema.LimiarHumidade AS '', logsistema.LimiarLuminosidade AS '', logsistema.DuracaoPadraoRonda AS '', logsistema.EmailUtilizadorConsultor AS '',logsistema.NomeUtilizadorConsultor AS '', logsistema.TipoUtilizadorConsultor AS '', logsistema.Data AS '', logsistema.Comando AS '', logsistema.Resultado AS '' from logsistema  WHERE @data_fim_SP > logsistema.data AND @data_inicio_SP < logsismtema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador AS '', logutilizador.EmailUtilizadorConsultado AS '', logutilizador.NomeUtilizadorConsultado AS '', logutilizador.TipoUtilizadorConsultado AS '', logutilizador.EmailUtilizadorConsultor AS '', logutilizador.NomeUtilizadorConsultor AS '', logutilizador.TipoUtilizadorConsultor AS '', logutilizador.Data AS '', logutilizador.Comando AS '', logutilizador.Resultado AS '', '' , '' ,'', '', '' from logutilizador  WHERE @data_fim_SP > logutilizador.data AND @data_inicio_SP < logutilizador.data
+INTO OUTFILE "C:/Users/joaof/OneDrive - ISCTE-IUL/SID/teste1.csv"
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+WHEN 'NOK' THEN 
+		
+     SELECT 'logalerta',logalerta.idlogAlerta AS '',logalerta.IDAlerta,logalerta.TipoAlerta AS '',logalerta.DataHoraAlerta AS '',logalerta.IDMedicao  AS '',logalerta.ValorMedicao AS '',logalerta.TipoSensor AS '',logalerta.DataHoraMedicao AS '',logalerta.EmailUtilizadorConsultor AS '',logalerta.NomeUtilizadorConsultor AS '',logalerta.TipoUtilizadorConsultor AS '',logalerta.Data AS '',logalerta.Comando AS '',logalerta.Resultado AS '', '' from logalerta  WHERE @data_inicio < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao AS '', logcartao.idCartao AS '', logcartao.Ativo AS '', logcartao.EmailUtilizador AS '', logcartao.NomeUtilizador AS '', logcartao.TipoUtilizador AS '', logcartao.EmailUtilizadorConsultor AS '', logcartao.NomeUtilizadorConsultor AS '', logcartao.TipoUtilizadorConsultor AS '', logcartao.Data AS '',logcartao.Comando AS '',logcartao.Resultado AS '', '','','' FROM logcartao WHERE @data_inicio < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao AS '', logmedicaosensores.IDmedicao AS '', logmedicaosensores.TipoSensor AS '',logmedicaosensores.DataHoraMedicao AS '',logmedicaosensores.EmailUtilizadorConsultor AS '',logmedicaosensores.NomeUtilizadorConsultor AS '',logmedicaosensores.TipoUtilizadorConsultor AS '',logmedicaosensores.Data AS '',logmedicaosensores.Comando AS '', logmedicaosensores.Resultado AS '', logmedicaosensores.PossivelAnomalia AS '', '', '', '', '' FROM logmedicaosensores  WHERE @data_inicio < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda AS '', logronda.DiaSemana AS '', logronda.HoraRonda AS '', logronda.Duracao AS '', logronda.EmailUtilizador AS '', logronda.NomeUtilizador AS '', logronda.TipoUtilizador AS '', logronda.EmailUtilizadorConsultor AS '', logronda.NomeUtilizadorConsultor AS '', logronda.TipoUtilizadorConsultor AS '', logronda.Data AS '', logronda.Comando AS '', logronda.Resultado, '', '' from logronda  WHERE @data_inicio < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra AS '', logrondaextra.DataHora AS '', logrondaextra.EmailUtilizador AS '', logrondaextra.NomeUtilizador AS '', logrondaextra.TipoUtilizador AS '', logrondaextra.EmailUtilizadorConsultor AS '', logrondaextra.NomeUtilizadorConsultor AS '', logrondaextra.TipoUtilizadorConsultor AS '', logrondaextra.Data AS '', logrondaextra.Comando AS '', logrondaextra.Resultado AS '','','','',''  from logrondaextra  WHERE @data_inicio < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema AS '', logsistema.IDSistema AS '', logsistema.LimiteTemperatura AS '', logsistema.LimiteHumidade AS '', logsistema.LimiteLuminosidade AS '', logsistema.LimiarTemperatura AS '', logsistema.LimiarHumidade AS '', logsistema.LimiarLuminosidade AS '', logsistema.DuracaoPadraoRonda AS '', logsistema.EmailUtilizadorConsultor AS '',logsistema.NomeUtilizadorConsultor AS '', logsistema.TipoUtilizadorConsultor AS '', logsistema.Data AS '', logsistema.Comando AS '', logsistema.Resultado AS '' from logsistema  WHERE @data_inicio < logsistema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador AS '', logutilizador.EmailUtilizadorConsultado AS '', logutilizador.NomeUtilizadorConsultado AS '', logutilizador.TipoUtilizadorConsultado AS '', logutilizador.EmailUtilizadorConsultor AS '', logutilizador.NomeUtilizadorConsultor AS '', logutilizador.TipoUtilizadorConsultor AS '', logutilizador.Data AS '', logutilizador.Comando AS '', logutilizador.Resultado AS '', '' , '' ,'', '', '' from logutilizador  WHERE @data_inicio < logutilizador.data
+INTO OUTFILE "C:/Users/joaof/OneDrive - ISCTE-IUL/SID/teste1.csv"
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+ELSE SELECT 'ERROR'
+INTO OUTFILE "C:/Users/joaof/OneDrive - ISCTE-IUL/SID/teste1.csv"
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+END CASE;
+
+
+	
+
+
+
+END
