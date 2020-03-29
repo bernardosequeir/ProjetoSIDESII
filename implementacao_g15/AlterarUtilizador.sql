@@ -2,7 +2,8 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AlterarUtilizador` (`Mail` VARCHAR(100), `nEmail` VARCHAR(100), `nNome` VARCHAR(200), `nTipo` VARCHAR(3), `nPass` VARCHAR(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AlterarUtilizador`(Mail VARCHAR(100), nEmail VARCHAR(100),  nNome VARCHAR(200), nTipo VARCHAR(3), nPass VARCHAR(10))
+BEGIN
 	SELECT user INTO @userId FROM (
 		SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();

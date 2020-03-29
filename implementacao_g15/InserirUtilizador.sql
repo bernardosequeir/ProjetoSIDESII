@@ -2,7 +2,8 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirUtilizador` (`Email` VARCHAR(100), `Nome` VARCHAR(200), `Tipo` VARCHAR(3), `Pass` VARCHAR(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirUtilizador`(Email VARCHAR(100),  Nome VARCHAR(200), Tipo VARCHAR(3), Pass VARCHAR(10))
+BEGIN
 	SELECT user INTO @userId FROM (
 		SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
