@@ -110,7 +110,7 @@ BEGIN
 END;
 
  
-DROP TRIGGER Inserir_Cartao
+DROP TRIGGER Inserir_Cartao;
 CREATE DEFINER=`root`@`localhost` TRIGGER Inserir_Cartao
 AFTER INSERT ON cartao FOR EACH ROW
 BEGIN
