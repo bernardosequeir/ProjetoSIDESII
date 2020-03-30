@@ -126,7 +126,7 @@ BEGIN
         SELECT 'root' INTO @UserTipoC;
         SELECT 'root' INTO @UserNomeC;
     END IF;
-	INSERT INTO logcartao VALUES ( DEFAULT, new.idCartao, new.Ativo, @UserNome, @UserTipo, @UserMail ,@UserNomeC, @UserTipoC, now(), 'INSERT',DEFAULT);
+	INSERT INTO logcartao VALUES ( DEFAULT, new.idCartao, new.Ativo, new.EmailUtilizador, @UserNome, @UserTipo, @UserMail ,@UserNomeC, @UserTipoC, now(), 'INSERT',DEFAULT);
 END; 
 
 DROP TRIGGER Atualizar_Cartao;
@@ -145,7 +145,7 @@ BEGIN
         SELECT 'root' INTO @UserTipoC;
         SELECT 'root' INTO @UserNomeC;
     END IF;
-	INSERT INTO logcartao VALUES ( DEFAULT, new.idCartao, new.Ativo, @UserNome, @UserTipo, @UserMail ,@UserNomeC, @UserTipoC, now(), 'UPDATE',DEFAULT);
+	INSERT INTO logcartao VALUES ( DEFAULT, new.idCartao, new.Ativo,new.EmailUtilizador, @UserNome, @UserTipo, @UserMail ,@UserNomeC, @UserTipoC, now(), 'UPDATE',DEFAULT);
 END;  
 
 DROP TRIGGER Eliminar_Cartao;
@@ -164,7 +164,7 @@ BEGIN
         SELECT 'root' INTO @UserTipoC;
         SELECT 'root' INTO @UserNomeC;
     END IF;
-	INSERT INTO logcartao VALUES ( DEFAULT, old.idCartao, old.Ativo, @UserNome, @UserTipo, @UserMail ,@UserNomeC, @UserTipoC, now(), 'DELETE',DEFAULT);
+	INSERT INTO logcartao VALUES ( DEFAULT, old.idCartao, old.Ativo, old.EmailUtilizador, @UserNome, @UserTipo, @UserMail ,@UserNomeC, @UserTipoC, now(), 'DELETE',DEFAULT);
 END;
 
 DROP TRIGGER Inserir_Medicoes;
