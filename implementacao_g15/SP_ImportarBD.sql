@@ -1,4 +1,5 @@
--- DROP TABLE test;
+
+DROP TABLE IF EXISTS test;
 CREATE TEMPORARY TABLE test (
 	tableid varchar(20),
     field1 varchar(30),
@@ -19,7 +20,7 @@ CREATE TEMPORARY TABLE test (
 );
 
 
-LOAD DATA INFILE 'C:\\Users\\Bernardo\\Desktop\\teste.csv'
+LOAD DATA INFILE 'C:/Users/joaof/OneDrive - ISCTE-IUL/SID/teste1.csv'
 INTO TABLE test
 FIELDS TERMINATED BY ';'
 ENCLOSED BY '"'  
@@ -42,5 +43,8 @@ INSERT INTO logrondaextra(logrondaextra.idlogRondaExtra, logrondaextra.DataHora,
 INSERT INTO logsistema(logsistema.idlogSistema, logsistema.IDSistema, logsistema.LimiteTemperatura, logsistema.LimiteHumidade, logsistema.LimiteLuminosidade, logsistema.LimiarTemperatura, logsistema.LimiarHumidade, logsistema.LimiarLuminosidade, logsistema.DuracaoPadraoRonda, logsistema.EmailUtilizadorConsultor,logsistema.NomeUtilizadorConsultor, logsistema.TipoUtilizadorConsultor, logsistema.Data, logsistema.Comando, logsistema.Resultado) select field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13, field14, field15 from test where tableid="logsistema" ON DUPLICATE KEY UPDATE logsistema.idlogSistema=logsistema.idlogSistema;
 
 INSERT INTO logutilizador(logutilizador.idlogUtilizador, logutilizador.EmailUtilizadorConsultado, logutilizador.NomeUtilizadorConsultado, logutilizador.TipoUtilizadorConsultado, logutilizador.EmailUtilizadorConsultor, logutilizador.NomeUtilizadorConsultor, logutilizador.TipoUtilizadorConsultor, logutilizador.Data, logutilizador.Comando, logutilizador.Resultado) select field1, field2, field3, field4, field5, field6, field7, field8, field9, field10 from test where tableid="logutilizador" ON DUPLICATE KEY UPDATE logutilizador.idlogUtilizador=logutilizador.idlogUtilizador;
+
+
+SELECT * FROM test WHERE concat('',test.tableid * 1) = test.tableid;
 
 DROP TABLE test;
