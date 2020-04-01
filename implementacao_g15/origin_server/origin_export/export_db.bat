@@ -7,8 +7,8 @@ set user=root
 set pass=teste123
 
 ::Delete the old export file/files that are in the directory
-IF EXIST *.csv (
-	del *.csv
+IF EXIST ficheiro_exportacao.csv (
+	del ficheiro_exportacao.csv
 	ECHO FILE DELETED
 )
 
@@ -16,5 +16,7 @@ IF EXIST *.csv (
 mysql -u %user% -p%pass% %db% < "C:\Users\joaof\Documents\GitHub\ProjetoSIDESII\implementacao_g15\origin_server\origin_export\import_control.sql"
 ::Prints the updated Control Table
 mysql -u %user% -p%pass% -h %server% -e "SELECT * FROM %table%;" %db%
+
+mysql -u %user% -p%pass% -h %server% -e "CALL exportar;" %db%
 
 PAUSE
