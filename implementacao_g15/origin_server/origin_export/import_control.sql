@@ -7,3 +7,5 @@ INTO TABLE test_export_result
 FIELDS TERMINATED BY ';'
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n';
+
+DROP TABLE IF EXISTS test_export_result;
