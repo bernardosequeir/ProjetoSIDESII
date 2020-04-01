@@ -1,4 +1,4 @@
-LOAD DATA INFILE 'C:/Users/Nuno Rego/Desktop/ProjetoSIDESII/import_export_bats/controlo/ficheirocontrolo.csv'
+LOAD DATA INFILE 'C:/Users/joaof/OneDrive - ISCTE-IUL/SID/ficheirocontrolo.csv'
 INTO TABLE test_export_result
 FIELDS TERMINATED BY ';'
 ENCLOSED BY '"'
