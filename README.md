@@ -1,5 +1,5 @@
 # ProjetoSIDESII
-Repositório para o projeto de SID e de ESII
+Repositório para o projeto de SID e de ESII.
 
 ## Links Utéis: 
 * [Trello](https://trello.com/esgrupo/home)
