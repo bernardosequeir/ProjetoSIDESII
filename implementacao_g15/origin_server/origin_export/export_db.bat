@@ -16,7 +16,9 @@ IF EXIST ficheiro_exportacao.csv (
 mysql -u %user% -p%pass% %db% < "C:\Users\joaof\Documents\GitHub\ProjetoSIDESII\implementacao_g15\origin_server\origin_export\import_control.sql"
 ::Prints the updated Control Table
 mysql -u %user% -p%pass% -h %server% -e "SELECT * FROM %table%;" %db%
-
+::Calls Exportar SP
 mysql -u %user% -p%pass% -h %server% -e "CALL exportar;" %db%
+mysql -u %user% -p%pass% -h %server% -e "DROP TABLE IF EXISTS test_export_result;" %db%
+
 
 PAUSE
