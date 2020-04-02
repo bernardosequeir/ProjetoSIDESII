@@ -185,9 +185,9 @@
    $starttime = microtime(true);
 
    //Open DB Connections
-   //$auditor_conn = connectToDB("johnny.heliohost.org", "dctidata_g12", "senhag12", "dctidata_g12"); // Johnny [Auditor]
-   $auditor_conn = connectToDB("192.168.1.114", "root", "teste123", "dctidata_g12"); // GBA [Auditor_local]
-   $origin_conn = connectToDB("localhost", "root", "teste123", "museum"); // Localhost [Origin]
+   $auditor_conn = connectToDB("johnny.heliohost.org", "dctidata_g12", "senhag12", "dctidata_g12"); // Johnny [Auditor]
+   //$auditor_conn = connectToDB("192.168.1.114", "root", "teste123", "dctidata_g12"); // Other local DB for faster connection [Auditor_local]
+   $origin_conn = connectToDB("localhost", "root", "teste123", "g12_museum"); // Localhost [Origin]
 
    //Log Migration
    migrateLogData_man($origin_conn, $auditor_conn);
