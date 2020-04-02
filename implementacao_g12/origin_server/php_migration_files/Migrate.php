@@ -137,7 +137,7 @@
          echo "<i>[g12_logUser] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logUser VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["Email"]. "', '" .$row["NomeUtilizador"]. "', '" .$row["TipoUtilizador"]. "', '" .$row["Morada"]. "')";
+            $insert_query = "INSERT INTO g12_logUser VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["Email"]. "', '" .$row["idCartao"]. "', '" .$row["NomeUtilizador"]. "', '" .$row["TipoUtilizador"]. "', '" .$row["Morada"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
