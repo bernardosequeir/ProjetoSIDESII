@@ -180,7 +180,7 @@
       echo "</br></br><i>Number of rows migrated: ".$rows_migrated.".</i></br>";
    }
 
-   /********************************Loop in which the DB Migration logic will occur********************************/
+   /*********************************************** DB Migration logic ***********************************************/
    
    $starttime = microtime(true);
 
