@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Abr-2020 às 11:39
+-- Tempo de geração: 03-Abr-2020 às 16:52
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `g12_logdiasemana` (
   `id` int(11) NOT NULL,
-  `User` varchar(100) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `DiaSemana` varchar(20) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `g12_logdiasemana` (
 -- Extraindo dados da tabela `g12_logdiasemana`
 --
 
-INSERT INTO `g12_logdiasemana` (`id`, `User`, `Operacao`, `Time`, `DiaSemana`, `HoraRonda`) VALUES
+INSERT INTO `g12_logdiasemana` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `DiaSemana`, `HoraRonda`) VALUES
 (1, 'user_teste', 'DELETE', '00:00:00', 'terca', '12:00:00'),
 (2, 'user_teste', 'UPDATE', '00:00:00', 'terca', '13:00:00'),
 (3, 'user_teste', 'INSER', '00:00:00', 'terca', '14:00:00'),
@@ -61,7 +61,7 @@ INSERT INTO `g12_logdiasemana` (`id`, `User`, `Operacao`, `Time`, `DiaSemana`, `
 
 CREATE TABLE `g12_logmedicaosensores` (
   `id` int(11) NOT NULL,
-  `User` varchar(100) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `ValorMedicao` decimal(6,2) NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE `g12_logmedicaosensores` (
 -- Extraindo dados da tabela `g12_logmedicaosensores`
 --
 
-INSERT INTO `g12_logmedicaosensores` (`id`, `User`, `Operacao`, `Time`, `ValorMedicao`, `TipoDeSensor`, `DataHoraMedicao`, `PossivelAnomalia`) VALUES
+INSERT INTO `g12_logmedicaosensores` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `ValorMedicao`, `TipoDeSensor`, `DataHoraMedicao`, `PossivelAnomalia`) VALUES
 (1, 'user_teste', 'DELETE', '00:00:00', '1.00', 'tip', '0000-00-00 00:00:00', 'no'),
 (2, 'user_teste', 'UPDATE', '00:00:00', '2.00', 'tip', '0000-00-00 00:00:00', 'no'),
 (3, 'user_teste', 'INSERT', '00:00:00', '3.00', 'tip', '0000-00-00 00:00:00', 'no'),
@@ -94,7 +94,7 @@ INSERT INTO `g12_logmedicaosensores` (`id`, `User`, `Operacao`, `Time`, `ValorMe
 
 CREATE TABLE `g12_logrondaextra` (
   `id` int(11) NOT NULL,
-  `User` varchar(100) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `DataHora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -104,7 +104,7 @@ CREATE TABLE `g12_logrondaextra` (
 -- Extraindo dados da tabela `g12_logrondaextra`
 --
 
-INSERT INTO `g12_logrondaextra` (`id`, `User`, `Operacao`, `Time`, `DataHora`) VALUES
+INSERT INTO `g12_logrondaextra` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `DataHora`) VALUES
 (1, 'user_teste', 'DELETE', '00:00:00', '0000-00-00 00:00:00'),
 (2, 'user_teste', 'UPDATE', '00:00:00', '0000-00-00 00:00:00'),
 (3, 'user_teste', 'INSERT', '00:00:00', '0000-00-00 00:00:00'),
@@ -124,7 +124,7 @@ INSERT INTO `g12_logrondaextra` (`id`, `User`, `Operacao`, `Time`, `DataHora`) V
 
 CREATE TABLE `g12_logsistema` (
   `id` int(11) NOT NULL,
-  `User` varchar(100) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `LimiteTemperatura` decimal(6,2) DEFAULT NULL,
@@ -136,7 +136,7 @@ CREATE TABLE `g12_logsistema` (
 -- Extraindo dados da tabela `g12_logsistema`
 --
 
-INSERT INTO `g12_logsistema` (`id`, `User`, `Operacao`, `Time`, `LimiteTemperatura`, `LimiteHumidade`, `LimiteLuminosidade`) VALUES
+INSERT INTO `g12_logsistema` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `LimiteTemperatura`, `LimiteHumidade`, `LimiteLuminosidade`) VALUES
 (1, 'user_teste', 'DELETE', '00:00:00', '40.00', '20.00', '100.00'),
 (2, 'user_teste', 'UPDATE', '00:00:00', '40.00', '20.00', '100.00'),
 (3, 'user_teste', 'INSERT', '00:00:00', '40.00', '20.00', '100.00'),
@@ -156,7 +156,7 @@ INSERT INTO `g12_logsistema` (`id`, `User`, `Operacao`, `Time`, `LimiteTemperatu
 
 CREATE TABLE `g12_loguser` (
   `id` int(11) NOT NULL,
-  `User` varchar(100) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `Email` varchar(100) NOT NULL,
@@ -169,7 +169,7 @@ CREATE TABLE `g12_loguser` (
 -- Extraindo dados da tabela `g12_loguser`
 --
 
-INSERT INTO `g12_loguser` (`id`, `User`, `Operacao`, `Time`, `Email`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES
+INSERT INTO `g12_loguser` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `Email`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES
 (1, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
 (2, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
 (3, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
@@ -189,7 +189,7 @@ INSERT INTO `g12_loguser` (`id`, `User`, `Operacao`, `Time`, `Email`, `NomeUtili
 
 CREATE TABLE `g12_loguserhasdiasemana` (
   `id` int(11) NOT NULL,
-  `User` varchar(100) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `User_Email` varchar(100) NOT NULL,
@@ -201,7 +201,7 @@ CREATE TABLE `g12_loguserhasdiasemana` (
 -- Extraindo dados da tabela `g12_loguserhasdiasemana`
 --
 
-INSERT INTO `g12_loguserhasdiasemana` (`id`, `User`, `Operacao`, `Time`, `User_Email`, `DiaSemana_DiaDaSemana`, `DiaSemana_HoraRonda`) VALUES
+INSERT INTO `g12_loguserhasdiasemana` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `User_Email`, `DiaSemana_DiaDaSemana`, `DiaSemana_HoraRonda`) VALUES
 (1, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'terca', '12:00'),
 (2, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'terca', '13:00'),
 (3, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'terca', '14:00'),
