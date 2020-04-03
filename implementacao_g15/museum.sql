@@ -1,10 +1,9 @@
-
 -- phpMyAdmin SQL Dump
 -- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19-Mar-2020 às 19:40
+-- Tempo de geração: 03-Abr-2020 às 17:43
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -19,190 +18,381 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Banco de dados: `museum`
+--
+
+DELIMITER $$
+--
+-- Procedimentos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `exportar` ()  BEGIN
+
+DECLARE tipo_operacao varchar(50);
+DECLARE estado varchar(50);
+DECLARE data timestamp;
+DECLARE ficheiro varchar(50);
+DECLARE data_inicio timestamp;
+DECLARE data_fim timestamp;
+DECLARE numero_entradas int;
+DECLARE numero_entradas_total int;
+DECLARE data_inicio_SP timestamp;
+DECLARE data_fim_SP TIMESTAMP;
+DECLARE id_novo int;
+DECLARE numero_entradas_novo int;
+DECLARE numero_entradas_total_novo int;
+DECLARE agendada_extra varchar(50) DEFAULT 'AGENDADA';
+DECLARE agora TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+
+
+SELECT test_export_result.tipo_operacao INTO tipo_operacao FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SELECT test_export_result.estado INTO estado FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SELECT test_export_result.data INTO data FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SELECT test_export_result.ficheiro INTO ficheiro FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SELECT test_export_result.data_inicio INTO data_inicio FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SELECT test_export_result.data_fim INTO data_fim FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SELECT test_export_result.numero_entradas INTO numero_entradas FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SELECT test_export_result.numero_entradas_total INTO numero_entradas_total FROM test_export_result ORDER BY test_export_result.tipo_operacao DESC LIMIT 1;
+SET id_novo = tipo_operacao + 1;
+
+CASE estado
+	WHEN 'OK' THEN 
+	
+SET numero_entradas_novo = (SELECT COUNT(*) FROM (SELECT 'logalerta',logalerta.idlogAlerta,logalerta.IDAlerta,logalerta.TipoAlerta,logalerta.DataHoraAlerta,logalerta.IDMedicao,logalerta.ValorMedicao,logalerta.TipoSensor,logalerta.DataHoraMedicao,logalerta.EmailUtilizadorConsultor,logalerta.NomeUtilizadorConsultor,logalerta.TipoUtilizadorConsultor,logalerta.Data,logalerta.Comando,logalerta.Resultado, ''  from logalerta WHERE data < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao, logcartao.idCartao, logcartao.Ativo, logcartao.EmailUtilizador, logcartao.NomeUtilizador, logcartao.TipoUtilizador, logcartao.EmailUtilizadorConsultor, logcartao.NomeUtilizadorConsultor, logcartao.TipoUtilizadorConsultor, logcartao.Data,logcartao.Comando,logcartao.Resultado, '','','' FROM logcartao WHERE data < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao, logmedicaosensores.IDmedicao, logmedicaosensores.TipoSensor,logmedicaosensores.DataHoraMedicao,logmedicaosensores.EmailUtilizadorConsultor,logmedicaosensores.NomeUtilizadorConsultor,logmedicaosensores.TipoUtilizadorConsultor,logmedicaosensores.Data,logmedicaosensores.Comando, logmedicaosensores.Resultado, logmedicaosensores.PossivelAnomalia, '', '', '', '' FROM logmedicaosensores  WHERE data < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda, logronda.DiaSemana, logronda.HoraRonda, logronda.Duracao, logronda.EmailUtilizador, logronda.NomeUtilizador, logronda.TipoUtilizador, logronda.EmailUtilizadorConsultor, logronda.NomeUtilizadorConsultor, logronda.TipoUtilizadorConsultor, logronda.Data, logronda.Comando, logronda.Resultado, '', '' from logronda  WHERE data < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra, logrondaextra.DataHora, logrondaextra.EmailUtilizador, logrondaextra.NomeUtilizador, logrondaextra.TipoUtilizador, logrondaextra.EmailUtilizadorConsultor, logrondaextra.NomeUtilizadorConsultor, logrondaextra.TipoUtilizadorConsultor, logrondaextra.Data, logrondaextra.Comando, logrondaextra.Resultado,'','','','' from logrondaextra  WHERE data < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema, logsistema.IDSistema, logsistema.LimiteTemperatura, logsistema.LimiteHumidade, logsistema.LimiteLuminosidade, logsistema.LimiarTemperatura, logsistema.LimiarHumidade, logsistema.LimiarLuminosidade, logsistema.DuracaoPadraoRonda, logsistema.EmailUtilizadorConsultor,logsistema.NomeUtilizadorConsultor, logsistema.TipoUtilizadorConsultor, logsistema.Data, logsistema.Comando, logsistema.Resultado from logsistema  WHERE data < logsistema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador, logutilizador.EmailUtilizadorConsultado, logutilizador.NomeUtilizadorConsultado, logutilizador.TipoUtilizadorConsultado, logutilizador.EmailUtilizadorConsultor, logutilizador.NomeUtilizadorConsultor, logutilizador.TipoUtilizadorConsultor, logutilizador.Data, logutilizador.Comando, logutilizador.Resultado, '' , '' ,'', '', ''  from logutilizador  WHERE data < logutilizador.data) AS numero_entradas_novo);
+SET numero_entradas_total_novo = numero_entradas_novo + numero_entradas_total;
+
+SELECT 'logalerta',logalerta.idlogAlerta AS '',logalerta.IDAlerta,logalerta.TipoAlerta AS '',logalerta.DataHoraAlerta AS '',logalerta.IDMedicao  AS '',logalerta.ValorMedicao AS '',logalerta.TipoSensor AS '',logalerta.DataHoraMedicao AS '',logalerta.EmailUtilizadorConsultor AS '',logalerta.NomeUtilizadorConsultor AS '',logalerta.TipoUtilizadorConsultor AS '',logalerta.Data AS '',logalerta.Comando AS '',logalerta.Resultado AS '', ''  from logalerta WHERE data < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao AS '', logcartao.idCartao AS '', logcartao.Ativo AS '', logcartao.EmailUtilizador AS '', logcartao.NomeUtilizador AS '', logcartao.TipoUtilizador AS '', logcartao.EmailUtilizadorConsultor AS '', logcartao.NomeUtilizadorConsultor AS '', logcartao.TipoUtilizadorConsultor AS '', logcartao.Data AS '',logcartao.Comando AS '',logcartao.Resultado AS '', '','','' FROM logcartao WHERE data < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao AS '', logmedicaosensores.IDmedicao AS '', logmedicaosensores.TipoSensor AS '',logmedicaosensores.DataHoraMedicao AS '',logmedicaosensores.EmailUtilizadorConsultor AS '',logmedicaosensores.NomeUtilizadorConsultor AS '',logmedicaosensores.TipoUtilizadorConsultor AS '',logmedicaosensores.Data AS '',logmedicaosensores.Comando AS '', logmedicaosensores.Resultado AS '', logmedicaosensores.PossivelAnomalia AS '', '', '', '', '' FROM logmedicaosensores  WHERE data < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda AS '', logronda.DiaSemana AS '', logronda.HoraRonda AS '', logronda.Duracao AS '', logronda.EmailUtilizador AS '', logronda.NomeUtilizador AS '', logronda.TipoUtilizador AS '', logronda.EmailUtilizadorConsultor AS '', logronda.NomeUtilizadorConsultor AS '', logronda.TipoUtilizadorConsultor AS '', logronda.Data AS '', logronda.Comando AS '', logronda.Resultado, '', '' from logronda  WHERE data < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra AS '', logrondaextra.DataHora AS '', logrondaextra.EmailUtilizador AS '', logrondaextra.NomeUtilizador AS '', logrondaextra.TipoUtilizador AS '', logrondaextra.EmailUtilizadorConsultor AS '', logrondaextra.NomeUtilizadorConsultor AS '', logrondaextra.TipoUtilizadorConsultor AS '', logrondaextra.Data AS '', logrondaextra.Comando AS '', logrondaextra.Resultado AS '','','','',''  from logrondaextra  WHERE data < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema AS '', logsistema.IDSistema AS '', logsistema.LimiteTemperatura AS '', logsistema.LimiteHumidade AS '', logsistema.LimiteLuminosidade AS '', logsistema.LimiarTemperatura AS '', logsistema.LimiarHumidade AS '', logsistema.LimiarLuminosidade AS '', logsistema.DuracaoPadraoRonda AS '', logsistema.EmailUtilizadorConsultor AS '',logsistema.NomeUtilizadorConsultor AS '', logsistema.TipoUtilizadorConsultor AS '', logsistema.Data AS '', logsistema.Comando AS '', logsistema.Resultado AS '' from logsistema  WHERE data < logsistema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador AS '', logutilizador.EmailUtilizadorConsultado AS '', logutilizador.NomeUtilizadorConsultado AS '', logutilizador.TipoUtilizadorConsultado AS '', logutilizador.EmailUtilizadorConsultor AS '', logutilizador.NomeUtilizadorConsultor AS '', logutilizador.TipoUtilizadorConsultor AS '', logutilizador.Data AS '', logutilizador.Comando AS '', logutilizador.Resultado AS '', '' , '' ,'', '', ''  from logutilizador  WHERE data < logutilizador.data 
+UNION SELECT id_novo ,agendada_extra,agora,ficheiro,numero_entradas_total_novo, numero_entradas_novo,'','','','','','','','','','' 
+
+INTO OUTFILE "C:/Users/joaof/Documents/GitHub/ProjetoSIDESII/implementacao_g15/origin_server/origin_export/ficheiro_exportacao.csv"
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+WHEN 'EXTRA' THEN 
+	IF data_inicio IS NULL AND data_fim IS NOT NULL THEN SET data_inicio_SP = '1970-00-00 00:00:01' ; SET data_fim_SP = data_fim; ELSEIF
+     data_fim IS NULL AND data_inicio IS NOT NULL  THEN  SET data_fim_SP = CURRENT_TIMESTAMP; SET data_inicio_SP = data_inicio; 
+     ELSE  SET data_inicio_SP = data_inicio ; SET data_fim_SP = data_fim; END IF;
+     SET numero_entradas_novo = (SELECT COUNT(*) FROM (SELECT 'logalerta',logalerta.idlogAlerta,logalerta.IDAlerta,logalerta.TipoAlerta,logalerta.DataHoraAlerta,logalerta.IDMedicao,logalerta.ValorMedicao,logalerta.TipoSensor,logalerta.DataHoraMedicao,logalerta.EmailUtilizadorConsultor,logalerta.NomeUtilizadorConsultor,logalerta.TipoUtilizadorConsultor,logalerta.Data,logalerta.Comando,logalerta.Resultado, ''  from logalerta WHERE data_fim_SP > logalerta.data AND data_inicio_SP < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao, logcartao.idCartao, logcartao.Ativo, logcartao.EmailUtilizador, logcartao.NomeUtilizador, logcartao.TipoUtilizador, logcartao.EmailUtilizadorConsultor, logcartao.NomeUtilizadorConsultor, logcartao.TipoUtilizadorConsultor, logcartao.Data,logcartao.Comando,logcartao.Resultado, '','','' FROM logcartao WHERE data_fim_SP > logcartao.data AND data_inicio_SP < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao, logmedicaosensores.IDmedicao, logmedicaosensores.TipoSensor,logmedicaosensores.DataHoraMedicao,logmedicaosensores.EmailUtilizadorConsultor,logmedicaosensores.NomeUtilizadorConsultor,logmedicaosensores.TipoUtilizadorConsultor,logmedicaosensores.Data,logmedicaosensores.Comando, logmedicaosensores.Resultado, logmedicaosensores.PossivelAnomalia, '', '', '', '' FROM logmedicaosensores  WHERE data_fim_SP > logmedicaosensores.data AND data_inicio_SP < logmedicaosensores.data  UNION SELECT 'logronda', logronda.idlogRonda, logronda.DiaSemana, logronda.HoraRonda, logronda.Duracao, logronda.EmailUtilizador, logronda.NomeUtilizador, logronda.TipoUtilizador, logronda.EmailUtilizadorConsultor, logronda.NomeUtilizadorConsultor, logronda.TipoUtilizadorConsultor, logronda.Data, logronda.Comando, logronda.Resultado, '', '' from logronda  where data_fim_SP > logronda.data AND data_inicio_SP < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra, logrondaextra.DataHora, logrondaextra.EmailUtilizador, logrondaextra.NomeUtilizador, logrondaextra.TipoUtilizador, logrondaextra.EmailUtilizadorConsultor, logrondaextra.NomeUtilizadorConsultor, logrondaextra.TipoUtilizadorConsultor, logrondaextra.Data, logrondaextra.Comando, logrondaextra.Resultado,'','','','' from logrondaextra  WHERE data_fim_SP > logrondaextra.data AND data_inicio_SP < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema, logsistema.IDSistema, logsistema.LimiteTemperatura, logsistema.LimiteHumidade, logsistema.LimiteLuminosidade, logsistema.LimiarTemperatura, logsistema.LimiarHumidade, logsistema.LimiarLuminosidade, logsistema.DuracaoPadraoRonda, logsistema.EmailUtilizadorConsultor,logsistema.NomeUtilizadorConsultor, logsistema.TipoUtilizadorConsultor, logsistema.Data, logsistema.Comando, logsistema.Resultado from logsistema  WHERE data_fim_SP > logsistema.data AND data_inicio_SP < logsismtema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador, logutilizador.EmailUtilizadorConsultado, logutilizador.NomeUtilizadorConsultado, logutilizador.TipoUtilizadorConsultado, logutilizador.EmailUtilizadorConsultor, logutilizador.NomeUtilizadorConsultor, logutilizador.TipoUtilizadorConsultor, logutilizador.Data, logutilizador.Comando, logutilizador.Resultado, '' , '' ,'', '', ''  from logutilizador  WHERE data_fim_SP > logutilizador.data AND data_inicio_SP < logutilizador.data) AS numero_entradas_novo);
+SET numero_entradas_total_novo = numero_entradas_novo + numero_entradas_total;
+
+     SELECT 'logalerta',logalerta.idlogAlerta AS '',logalerta.IDAlerta,logalerta.TipoAlerta AS '',logalerta.DataHoraAlerta AS '',logalerta.IDMedicao  AS '',logalerta.ValorMedicao AS '',logalerta.TipoSensor AS '',logalerta.DataHoraMedicao AS '',logalerta.EmailUtilizadorConsultor AS '',logalerta.NomeUtilizadorConsultor AS '',logalerta.TipoUtilizadorConsultor AS '',logalerta.Data AS '',logalerta.Comando AS '',logalerta.Resultado AS '', ''  from logalerta WHERE data_fim_SP > logalerta.data AND data_inicio_SP < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao AS '', logcartao.idCartao AS '', logcartao.Ativo AS '', logcartao.EmailUtilizador AS '', logcartao.NomeUtilizador AS '', logcartao.TipoUtilizador AS '', logcartao.EmailUtilizadorConsultor AS '', logcartao.NomeUtilizadorConsultor AS '', logcartao.TipoUtilizadorConsultor AS '', logcartao.Data AS '',logcartao.Comando AS '',logcartao.Resultado AS '', '','','' FROM logcartao WHERE data_fim_SP > logcartao.data AND data_inicio_SP < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao AS '', logmedicaosensores.IDmedicao AS '', logmedicaosensores.TipoSensor AS '',logmedicaosensores.DataHoraMedicao AS '',logmedicaosensores.EmailUtilizadorConsultor AS '',logmedicaosensores.NomeUtilizadorConsultor AS '',logmedicaosensores.TipoUtilizadorConsultor AS '',logmedicaosensores.Data AS '',logmedicaosensores.Comando AS '', logmedicaosensores.Resultado AS '', logmedicaosensores.PossivelAnomalia AS '', '', '', '', '' FROM logmedicaosensores  WHERE data_fim_SP > logmedicaosensores.data AND data_inicio_SP < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda AS '', logronda.DiaSemana AS '', logronda.HoraRonda AS '', logronda.Duracao AS '', logronda.EmailUtilizador AS '', logronda.NomeUtilizador AS '', logronda.TipoUtilizador AS '', logronda.EmailUtilizadorConsultor AS '', logronda.NomeUtilizadorConsultor AS '', logronda.TipoUtilizadorConsultor AS '', logronda.Data AS '', logronda.Comando AS '', logronda.Resultado, '', '' from logronda  WHERE data_fim_SP > logronda.data AND data_inicio_SP < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra AS '', logrondaextra.DataHora AS '', logrondaextra.EmailUtilizador AS '', logrondaextra.NomeUtilizador AS '', logrondaextra.TipoUtilizador AS '', logrondaextra.EmailUtilizadorConsultor AS '', logrondaextra.NomeUtilizadorConsultor AS '', logrondaextra.TipoUtilizadorConsultor AS '', logrondaextra.Data AS '', logrondaextra.Comando AS '', logrondaextra.Resultado AS '','','','',''  from logrondaextra  WHERE data_fim_SP > logrondaextra.data AND data_inicio_SP < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema AS '', logsistema.IDSistema AS '', logsistema.LimiteTemperatura AS '', logsistema.LimiteHumidade AS '', logsistema.LimiteLuminosidade AS '', logsistema.LimiarTemperatura AS '', logsistema.LimiarHumidade AS '', logsistema.LimiarLuminosidade AS '', logsistema.DuracaoPadraoRonda AS '', logsistema.EmailUtilizadorConsultor AS '',logsistema.NomeUtilizadorConsultor AS '', logsistema.TipoUtilizadorConsultor AS '', logsistema.Data AS '', logsistema.Comando AS '', logsistema.Resultado AS '' from logsistema  WHERE data_fim_SP > logsistema.data AND data_inicio_SP < logsismtema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador AS '', logutilizador.EmailUtilizadorConsultado AS '', logutilizador.NomeUtilizadorConsultado AS '', logutilizador.TipoUtilizadorConsultado AS '', logutilizador.EmailUtilizadorConsultor AS '', logutilizador.NomeUtilizadorConsultor AS '', logutilizador.TipoUtilizadorConsultor AS '', logutilizador.Data AS '', logutilizador.Comando AS '', logutilizador.Resultado AS '', '' , '' ,'', '', '' from logutilizador  WHERE data_fim_SP > logutilizador.data AND data_inicio_SP < logutilizador.data UNION SELECT id_novo ,agendada_extra,agora,ficheiro,numero_entradas_total_novo, numero_entradas_novo,'','','','','','','','','',''
+INTO OUTFILE "C:/Users/joaof/Documents/GitHub/ProjetoSIDESII/implementacao_g15/origin_server/origin_export/ficheiro_exportacao.csv"
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+WHEN 'NOK' THEN 
+		SET numero_entradas_novo = (SELECT COUNT(*) FROM (SELECT 'logalerta',logalerta.idlogAlerta,logalerta.IDAlerta,logalerta.TipoAlerta,logalerta.DataHoraAlerta,logalerta.IDMedicao,logalerta.ValorMedicao,logalerta.TipoSensor,logalerta.DataHoraMedicao,logalerta.EmailUtilizadorConsultor,logalerta.NomeUtilizadorConsultor,logalerta.TipoUtilizadorConsultor,logalerta.Data,logalerta.Comando,logalerta.Resultado, ''  from logalerta WHERE data_inicio < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao, logcartao.idCartao, logcartao.Ativo, logcartao.EmailUtilizador, logcartao.NomeUtilizador, logcartao.TipoUtilizador, logcartao.EmailUtilizadorConsultor, logcartao.NomeUtilizadorConsultor, logcartao.TipoUtilizadorConsultor, logcartao.Data,logcartao.Comando,logcartao.Resultado, '','','' FROM logcartao WHERE data_inicio < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao, logmedicaosensores.IDmedicao, logmedicaosensores.TipoSensor,logmedicaosensores.DataHoraMedicao,logmedicaosensores.EmailUtilizadorConsultor,logmedicaosensores.NomeUtilizadorConsultor,logmedicaosensores.TipoUtilizadorConsultor,logmedicaosensores.Data,logmedicaosensores.Comando, logmedicaosensores.Resultado, logmedicaosensores.PossivelAnomalia, '', '', '', '' FROM logmedicaosensores  WHERE data_inicio < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda, logronda.DiaSemana, logronda.HoraRonda, logronda.Duracao, logronda.EmailUtilizador, logronda.NomeUtilizador, logronda.TipoUtilizador, logronda.EmailUtilizadorConsultor, logronda.NomeUtilizadorConsultor, logronda.TipoUtilizadorConsultor, logronda.Data, logronda.Comando, logronda.Resultado, '', '' from logronda  WHERE data_inicio < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra, logrondaextra.DataHora, logrondaextra.EmailUtilizador, logrondaextra.NomeUtilizador, logrondaextra.TipoUtilizador, logrondaextra.EmailUtilizadorConsultor, logrondaextra.NomeUtilizadorConsultor, logrondaextra.TipoUtilizadorConsultor, logrondaextra.Data, logrondaextra.Comando, logrondaextra.Resultado,'','','','' from logrondaextra  WHERE data_inicio < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema, logsistema.IDSistema, logsistema.LimiteTemperatura, logsistema.LimiteHumidade, logsistema.LimiteLuminosidade, logsistema.LimiarTemperatura, logsistema.LimiarHumidade, logsistema.LimiarLuminosidade, logsistema.DuracaoPadraoRonda, logsistema.EmailUtilizadorConsultor,logsistema.NomeUtilizadorConsultor, logsistema.TipoUtilizadorConsultor, logsistema.Data, logsistema.Comando, logsistema.Resultado from logsistema  WHERE data_inicio < logsistema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador, logutilizador.EmailUtilizadorConsultado, logutilizador.NomeUtilizadorConsultado, logutilizador.TipoUtilizadorConsultado, logutilizador.EmailUtilizadorConsultor, logutilizador.NomeUtilizadorConsultor, logutilizador.TipoUtilizadorConsultor, logutilizador.Data, logutilizador.Comando, logutilizador.Resultado, '' , '' ,'', '', ''  from logutilizador  WHERE data_inicio < logutilizador.data) AS numero_entradas_novo);
+SET numero_entradas_total_novo = numero_entradas_novo + numero_entradas_total;
+     SELECT 'logalerta',logalerta.idlogAlerta AS '',logalerta.IDAlerta,logalerta.TipoAlerta AS '',logalerta.DataHoraAlerta AS '',logalerta.IDMedicao  AS '',logalerta.ValorMedicao AS '',logalerta.TipoSensor AS '',logalerta.DataHoraMedicao AS '',logalerta.EmailUtilizadorConsultor AS '',logalerta.NomeUtilizadorConsultor AS '',logalerta.TipoUtilizadorConsultor AS '',logalerta.Data AS '',logalerta.Comando AS '',logalerta.Resultado AS '', '' from logalerta  WHERE data_inicio < logalerta.data UNION SELECT 'logcartao',logcartao.idlogCartao AS '', logcartao.idCartao AS '', logcartao.Ativo AS '', logcartao.EmailUtilizador AS '', logcartao.NomeUtilizador AS '', logcartao.TipoUtilizador AS '', logcartao.EmailUtilizadorConsultor AS '', logcartao.NomeUtilizadorConsultor AS '', logcartao.TipoUtilizadorConsultor AS '', logcartao.Data AS '',logcartao.Comando AS '',logcartao.Resultado AS '', '','','' FROM logcartao WHERE data_inicio < logcartao.data UNION SELECT 'logmedicaosensores',logmedicaosensores.idLogMedicao AS '', logmedicaosensores.IDmedicao AS '', logmedicaosensores.TipoSensor AS '',logmedicaosensores.DataHoraMedicao AS '',logmedicaosensores.EmailUtilizadorConsultor AS '',logmedicaosensores.NomeUtilizadorConsultor AS '',logmedicaosensores.TipoUtilizadorConsultor AS '',logmedicaosensores.Data AS '',logmedicaosensores.Comando AS '', logmedicaosensores.Resultado AS '', logmedicaosensores.PossivelAnomalia AS '', '', '', '', '' FROM logmedicaosensores  WHERE data_inicio < logmedicaosensores.data UNION SELECT 'logronda', logronda.idlogRonda AS '', logronda.DiaSemana AS '', logronda.HoraRonda AS '', logronda.Duracao AS '', logronda.EmailUtilizador AS '', logronda.NomeUtilizador AS '', logronda.TipoUtilizador AS '', logronda.EmailUtilizadorConsultor AS '', logronda.NomeUtilizadorConsultor AS '', logronda.TipoUtilizadorConsultor AS '', logronda.Data AS '', logronda.Comando AS '', logronda.Resultado, '', '' from logronda  WHERE data_inicio < logronda.data UNION SELECT 'logrondaextra',logrondaextra.idlogRondaExtra AS '', logrondaextra.DataHora AS '', logrondaextra.EmailUtilizador AS '', logrondaextra.NomeUtilizador AS '', logrondaextra.TipoUtilizador AS '', logrondaextra.EmailUtilizadorConsultor AS '', logrondaextra.NomeUtilizadorConsultor AS '', logrondaextra.TipoUtilizadorConsultor AS '', logrondaextra.Data AS '', logrondaextra.Comando AS '', logrondaextra.Resultado AS '','','','',''  from logrondaextra  WHERE data_inicio < logrondaextra.data UNION SELECT 'logsistema',logsistema.idlogSistema AS '', logsistema.IDSistema AS '', logsistema.LimiteTemperatura AS '', logsistema.LimiteHumidade AS '', logsistema.LimiteLuminosidade AS '', logsistema.LimiarTemperatura AS '', logsistema.LimiarHumidade AS '', logsistema.LimiarLuminosidade AS '', logsistema.DuracaoPadraoRonda AS '', logsistema.EmailUtilizadorConsultor AS '',logsistema.NomeUtilizadorConsultor AS '', logsistema.TipoUtilizadorConsultor AS '', logsistema.Data AS '', logsistema.Comando AS '', logsistema.Resultado AS '' from logsistema  WHERE data_inicio < logsistema.data UNION
+SELECT 'logutilizador', logutilizador.idlogUtilizador AS '', logutilizador.EmailUtilizadorConsultado AS '', logutilizador.NomeUtilizadorConsultado AS '', logutilizador.TipoUtilizadorConsultado AS '', logutilizador.EmailUtilizadorConsultor AS '', logutilizador.NomeUtilizadorConsultor AS '', logutilizador.TipoUtilizadorConsultor AS '', logutilizador.Data AS '', logutilizador.Comando AS '', logutilizador.Resultado AS '', '' , '' ,'', '', '' from logutilizador  WHERE data_inicio < logutilizador.data UNION SELECT id_novo ,agendada_extra,agora,ficheiro,numero_entradas_total_novo, numero_entradas_novo,'','','','','','','','','',''
+INTO OUTFILE "C:/Users/joaof/Documents/GitHub/ProjetoSIDESII/implementacao_g15/origin_server/origin_export/ficheiro_exportacao.csv"
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+END CASE;
+
+
+	
+
+
+
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `alerta`
+--
 
 CREATE TABLE `alerta` (
-    `idalerta` INT(11) NOT NULL,
-    `IDMedicao` INT(11) DEFAULT NULL,
-    `TipoAlerta` VARCHAR(3) NOT NULL,
-    `DataHoraAlerta` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ()
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idalerta` int(11) NOT NULL,
+  `IDMedicao` int(11) DEFAULT NULL,
+  `TipoAlerta` varchar(3) NOT NULL,
+  `DataHoraAlerta` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cartao`
+--
 
 CREATE TABLE `cartao` (
-    `idCartao` VARCHAR(20) NOT NULL,
-    `EmailUtilizador` VARCHAR(100) NOT NULL,
-    `Ativo` TINYINT(1) DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idCartao` varchar(20) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
+  `Ativo` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `diasemana`
+--
 
 CREATE TABLE `diasemana` (
-    `DiaSemana` VARCHAR(20) NOT NULL,
-    `HoraRonda` TIME NOT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `DiaSemana` varchar(20) NOT NULL,
+  `HoraRonda` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `logalerta`
+--
 
 CREATE TABLE `logalerta` (
-    `idlogAlerta` INT(11) NOT NULL,
-    `IDAlerta` INT(11) NOT NULL,
-    `TipoAlerta` VARCHAR(3) NOT NULL,
-    `DataHoraAlerta` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP () ON UPDATE CURRENT_TIMESTAMP (),
-    `IDMedicao` INT(11) NOT NULL,
-    `ValorMedicao` DECIMAL(6 , 2 ) NOT NULL,
-    `TipoSensor` VARCHAR(3) NOT NULL,
-    `DataHoraMedicao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    `EmailUtilizadorConsultor` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultor` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultor` VARCHAR(3) NOT NULL,
-    `Data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    `Comando` VARCHAR(200) NOT NULL,
-    `Resultado` TEXT DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idlogAlerta` int(11) NOT NULL,
+  `IDAlerta` int(11) NOT NULL,
+  `TipoAlerta` varchar(3) NOT NULL,
+  `DataHoraAlerta` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `IDMedicao` int(11) NOT NULL,
+  `ValorMedicao` decimal(6,2) NOT NULL,
+  `TipoSensor` varchar(3) NOT NULL,
+  `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `EmailUtilizadorConsultor` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultor` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultor` varchar(3) NOT NULL,
+  `Data` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Comando` varchar(200) NOT NULL,
+  `Resultado` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `logalerta`
+--
+
+INSERT INTO `logalerta` (`idlogAlerta`, `IDAlerta`, `TipoAlerta`, `DataHoraAlerta`, `IDMedicao`, `ValorMedicao`, `TipoSensor`, `DataHoraMedicao`, `EmailUtilizadorConsultor`, `NomeUtilizadorConsultor`, `TipoUtilizadorConsultor`, `Data`, `Comando`, `Resultado`) VALUES
+(1, 1, '2', '2020-03-24 18:38:54', 0, '0.00', '', '2020-03-24 18:38:54', 'cecr', '', '', '2020-03-24 18:38:54', '', NULL);
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `logcartao`
+--
 
 CREATE TABLE `logcartao` (
-    `idlogCartao` INT(11) NOT NULL,
-    `idCartao` VARCHAR(20) NOT NULL,
-    `Ativo` TINYINT(4) NOT NULL,
-    `EmailUtilizador` VARCHAR(100) NOT NULL,
-    `NomeUtilizador` VARCHAR(200) NOT NULL,
-    `TipoUtilizador` VARCHAR(3) NOT NULL,
-    `EmailUtilizadorConsultor` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultor` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultor` VARCHAR(3) NOT NULL,
-    `Data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    `Comando` VARCHAR(200) NOT NULL,
-    `Resultado` TEXT DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idlogCartao` int(11) NOT NULL,
+  `idCartao` varchar(20) NOT NULL,
+  `Ativo` tinyint(4) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
+  `NomeUtilizador` varchar(200) NOT NULL,
+  `TipoUtilizador` varchar(3) NOT NULL,
+  `EmailUtilizadorConsultor` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultor` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultor` varchar(3) NOT NULL,
+  `Data` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Comando` varchar(200) NOT NULL,
+  `Resultado` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `logmedicaosensores`
+--
 
 CREATE TABLE `logmedicaosensores` (
-    `idLogMedicao` INT(11) NOT NULL,
-    `IDmedicao` INT(11) NOT NULL,
-    `TipoSensor` VARCHAR(3) NOT NULL,
-    `DataHoraMedicao` DATETIME NOT NULL,
-    `EmailUtilizadorConsultor` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultor` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultor` VARCHAR(3) NOT NULL,
-    `Data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP () ON UPDATE CURRENT_TIMESTAMP (),
-    `Comando` VARCHAR(200) NOT NULL,
-    `Resultado` TEXT DEFAULT NULL,
-    `PossivelAnomalia` TINYINT(4) NOT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idLogMedicao` int(11) NOT NULL,
+  `IDmedicao` int(11) NOT NULL,
+  `TipoSensor` varchar(3) NOT NULL,
+  `DataHoraMedicao` datetime NOT NULL,
+  `EmailUtilizadorConsultor` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultor` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultor` varchar(3) NOT NULL,
+  `Data` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Comando` varchar(200) NOT NULL,
+  `Resultado` text DEFAULT NULL,
+  `PossivelAnomalia` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `logronda`
+--
 
 CREATE TABLE `logronda` (
-    `idlogRonda` INT(11) NOT NULL,
-    `DiaSemana` VARCHAR(20) NOT NULL,
-    `HoraRonda` TIME NOT NULL,
-    `Duracao` INT(11) NOT NULL,
-    `EmailUtilizador` VARCHAR(100) NOT NULL,
-    `NomeUtilizador` VARCHAR(200) NOT NULL,
-    `TipoUtilizador` VARCHAR(3) NOT NULL,
-    `EmailUtilizadorConsultor` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultor` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultor` VARCHAR(3) NOT NULL,
-    `Data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    `Comando` VARCHAR(200) NOT NULL,
-    `Resultado` TEXT DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idlogRonda` int(11) NOT NULL,
+  `DiaSemana` varchar(20) NOT NULL,
+  `HoraRonda` time NOT NULL,
+  `Duracao` int(11) NOT NULL,
+  `EmailUtilizador` varchar(100) NOT NULL,
+  `NomeUtilizador` varchar(200) NOT NULL,
+  `TipoUtilizador` varchar(3) NOT NULL,
+  `EmailUtilizadorConsultor` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultor` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultor` varchar(3) NOT NULL,
+  `Data` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Comando` varchar(200) NOT NULL,
+  `Resultado` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `logronda`
+--
+
+INSERT INTO `logronda` (`idlogRonda`, `DiaSemana`, `HoraRonda`, `Duracao`, `EmailUtilizador`, `NomeUtilizador`, `TipoUtilizador`, `EmailUtilizadorConsultor`, `NomeUtilizadorConsultor`, `TipoUtilizadorConsultor`, `Data`, `Comando`, `Resultado`) VALUES
+(1, 'vsdd', '00:00:01', 1, 'jipsefrj', 'svfdfdsv', 'cs', 'svrsdv', 'vsfvsdfv', 'vf', '2020-03-24 18:34:35', 'vsdfvsdf', 'vsvdsrvesvss');
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `logrondaextra`
+--
 
 CREATE TABLE `logrondaextra` (
-    `idlogRondaExtra` INT(11) NOT NULL,
-    `DataHora` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    `EmailUtilizador` VARCHAR(100) NOT NULL,
-    `NomeUtilizador` VARCHAR(200) NOT NULL,
-    `TipoUtilizador` VARCHAR(3) NOT NULL,
-    `EmailUtilizadorConsultor` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultor` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultor` VARCHAR(3) NOT NULL,
-    `Data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    `Comando` VARCHAR(200) NOT NULL,
-    `Resultado` TEXT DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idlogRondaExtra` int(11) NOT NULL,
+  `DataHora` timestamp NOT NULL DEFAULT current_timestamp(),
+  `EmailUtilizador` varchar(100) NOT NULL,
+  `NomeUtilizador` varchar(200) NOT NULL,
+  `TipoUtilizador` varchar(3) NOT NULL,
+  `EmailUtilizadorConsultor` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultor` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultor` varchar(3) NOT NULL,
+  `Data` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Comando` varchar(200) NOT NULL,
+  `Resultado` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `logsistema`
+--
 
 CREATE TABLE `logsistema` (
-    `idlogSistema` INT(11) NOT NULL,
-    `IDSistema` INT(11) NOT NULL,
-    `LimiteTemperatura` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiteHumidade` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiteLuminosidade` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiarTemperatura` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiarHumidade` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiarLuminosidade` DECIMAL(6 , 2 ) NOT NULL,
-    `DuracaoPadraoRonda` INT(11) NOT NULL,
-    `EmailUtilizadorConsultor` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultor` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultor` VARCHAR(3) NOT NULL,
-    `Data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    `Comando` VARCHAR(200) NOT NULL,
-    `Resultado` TEXT DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idlogSistema` int(11) NOT NULL,
+  `IDSistema` int(11) NOT NULL,
+  `LimiteTemperatura` decimal(6,2) NOT NULL,
+  `LimiteHumidade` decimal(6,2) NOT NULL,
+  `LimiteLuminosidade` decimal(6,2) NOT NULL,
+  `LimiarTemperatura` decimal(6,2) NOT NULL,
+  `LimiarHumidade` decimal(6,2) NOT NULL,
+  `LimiarLuminosidade` decimal(6,2) NOT NULL,
+  `DuracaoPadraoRonda` int(11) NOT NULL,
+  `EmailUtilizadorConsultor` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultor` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultor` varchar(3) NOT NULL,
+  `Data` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Comando` varchar(200) NOT NULL,
+  `Resultado` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `logutilizador`
+--
 
 CREATE TABLE `logutilizador` (
-    `idlogUtilizador` INT(11) NOT NULL,
-    `EmailUtilizadorConsultado` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultado` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultado` VARCHAR(3) NOT NULL,
-    `EmailUtilizadorConsultor` VARCHAR(100) NOT NULL,
-    `NomeUtilizadorConsultor` VARCHAR(200) NOT NULL,
-    `TipoUtilizadorConsultor` VARCHAR(3) NOT NULL,
-    `Data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP () ON UPDATE CURRENT_TIMESTAMP (),
-    `Comando` VARCHAR(200) NOT NULL,
-    `Resultado` TEXT DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idlogUtilizador` int(11) NOT NULL,
+  `EmailUtilizadorConsultado` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultado` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultado` varchar(3) NOT NULL,
+  `EmailUtilizadorConsultor` varchar(100) NOT NULL,
+  `NomeUtilizadorConsultor` varchar(200) NOT NULL,
+  `TipoUtilizadorConsultor` varchar(3) NOT NULL,
+  `Data` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Comando` varchar(200) NOT NULL,
+  `Resultado` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `logutilizador`
+--
+
+INSERT INTO `logutilizador` (`idlogUtilizador`, `EmailUtilizadorConsultado`, `NomeUtilizadorConsultado`, `TipoUtilizadorConsultado`, `EmailUtilizadorConsultor`, `NomeUtilizadorConsultor`, `TipoUtilizadorConsultor`, `Data`, `Comando`, `Resultado`) VALUES
+(1, 'joaofran@go.com', 'Joao Pinto', 'cf', 'iscop@csjip.com', 'ijcios', 'wew', '2020-03-24 18:47:49', 'acad', 'huihui');
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `medicaosensores`
+--
 
 CREATE TABLE `medicaosensores` (
-    `idMedicao` INT(11) NOT NULL,
-    `ValorMedicao` DECIMAL(6 , 2 ) NOT NULL,
-    `TipoSensor` VARCHAR(3) NOT NULL,
-    `DataHoraMedicao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP () ON UPDATE CURRENT_TIMESTAMP (),
-    `PossivelAnomalia` TINYINT(4) NOT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `idMedicao` int(11) NOT NULL,
+  `ValorMedicao` decimal(6,2) NOT NULL,
+  `TipoSensor` varchar(3) NOT NULL,
+  `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `PossivelAnomalia` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `rondaextra`
+--
 
 CREATE TABLE `rondaextra` (
-    `dataHoraEntrada` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP () ON UPDATE CURRENT_TIMESTAMP (),
-    `EmailUtilizador` VARCHAR(100) NOT NULL,
-    `datahoraSaida` TIMESTAMP NULL DEFAULT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `dataHoraEntrada` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `EmailUtilizador` varchar(100) NOT NULL,
+  `datahoraSaida` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `ronda_planeada`
+--
+
+CREATE TABLE `ronda_planeada` (
+  `EmailUtilizador` varchar(100) NOT NULL,
+  `DiaSemana` varchar(20) NOT NULL,
+  `HoraRondaInicio` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `sistema`
+--
 
 CREATE TABLE `sistema` (
-    `IDSistema` INT(11) NOT NULL,
-    `LimiteTemperatura` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiteHumidade` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiteLuminosidade` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiarTemperatura` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiarHumidade` DECIMAL(6 , 2 ) NOT NULL,
-    `LimiarLuminosidade` DECIMAL(6 , 2 ) NOT NULL,
-    `DuraçãoPadrãoRonda` INT(11) NOT NULL,
-    `PeriocidadeImportacaoExportacao` INT(11) NOT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `IDSistema` int(11) NOT NULL,
+  `LimiteTemperatura` decimal(6,2) NOT NULL,
+  `LimiteHumidade` decimal(6,2) NOT NULL,
+  `LimiteLuminosidade` decimal(6,2) NOT NULL,
+  `LimiarTemperatura` decimal(6,2) NOT NULL,
+  `LimiarHumidade` decimal(6,2) NOT NULL,
+  `LimiarLuminosidade` decimal(6,2) NOT NULL,
+  `DuraçãoPadrãoRonda` int(11) NOT NULL,
+  `PeriocidadeImportacaoExportacao` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
+--
+-- Estrutura da tabela `ultima_migracao`
+--
+
+CREATE TABLE `ultima_migracao` (
+  `data` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `utilizador`
+--
+
 CREATE TABLE `utilizador` (
-    `EmailUtilizador` VARCHAR(100) NOT NULL,
-    `NomeUtilizador` VARCHAR(200) NOT NULL,
-    `TipoUtilizador` VARCHAR(3) NOT NULL,
-    `Password` VARCHAR(10) NOT NULL
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  `EmailUtilizador` varchar(100) NOT NULL,
+  `NomeUtilizador` varchar(200) NOT NULL,
+  `TipoUtilizador` varchar(3) NOT NULL,
+  `Password` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tabelas despejadas
@@ -226,7 +416,8 @@ ALTER TABLE `cartao`
 -- Índices para tabela `diasemana`
 --
 ALTER TABLE `diasemana`
-  ADD PRIMARY KEY (`DiaSemana`,`HoraRonda`);
+  ADD PRIMARY KEY (`DiaSemana`,`HoraRonda`),
+  ADD KEY `HoraRonda` (`HoraRonda`);
 
 --
 -- Índices para tabela `logalerta`
@@ -291,6 +482,14 @@ ALTER TABLE `rondaextra`
   ADD KEY `EmailUtilizador` (`EmailUtilizador`);
 
 --
+-- Índices para tabela `ronda_planeada`
+--
+ALTER TABLE `ronda_planeada`
+  ADD KEY `DiaSemana` (`DiaSemana`),
+  ADD KEY `EmailUtilizador` (`EmailUtilizador`),
+  ADD KEY `HoraRondaInicio` (`HoraRondaInicio`);
+
+--
 -- Índices para tabela `sistema`
 --
 ALTER TABLE `sistema`
@@ -324,6 +523,14 @@ ALTER TABLE `cartao`
 --
 ALTER TABLE `rondaextra`
   ADD CONSTRAINT `rondaextra_ibfk_1` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`);
+
+--
+-- Limitadores para a tabela `ronda_planeada`
+--
+ALTER TABLE `ronda_planeada`
+  ADD CONSTRAINT `ronda_planeada_ibfk_1` FOREIGN KEY (`DiaSemana`) REFERENCES `diasemana` (`DiaSemana`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ronda_planeada_ibfk_2` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ronda_planeada_ibfk_3` FOREIGN KEY (`HoraRondaInicio`) REFERENCES `diasemana` (`HoraRonda`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
