@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Abr-2020 às 17:40
+-- Tempo de geração: 03-Abr-2020 às 18:11
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `g12_logdiasemana` (
   `id` int(11) NOT NULL,
-  `EmailUtilizador` varchar(100) NOT NULL,
+  `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `DiaSemana` varchar(20) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `g12_logdiasemana` (
 
 CREATE TABLE `g12_logmedicaosensores` (
   `id` int(11) NOT NULL,
-  `EmailUtilizador` varchar(100) NOT NULL,
+  `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `ValorMedicao` decimal(6,2) NOT NULL,
@@ -62,6 +62,7 @@ CREATE TABLE `g12_logmedicaosensores` (
 
 CREATE TABLE `g12_logrondaextra` (
   `id` int(11) NOT NULL,
+  `User` varchar(100) NOT NULL,
   `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
@@ -76,7 +77,7 @@ CREATE TABLE `g12_logrondaextra` (
 
 CREATE TABLE `g12_logsistema` (
   `id` int(11) NOT NULL,
-  `EmailUtilizador` varchar(100) NOT NULL,
+  `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `LimiteTemperatura` decimal(6,2) DEFAULT NULL,
@@ -97,7 +98,7 @@ CREATE TABLE `g12_logsistema` (
 
 CREATE TABLE `g12_loguser` (
   `id` int(11) NOT NULL,
-  `EmailUtilizador` varchar(100) NOT NULL,
+  `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `Email` varchar(100) NOT NULL,
@@ -114,7 +115,7 @@ CREATE TABLE `g12_loguser` (
 
 CREATE TABLE `g12_loguserhasdiasemana` (
   `id` int(11) NOT NULL,
-  `EmailUtilizador` varchar(100) NOT NULL,
+  `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `User_Email` varchar(100) NOT NULL,
