@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Abr-2020 às 18:10
+-- Tempo de geração: 03-Abr-2020 às 18:18
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -74,10 +74,10 @@ CREATE TABLE `g12_logmedicaosensores` (
 CREATE TABLE `g12_logrondaextra` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
-  `EmailUtilizador` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `DataHora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `DataHora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `EmailUtilizador` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
