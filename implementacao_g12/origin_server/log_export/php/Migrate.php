@@ -32,7 +32,7 @@
       return $last_id;
    }
 
-   function migrateLogData_man($conn1, $conn2) {
+   function migrateLogData($conn1, $conn2) {
       echo "<b>Starting Log Migration...</b> </br><hr>";
 
       //Number of rows migrated
@@ -190,7 +190,7 @@
    $origin_conn = connectToDB("localhost", "root", "teste123", "g12_museum"); // Localhost [Origin]
 
    //Log Migration
-   migrateLogData_man($origin_conn, $auditor_conn);
+   migrateLogData($origin_conn, $auditor_conn);
 
    //Close DB Connections
    $auditor_conn->close();
