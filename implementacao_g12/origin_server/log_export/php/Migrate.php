@@ -107,14 +107,14 @@
       }
 
       echo "<hr>";
-      //Migrate logMedicaoSensores
+      //Migrate logSistema
       $new_logs = $conn1->query("SELECT * FROM g12_logSistema WHERE id > " .getLastID($conn2, "g12_logSistema"). ";");
 
       if($new_logs->num_rows > 0) {
          echo "<i>[g12_logSistema] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logSistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["LimiteTemperatura"]. "', '" .$row["LimiteHumidade"]. "', '" .$row["LimiteLuminosidade"]. "')";
+            $insert_query = "INSERT INTO g12_logSistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["LimiteTemperatura"]. "', '" .$row["LimiteHumidade"]. "', '" .$row["LimiteLuminosidade"]. "', '" .$row["LimiarTemperatura"]. "', '" .$row["LimiarHumidade"]. "', '" .$row["LimiarLuminosidade"]. "', '" .$row["DuracaoPadraoRonda"]. "', '" .$row["PeriocidadeImportacaoExportacao"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
@@ -185,8 +185,8 @@
    $starttime = microtime(true);
 
    //Open DB Connections
-   $auditor_conn = connectToDB("johnny.heliohost.org", "dctidata_g12", "senhag12", "dctidata_g12"); // Johnny [Auditor]
-   //$auditor_conn = connectToDB("192.168.1.114", "root", "teste123", "dctidata_g12"); // Other local DB for faster connection [Auditor_local]
+   //$auditor_conn = connectToDB("johnny.heliohost.org", "dctidata_g12", "senhag12", "dctidata_g12"); // Johnny [Auditor]
+   $auditor_conn = connectToDB("192.168.1.114", "root", "teste123", "dctidata_g12"); // Other local DB for faster connection [Auditor_local]
    $origin_conn = connectToDB("localhost", "root", "teste123", "g12_museum"); // Localhost [Origin]
 
    //Log Migration
