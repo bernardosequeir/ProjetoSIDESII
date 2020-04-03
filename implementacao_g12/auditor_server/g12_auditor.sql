@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Abr-2020 às 16:52
+-- Tempo de geração: 03-Abr-2020 às 17:28
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -37,22 +37,6 @@ CREATE TABLE `g12_logdiasemana` (
   `HoraRonda` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `g12_logdiasemana`
---
-
-INSERT INTO `g12_logdiasemana` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `DiaSemana`, `HoraRonda`) VALUES
-(1, 'user_teste', 'DELETE', '00:00:00', 'terca', '12:00:00'),
-(2, 'user_teste', 'UPDATE', '00:00:00', 'terca', '13:00:00'),
-(3, 'user_teste', 'INSER', '00:00:00', 'terca', '14:00:00'),
-(4, 'user_teste', 'DELETE', '00:00:00', 'terca', '15:00:00'),
-(5, 'user_teste', 'UPDATE', '00:00:00', 'terca', '16:00:00'),
-(6, 'user_teste', 'INSER', '00:00:00', 'terca', '17:00:00'),
-(7, 'user_teste', 'DELETE', '00:00:00', 'terca', '18:00:00'),
-(8, 'user_teste', 'UPDATE', '00:00:00', 'terca', '19:00:00'),
-(9, 'user_teste', 'INSER', '00:00:00', 'terca', '20:00:00'),
-(10, 'user_teste', 'DELETE', '00:00:00', 'terca', '21:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -70,22 +54,6 @@ CREATE TABLE `g12_logmedicaosensores` (
   `PossivelAnomalia` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `g12_logmedicaosensores`
---
-
-INSERT INTO `g12_logmedicaosensores` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `ValorMedicao`, `TipoDeSensor`, `DataHoraMedicao`, `PossivelAnomalia`) VALUES
-(1, 'user_teste', 'DELETE', '00:00:00', '1.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(2, 'user_teste', 'UPDATE', '00:00:00', '2.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(3, 'user_teste', 'INSERT', '00:00:00', '3.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(4, 'user_teste', 'DELETE', '00:00:00', '4.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(5, 'user_teste', 'UPDATE', '00:00:00', '5.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(6, 'user_teste', 'INSERT', '00:00:00', '6.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(7, 'user_teste', 'DELETE', '00:00:00', '7.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(8, 'user_teste', 'UPDATE', '00:00:00', '8.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(9, 'user_teste', 'INSERT', '00:00:00', '9.00', 'tip', '0000-00-00 00:00:00', 'no'),
-(10, 'user_teste', 'DELETE', '00:00:00', '10.00', 'tip', '0000-00-00 00:00:00', 'no');
-
 -- --------------------------------------------------------
 
 --
@@ -100,22 +68,6 @@ CREATE TABLE `g12_logrondaextra` (
   `DataHora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `g12_logrondaextra`
---
-
-INSERT INTO `g12_logrondaextra` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `DataHora`) VALUES
-(1, 'user_teste', 'DELETE', '00:00:00', '0000-00-00 00:00:00'),
-(2, 'user_teste', 'UPDATE', '00:00:00', '0000-00-00 00:00:00'),
-(3, 'user_teste', 'INSERT', '00:00:00', '0000-00-00 00:00:00'),
-(4, 'user_teste', 'DELETE', '00:00:00', '0000-00-00 00:00:00'),
-(5, 'user_teste', 'UPDATE', '00:00:00', '0000-00-00 00:00:00'),
-(6, 'user_teste', 'INSERT', '00:00:00', '0000-00-00 00:00:00'),
-(7, 'user_teste', 'DELETE', '00:00:00', '0000-00-00 00:00:00'),
-(8, 'user_teste', 'UPDATE', '00:00:00', '0000-00-00 00:00:00'),
-(9, 'user_teste', 'INSERT', '00:00:00', '0000-00-00 00:00:00'),
-(10, 'user_teste', 'DELETE', '00:00:00', '0000-00-00 00:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -129,24 +81,14 @@ CREATE TABLE `g12_logsistema` (
   `Time` time NOT NULL,
   `LimiteTemperatura` decimal(6,2) DEFAULT NULL,
   `LimiteHumidade` decimal(6,2) DEFAULT NULL,
-  `LimiteLuminosidade` decimal(6,2) DEFAULT NULL
+  `LimiteLuminosidade` decimal(6,2) DEFAULT NULL,
+  `LimiarTemperatura` decimal(6,2) DEFAULT NULL,
+  `LimiarHumidade` decimal(6,2) DEFAULT NULL,
+  `LimiarLuminosidade` decimal(6,2) DEFAULT NULL,
+  `DuraçãoPadrãoRonda` int(11) DEFAULT NULL,
+  `PeriocidadeImportacaoExportacao` int(11) DEFAULT NULL,
+  `g12_logsistemacol` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `g12_logsistema`
---
-
-INSERT INTO `g12_logsistema` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `LimiteTemperatura`, `LimiteHumidade`, `LimiteLuminosidade`) VALUES
-(1, 'user_teste', 'DELETE', '00:00:00', '40.00', '20.00', '100.00'),
-(2, 'user_teste', 'UPDATE', '00:00:00', '40.00', '20.00', '100.00'),
-(3, 'user_teste', 'INSERT', '00:00:00', '40.00', '20.00', '100.00'),
-(4, 'user_teste', 'DELETE', '00:00:00', '40.00', '20.00', '100.00'),
-(5, 'user_teste', 'UPDATE', '00:00:00', '40.00', '20.00', '100.00'),
-(6, 'user_teste', 'INSERT', '00:00:00', '40.00', '20.00', '100.00'),
-(7, 'user_teste', 'DELETE', '00:00:00', '40.00', '20.00', '100.00'),
-(8, 'user_teste', 'UPDATE', '00:00:00', '40.00', '20.00', '100.00'),
-(9, 'user_teste', 'INSERT', '00:00:00', '40.00', '20.00', '100.00'),
-(10, 'user_teste', 'DELETE', '00:00:00', '40.00', '20.00', '100.00');
 
 -- --------------------------------------------------------
 
@@ -165,22 +107,6 @@ CREATE TABLE `g12_loguser` (
   `Morada` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `g12_loguser`
---
-
-INSERT INTO `g12_loguser` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `Email`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES
-(1, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(2, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(3, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(4, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(5, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(6, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(7, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(8, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(9, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada'),
-(10, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'nome', 'tip', 'morada');
-
 -- --------------------------------------------------------
 
 --
@@ -196,22 +122,6 @@ CREATE TABLE `g12_loguserhasdiasemana` (
   `DiaSemana_DiaDaSemana` varchar(20) NOT NULL,
   `DiaSemana_HoraRonda` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `g12_loguserhasdiasemana`
---
-
-INSERT INTO `g12_loguserhasdiasemana` (`id`, `EmailUtilizador`, `Operacao`, `Time`, `User_Email`, `DiaSemana_DiaDaSemana`, `DiaSemana_HoraRonda`) VALUES
-(1, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'terca', '12:00'),
-(2, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'terca', '13:00'),
-(3, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'terca', '14:00'),
-(4, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'terca', '15:00'),
-(5, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'terca', '16:00'),
-(6, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'terca', '17:00'),
-(7, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'terca', '18:00'),
-(8, 'user_teste', 'UPDATE', '00:00:00', 'user_teste@email.pt', 'terca', '19:00'),
-(9, 'user_teste', 'INSERT', '00:00:00', 'user_teste@email.pt', 'terca', '20:00'),
-(10, 'user_teste', 'DELETE', '00:00:00', 'user_teste@email.pt', 'terca', '21:00');
 
 --
 -- Índices para tabelas despejadas
