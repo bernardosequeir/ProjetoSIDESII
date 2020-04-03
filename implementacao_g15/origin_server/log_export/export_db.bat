@@ -13,7 +13,7 @@ IF EXIST ficheiro_exportacao.csv (
 )
 
 ::Import control line to the DB
-mysql -u %user% -p%pass% %db% < "C:\Users\joaof\Documents\GitHub\ProjetoSIDESII\implementacao_g15\origin_server\origin_export\import_control.sql"
+mysql -u %user% -p%pass% %db% < "C:\xampp\htdocs\ProjetoSIDESII\implementacao_g15\origin_server\log_export\import_control.sql"
 ::Prints the updated Control Table
 mysql -u %user% -p%pass% -h %server% -e "SELECT * FROM %table%;" %db%
 ::Calls Exportar SP
