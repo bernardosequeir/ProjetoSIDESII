@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Abr-2020 às 17:28
+-- Tempo de geração: 03-Abr-2020 às 17:34
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -97,8 +97,7 @@ CREATE TABLE `g12_logsistema` (
   `LimiarHumidade` decimal(6,2) DEFAULT NULL,
   `LimiarLuminosidade` decimal(6,2) DEFAULT NULL,
   `DuraçãoPadrãoRonda` int(11) DEFAULT NULL,
-  `PeriocidadeImportacaoExportacao` int(11) DEFAULT NULL,
-  `g12_logsistemacol` varchar(45) DEFAULT NULL
+  `PeriocidadeImportacaoExportacao` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
