@@ -1,1 +1,1 @@
-schtasks /create /sc daily /tn schedule_export /tr "./export_db.bat" /st 16:03
+schtasks /create /sc minute /mo 20 /tn schedule_export /tr "./export_db.bat" 

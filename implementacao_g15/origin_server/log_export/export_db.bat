@@ -18,6 +18,7 @@ mysql -u %user% -p%pass% %db% < "C:\xampp\htdocs\ProjetoSIDESII\implementacao_g1
 mysql -u %user% -p%pass% -h %server% -e "SELECT * FROM %table%;" %db%
 ::Calls Exportar SP
 mysql -u %user% -p%pass% -h %server% -e "CALL exportar;" %db%
+::Drop temporary table used in the import_controlo.sql
 mysql -u %user% -p%pass% -h %server% -e "DROP TABLE IF EXISTS test_export_result;" %db%
 
 
