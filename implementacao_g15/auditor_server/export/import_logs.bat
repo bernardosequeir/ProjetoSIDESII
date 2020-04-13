@@ -49,6 +49,7 @@ mysql --user=root auditor -e "SELECT field5 FROM test WHERE concat('',test.table
 FOR /F "tokens=* USEBACKQ" %%F IN (`powershell -command "& {get-content tempfile | select-object -last 1}"`) DO ( SET /a numeroTeorico =%%F)
 echo "Numero Teorico: %numeroTeorico%"
 del tempfile
+mysql --user=root auditor -e "DROP TABLE test;"
 
 :: 
 ::mysql --user=root auditor -e "DROP TABLE test;" 
