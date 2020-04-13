@@ -91,7 +91,7 @@
          echo "<i>[g12_logRondaExtra] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logRondaExtra VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["DataHora"]. "', '" .$row["EmailUtilizador"]. "')";
+            $insert_query = "INSERT INTO g12_logRondaExtra VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["DataHora"]. "', '" .$row["EmailUtilizador"]. "', '" .$row["datahoraSaida"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
@@ -114,7 +114,7 @@
          echo "<i>[g12_logSistema] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logSistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["LimiteTemperatura"]. "', '" .$row["LimiteHumidade"]. "', '" .$row["LimiteLuminosidade"]. "', '" .$row["LimiarTemperatura"]. "', '" .$row["LimiarHumidade"]. "', '" .$row["LimiarLuminosidade"]. "', '" .$row["DuracaoPadraoRonda"]. "', '" .$row["PeriocidadeImportacaoExportacao"]. "')";
+            $insert_query = "INSERT INTO g12_logSistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["IDSistema"]. "', '" .$row["LimiteTemperatura"]. "', '" .$row["LimiteHumidade"]. "', '" .$row["LimiteLuminosidade"]. "', '" .$row["LimiarTemperatura"]. "', '" .$row["LimiarHumidade"]. "', '" .$row["LimiarLuminosidade"]. "', '" .$row["DuracaoPadraoRonda"]. "', '" .$row["PeriocidadeImportacaoExportacao"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
@@ -186,8 +186,9 @@
 
    //Open DB Connections
    //$auditor_conn = connectToDB("johnny.heliohost.org", "dctidata_g12", "senhag12", "dctidata_g12"); // Johnny [Auditor]
-   $auditor_conn = connectToDB("192.168.1.114", "root", "teste123", "dctidata_g12"); // Other local DB for faster connection [Auditor_local]
-   $origin_conn = connectToDB("localhost", "root", "teste123", "g12_museum"); // Localhost [Origin]
+   //$auditor_conn = connectToDB("192.168.1.114", "root", "teste123", "dctidata_g12"); // Other local DB for faster connection [Auditor_local]
+   $auditor_conn = connectToDB("localhost", "root", "", "g12_auditor");
+   $origin_conn = connectToDB("localhost", "root", "", "g12_museum"); // Localhost [Origin]
 
    //Log Migration
    migrateLogData($origin_conn, $auditor_conn);

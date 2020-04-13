@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 5.0.2
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: Apr 13, 2020 at 07:37 PM
+- Server version: 10.4.11-MariaDB
+- PHP Version: 7.4.4
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="g12_auditor" collation="utf8mb4_general_ci" charset="utf8mb4">
+            <pma:table name="g12_logdiasemana">
+                CREATE TABLE `g12_logdiasemana` (
+                  `id` int(11) NOT NULL,
+                  `User` varchar(100) NOT NULL,
+                  `Operacao` varchar(10) NOT NULL,
+                  `Time` time NOT NULL,
+                  `DiaSemana` varchar(20) NOT NULL,
+                  `HoraRonda` time NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="g12_logmedicaosensores">
+                CREATE TABLE `g12_logmedicaosensores` (
+                  `id` int(11) NOT NULL,
+                  `User` varchar(100) NOT NULL,
+                  `Operacao` varchar(10) NOT NULL,
+                  `Time` time NOT NULL,
+                  `ValorMedicao` decimal(6,2) NOT NULL,
+                  `TipoDeSensor` varchar(3) NOT NULL,
+                  `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+                  `PossivelAnomalia` varchar(45) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="g12_logrondaextra">
+                CREATE TABLE `g12_logrondaextra` (
+                  `id` int(11) NOT NULL,
+                  `User` varchar(100) NOT NULL,
+                  `Operacao` varchar(10) NOT NULL,
+                  `Time` time NOT NULL,
+                  `DataHora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+                  `EmailUtilizador` varchar(100) NOT NULL,
+                  `datahoraSaida` timestamp NULL DEFAULT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="g12_logsistema">
+                CREATE TABLE `g12_logsistema` (
+                  `id` int(11) NOT NULL,
+                  `User` varchar(100) NOT NULL,
+                  `Operacao` varchar(10) NOT NULL,
+                  `Time` time NOT NULL,
+                  `IDSistema` int(11) NOT NULL,
+                  `LimiteTemperatura` decimal(6,2) DEFAULT NULL,
+                  `LimiteHumidade` decimal(6,2) DEFAULT NULL,
+                  `LimiteLuminosidade` decimal(6,2) DEFAULT NULL,
+                  `LimiarTemperatura` decimal(6,2) DEFAULT NULL,
+                  `LimiarHumidade` decimal(6,2) DEFAULT NULL,
+                  `LimiarLuminosidade` decimal(6,2) DEFAULT NULL,
+                  `DuracaoPadraoRonda` int(11) DEFAULT NULL,
+                  `PeriocidadeImportacaoExportacao` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="g12_loguser">
+                CREATE TABLE `g12_loguser` (
+                  `id` int(11) NOT NULL,
+                  `User` varchar(100) NOT NULL,
+                  `Operacao` varchar(10) NOT NULL,
+                  `Time` time NOT NULL,
+                  `Email` varchar(100) NOT NULL,
+                  `NomeUtilizador` varchar(200) NOT NULL,
+                  `TipoUtilizador` varchar(3) NOT NULL,
+                  `Morada` varchar(200) DEFAULT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="g12_loguserhasdiasemana">
+                CREATE TABLE `g12_loguserhasdiasemana` (
+                  `id` int(11) NOT NULL,
+                  `User` varchar(100) NOT NULL,
+                  `Operacao` varchar(10) NOT NULL,
+                  `Time` time NOT NULL,
+                  `User_Email` varchar(100) NOT NULL,
+                  `DiaSemana_DiaDaSemana` varchar(20) NOT NULL,
+                  `DiaSemana_HoraRonda` varchar(45) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'g12_auditor'
+    -->
+    <database name="g12_auditor">
+        <!-- Table g12_logdiasemana -->
+        <table name="g12_logdiasemana">
+            <column name="id">1</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">17:51:44</column>
+            <column name="DiaSemana">terca</column>
+            <column name="HoraRonda">12:00:00</column>
+        </table>
+        <!-- Table g12_logmedicaosensores -->
+        <table name="g12_logmedicaosensores">
+            <column name="id">2</column>
+            <column name="User">root</column>
+            <column name="Operacao">DELETE</column>
+            <column name="Time">18:00:01</column>
+            <column name="ValorMedicao">10.00</column>
+            <column name="TipoDeSensor">TEM</column>
+            <column name="DataHoraMedicao">2020-04-13 17:59:23</column>
+            <column name="PossivelAnomalia">0</column>
+        </table>
+        <table name="g12_logmedicaosensores">
+            <column name="id">3</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">18:12:51</column>
+            <column name="ValorMedicao">3.00</column>
+            <column name="TipoDeSensor">sem</column>
+            <column name="DataHoraMedicao">2020-04-13 18:12:51</column>
+            <column name="PossivelAnomalia">0</column>
+        </table>
+        <!-- Table g12_logrondaextra -->
+        <table name="g12_logrondaextra">
+            <column name="id">2</column>
+            <column name="User">root</column>
+            <column name="Operacao">DELETE</column>
+            <column name="Time">17:58:02</column>
+            <column name="DataHora">2020-04-13 17:56:47</column>
+            <column name="EmailUtilizador">mail_2@mail</column>
+            <column name="datahoraSaida">0000-00-00 00:00:00</column>
+        </table>
+        <table name="g12_logrondaextra">
+            <column name="id">3</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">17:58:23</column>
+            <column name="DataHora">2020-04-13 17:58:23</column>
+            <column name="EmailUtilizador">mail_2@mail</column>
+            <column name="datahoraSaida">2020-04-12 23:59:13</column>
+        </table>
+        <!-- Table g12_logsistema -->
+        <table name="g12_logsistema">
+            <column name="id">1</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">17:50:19</column>
+            <column name="IDSistema">1</column>
+            <column name="LimiteTemperatura">1.00</column>
+            <column name="LimiteHumidade">1.00</column>
+            <column name="LimiteLuminosidade">1.00</column>
+            <column name="LimiarTemperatura">1.00</column>
+            <column name="LimiarHumidade">1.00</column>
+            <column name="LimiarLuminosidade">1.00</column>
+            <column name="DuracaoPadraoRonda">1</column>
+            <column name="PeriocidadeImportacaoExportacao">1</column>
+        </table>
+        <!-- Table g12_loguser -->
+        <table name="g12_loguser">
+            <column name="id">1</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">17:27:38</column>
+            <column name="Email">mail@mail</column>
+            <column name="NomeUtilizador">nome</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">vieira da silva</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">2</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">17:28:17</column>
+            <column name="Email">mail_2@mail</column>
+            <column name="NomeUtilizador">nome</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">vieira da silva</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">3</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">18:17:35</column>
+            <column name="Email">mail_3@mail</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">Vieira da silva 2</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">4</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">18:19:14</column>
+            <column name="Email">mail_4@mail</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">DIR</column>
+            <column name="Morada">Vieira da silva 3</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">5</column>
+            <column name="User">mail_3@mail</column>
+            <column name="Operacao">SELECT</column>
+            <column name="Time">18:26:06</column>
+            <column name="Email">NULL</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada"></column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">6</column>
+            <column name="User">mail_3@mail</column>
+            <column name="Operacao">SELECT</column>
+            <column name="Time">18:28:42</column>
+            <column name="Email">mail_3@mail</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">Vieira da silva 2</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">7</column>
+            <column name="User">mail_3@mail</column>
+            <column name="Operacao">UPDATE</column>
+            <column name="Time">18:33:33</column>
+            <column name="Email">mail_3@mail</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">Rua Vieira da Silva 2</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">8</column>
+            <column name="User">mail_3@mail</column>
+            <column name="Operacao">SELECT</column>
+            <column name="Time">18:34:09</column>
+            <column name="Email">mail_3@mail</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">Rua Vieira da Silva 2</column>
+        </table>
+        <!-- Table g12_loguserhasdiasemana -->
+    </database>
+</pma_xml_export>
