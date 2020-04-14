@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 - phpMyAdmin XML Dump
-- version 5.0.2
+- version 4.9.2
 - https://www.phpmyadmin.net
 -
 - Host: 127.0.0.1
-- Generation Time: Apr 13, 2020 at 07:38 PM
-- Server version: 10.4.11-MariaDB
-- PHP Version: 7.4.4
+- Tempo de geração: 14-Abr-2020 às 18:03
+- Versão do servidor: 10.4.10-MariaDB
+- versão do PHP: 7.1.33
 -->
 
 <pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
@@ -63,7 +63,7 @@
                   `DiaSemana` varchar(20) NOT NULL,
                   `HoraRonda` time NOT NULL,
                   PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+                ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
             </pma:table>
             <pma:table name="g12_logmedicaosensores">
                 CREATE TABLE `g12_logmedicaosensores` (
@@ -76,7 +76,7 @@
                   `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
                   `PossivelAnomalia` varchar(45) NOT NULL,
                   PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+                ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
             </pma:table>
             <pma:table name="g12_logrondaextra">
                 CREATE TABLE `g12_logrondaextra` (
@@ -88,7 +88,7 @@
                   `EmailUtilizador` varchar(100) NOT NULL,
                   `datahoraSaida` timestamp NOT NULL DEFAULT current_timestamp(),
                   PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+                ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
             </pma:table>
             <pma:table name="g12_logsistema">
                 CREATE TABLE `g12_logsistema` (
@@ -106,7 +106,7 @@
                   `DuracaoPadraoRonda` int(11) DEFAULT NULL,
                   `PeriocidadeImportacaoExportacao` int(11) DEFAULT NULL,
                   PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+                ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
             </pma:table>
             <pma:table name="g12_loguser">
                 CREATE TABLE `g12_loguser` (
@@ -119,7 +119,7 @@
                   `TipoUtilizador` varchar(3) NOT NULL,
                   `Morada` varchar(200) DEFAULT NULL,
                   PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+                ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
             </pma:table>
             <pma:table name="g12_loguserhasdiasemana">
                 CREATE TABLE `g12_loguserhasdiasemana` (
@@ -322,23 +322,23 @@
                     IF(CURRENT_ROLE = 'seguranca' OR @role= 'seguranca') THEN 
                 		IF(Mail = @userID) THEN
                             IF(NOT(nPass = 'NULL')) THEN
-                                SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
+                SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 			END IF;
                             IF(NOT(nMorada = 'NULL')) THEN
                 				UPDATE utilizador
-                                SET Morada = nMorada WHERE EmailUtilizador = @userId;
+                SET Morada = nMorada WHERE EmailUtilizador = @userId;
                 			END IF;
                         END IF;
                     ELSEIF(CURRENT_ROLE = 'chefe_seguranca' OR @role= 'chefe_seguranca') THEN 
                 		IF(Mail = @userID) THEN
                 			IF(NOT(nMorada = 'NULL')) THEN
                 				UPDATE utilizador
-                                SET Morada = nNome WHERE nMorada = @userId;
+                SET Morada = nMorada WHERE EmailUtilizador = @userId;
                 			END IF;
                             IF(NOT(nPass = 'NULL')) THEN
-                                SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
+                SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 			END IF;
@@ -364,7 +364,7 @@
                 		END IF;
                 		IF(NOT(nMorada = 'NULL')) THEN
                 				UPDATE utilizador
-                                SET Morada = nMorada WHERE EmailUtilizador = Mail;
+                SET Morada = nMorada WHERE EmailUtilizador = Mail;
                 		END IF;
                         
                     END IF;
@@ -445,14 +445,14 @@
                 				Email,
                 				Nome,
                 				Tipo,
-                                Morada);
+                Morada);
                 				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
                 					Pass := CONCAT('''', Pass, '''');
                 				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				SET @sql := CONCAT('GRANT seguranca TO ', Email);
-                                PREPARE stmt FROM @sql;
+                PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				DEALLOCATE PREPARE stmt;
                 				SET @sql := CONCAT('SET DEFAULT ROLE seguranca FOR ', Email);
@@ -467,14 +467,14 @@
                 				Email,
                 				Nome,
                 				Tipo,
-                                Morada);
+                Morada);
                 				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
                 					Pass := CONCAT('''', Pass, '''');
                 				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				SET @sql := CONCAT('GRANT seguranca TO ', Email);
-                                PREPARE stmt FROM @sql;
+                PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				DEALLOCATE PREPARE stmt;
                 				SET @sql := CONCAT('SET DEFAULT ROLE seguranca FOR ', Email);
@@ -487,14 +487,14 @@
                 				Email,
                 				Nome,
                 				Tipo,
-                                Morada);
+                Morada);
                 				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
                 					Pass := CONCAT('''', Pass, '''');
                 				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				SET @sql := CONCAT('GRANT chefe_seguranca TO ', Email);
-                                PREPARE stmt FROM @sql;
+                PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				DEALLOCATE PREPARE stmt;
                 				SET @sql := CONCAT('SET DEFAULT ROLE chefe_seguranca FOR ', Email);
@@ -507,14 +507,14 @@
                 				Email,
                 				Nome,
                 				Tipo,
-                                Morada);
+                Morada);
                 				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
                 					Pass := CONCAT('''', Pass, '''');
                 				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				SET @sql := CONCAT('GRANT diretor TO ', Email);
-                                PREPARE stmt FROM @sql;
+                PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				DEALLOCATE PREPARE stmt;
                 				SET @sql := CONCAT('SET DEFAULT ROLE diretor FOR ', Email);
@@ -527,14 +527,14 @@
                 				Email,
                 				Nome,
                 				Tipo,
-                                Morada);
+                Morada);
                 				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
                 					Pass := CONCAT('''', Pass, '''');
                 				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				SET @sql := CONCAT('GRANT auditor TO ', Email);
-                                PREPARE stmt FROM @sql;
+                PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				DEALLOCATE PREPARE stmt;
                 				SET @sql := CONCAT('SET DEFAULT ROLE auditor FOR ', Email);
@@ -547,14 +547,14 @@
                 				Email,
                 				Nome,
                 				Tipo,
-                                Morada);
+                Morada);
                 				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
                 					Pass := CONCAT('''', Pass, '''');
                 				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
                 				PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				SET @sql := CONCAT('GRANT admnistrador TO ', Email);
-                                PREPARE stmt FROM @sql;
+                PREPARE stmt FROM @sql;
                 				EXECUTE stmt;
                 				DEALLOCATE PREPARE stmt;
                 				SET @sql := CONCAT('SET DEFAULT ROLE admnistrador FOR ', Email);
@@ -569,15 +569,15 @@
     </pma:structure_schemas>
 
     <!--
-    - Database: 'g12_museum'
+    - Banco de dados: 'g12_museum'
     -->
     <database name="g12_museum">
-        <!-- Table diasemana -->
+        <!-- Tabela diasemana -->
         <table name="diasemana">
             <column name="DiaSemana">terca</column>
             <column name="HoraRonda">12:00:00</column>
         </table>
-        <!-- Table g12_logdiasemana -->
+        <!-- Tabela g12_logdiasemana -->
         <table name="g12_logdiasemana">
             <column name="id">1</column>
             <column name="User">root</column>
@@ -586,7 +586,15 @@
             <column name="DiaSemana">terca</column>
             <column name="HoraRonda">12:00:00</column>
         </table>
-        <!-- Table g12_logmedicaosensores -->
+        <table name="g12_logdiasemana">
+            <column name="id">2</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:20</column>
+            <column name="DiaSemana">terca</column>
+            <column name="HoraRonda">12:00:00</column>
+        </table>
+        <!-- Tabela g12_logmedicaosensores -->
         <table name="g12_logmedicaosensores">
             <column name="id">3</column>
             <column name="User">root</column>
@@ -597,7 +605,17 @@
             <column name="DataHoraMedicao">2020-04-13 18:12:51</column>
             <column name="PossivelAnomalia">0</column>
         </table>
-        <!-- Table g12_logrondaextra -->
+        <table name="g12_logmedicaosensores">
+            <column name="id">4</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:20</column>
+            <column name="ValorMedicao">3.00</column>
+            <column name="TipoDeSensor">sem</column>
+            <column name="DataHoraMedicao">2020-04-13 18:12:51</column>
+            <column name="PossivelAnomalia">0</column>
+        </table>
+        <!-- Tabela g12_logrondaextra -->
         <table name="g12_logrondaextra">
             <column name="id">2</column>
             <column name="User">root</column>
@@ -616,7 +634,16 @@
             <column name="EmailUtilizador">mail_2@mail</column>
             <column name="datahoraSaida">2020-04-12 23:59:13</column>
         </table>
-        <!-- Table g12_logsistema -->
+        <table name="g12_logrondaextra">
+            <column name="id">4</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:20</column>
+            <column name="DataHora">2020-04-13 17:58:23</column>
+            <column name="EmailUtilizador">mail_2@mail</column>
+            <column name="datahoraSaida">2020-04-12 23:59:13</column>
+        </table>
+        <!-- Tabela g12_logsistema -->
         <table name="g12_logsistema">
             <column name="id">1</column>
             <column name="User">root</column>
@@ -632,7 +659,22 @@
             <column name="DuracaoPadraoRonda">1</column>
             <column name="PeriocidadeImportacaoExportacao">1</column>
         </table>
-        <!-- Table g12_loguser -->
+        <table name="g12_logsistema">
+            <column name="id">2</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:21</column>
+            <column name="IDSistema">1</column>
+            <column name="LimiteTemperatura">1.00</column>
+            <column name="LimiteHumidade">1.00</column>
+            <column name="LimiteLuminosidade">1.00</column>
+            <column name="LimiarTemperatura">1.00</column>
+            <column name="LimiarHumidade">1.00</column>
+            <column name="LimiarLuminosidade">1.00</column>
+            <column name="DuracaoPadraoRonda">1</column>
+            <column name="PeriocidadeImportacaoExportacao">1</column>
+        </table>
+        <!-- Tabela g12_loguser -->
         <table name="g12_loguser">
             <column name="id">1</column>
             <column name="User">root</column>
@@ -678,7 +720,7 @@
             <column name="User">mail_3@mail</column>
             <column name="Operacao">SELECT</column>
             <column name="Time">18:26:06</column>
-            <column name="Email">NULL</column>
+            <column name="Email"></column>
             <column name="NomeUtilizador">teste</column>
             <column name="TipoUtilizador">SEG</column>
             <column name="Morada">NULL</column>
@@ -713,8 +755,98 @@
             <column name="TipoUtilizador">SEG</column>
             <column name="Morada">Rua Vieira da Silva 2</column>
         </table>
-        <!-- Table g12_loguserhasdiasemana -->
-        <!-- Table medicaosensores -->
+        <table name="g12_loguser">
+            <column name="id">9</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:21</column>
+            <column name="Email">mail@mail</column>
+            <column name="NomeUtilizador">nome</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">vieira da silva</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">10</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:21</column>
+            <column name="Email">mail_2@mail</column>
+            <column name="NomeUtilizador">nome</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">vieira da silva</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">11</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:21</column>
+            <column name="Email">mail_3@mail</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">Rua Vieira da Silva 2</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">12</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">12:39:21</column>
+            <column name="Email">mail_4@mail</column>
+            <column name="NomeUtilizador">teste</column>
+            <column name="TipoUtilizador">DIR</column>
+            <column name="Morada">Vieira da silva 3</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">13</column>
+            <column name="User">root</column>
+            <column name="Operacao">INSERT</column>
+            <column name="Time">16:36:09</column>
+            <column name="Email">csg</column>
+            <column name="NomeUtilizador">csg</column>
+            <column name="TipoUtilizador">CSG</column>
+            <column name="Morada">rua</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">14</column>
+            <column name="User">csg</column>
+            <column name="Operacao">SELECT</column>
+            <column name="Time">16:37:53</column>
+            <column name="Email">NULL</column>
+            <column name="NomeUtilizador">csg</column>
+            <column name="TipoUtilizador">CSG</column>
+            <column name="Morada">NULL</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">15</column>
+            <column name="User">csg</column>
+            <column name="Operacao">SELECT</column>
+            <column name="Time">16:39:00</column>
+            <column name="Email">mail_2@mail</column>
+            <column name="NomeUtilizador">nome</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">vieira da silva</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">16</column>
+            <column name="User">csg</column>
+            <column name="Operacao">SELECT</column>
+            <column name="Time">16:39:38</column>
+            <column name="Email">NULL</column>
+            <column name="NomeUtilizador">csg</column>
+            <column name="TipoUtilizador">CSG</column>
+            <column name="Morada">vieira da silva</column>
+        </table>
+        <table name="g12_loguser">
+            <column name="id">17</column>
+            <column name="User">csg</column>
+            <column name="Operacao">SELECT</column>
+            <column name="Time">16:42:56</column>
+            <column name="Email">mail_2@mail</column>
+            <column name="NomeUtilizador">nome</column>
+            <column name="TipoUtilizador">SEG</column>
+            <column name="Morada">vieira da silva</column>
+        </table>
+        <!-- Tabela g12_loguserhasdiasemana -->
+        <!-- Tabela medicaosensores -->
         <table name="medicaosensores">
             <column name="idMedicao">0</column>
             <column name="ValorMedicao">3.00</column>
@@ -722,19 +854,19 @@
             <column name="DataHoraMedicao">2020-04-13 18:12:51</column>
             <column name="PossivelAnomalia">0</column>
         </table>
-        <!-- Table rondaextra -->
+        <!-- Tabela rondaextra -->
         <table name="rondaextra">
             <column name="dataHoraEntrada">2020-04-13 17:58:23</column>
             <column name="EmailUtilizador">mail_2@mail</column>
             <column name="datahoraSaida">2020-04-12 23:59:13</column>
         </table>
-        <!-- Table ronda_planeada -->
+        <!-- Tabela ronda_planeada -->
         <table name="ronda_planeada">
             <column name="EmailUtilizador">mail@mail</column>
             <column name="DiaSemana">terca</column>
             <column name="HoraRondaInicio">12:00:00</column>
         </table>
-        <!-- Table sistema -->
+        <!-- Tabela sistema -->
         <table name="sistema">
             <column name="IDSistema">1</column>
             <column name="LimiteTemperatura">1.00</column>
@@ -746,7 +878,13 @@
             <column name="DuraçãoPadrãoRonda">1</column>
             <column name="PeriocidadeImportacaoExportacao">1</column>
         </table>
-        <!-- Table utilizador -->
+        <!-- Tabela utilizador -->
+        <table name="utilizador">
+            <column name="EmailUtilizador">csg</column>
+            <column name="NomeUtilizador">csg</column>
+            <column name="TipoUtilizador">CSG</column>
+            <column name="Morada">rua</column>
+        </table>
         <table name="utilizador">
             <column name="EmailUtilizador">mail@mail</column>
             <column name="NomeUtilizador">nome</column>
