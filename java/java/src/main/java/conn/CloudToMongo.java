@@ -72,7 +72,7 @@ public class CloudToMongo implements MqttCallback {
 
                 document_json = (DBObject) JSON.parse(clean(c.toString()));
                 System.out.println(c.toString());
-                mongocol.insert(document_json);           
+                mongocol.insert(document_json);    
         } catch (Exception e) {
             System.out.println(e);
         }
