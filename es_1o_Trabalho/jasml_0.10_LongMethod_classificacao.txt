@@ -1,5 +1,8 @@
 NÃO com.jasml.decompiler.JavaClassParser	private void readConstantPool() throws java.io.IOException	constantPool	B2	0/41
+
 SIM com.jasml.compiler.SourceCodeParser	private com.jasml.classes.Method parseMethod() throws com.jasml.compiler.ParsingException, com.jasml.compiler.GrammerException	code	B4	0/15
+Refactoring
+
 NÃO com.jasml.compiler.SourceCodeParser	private void preprocessConstantValues() throws com.jasml.compiler.ParsingException	cpl	B2	0/14
 NÃO com.jasml.compiler.SourceCodeParser	private void preprocessConstantValues() throws com.jasml.compiler.ParsingException	cpl	B3	0/12
 NÃO com.jasml.compiler.SourceCodeParser	private void parseClassAttributes() throws com.jasml.compiler.GrammerException, com.jasml.compiler.ParsingException	colonIndex	B2	0/8
@@ -8,17 +11,26 @@ NÃO com.jasml.compiler.SourceCodeParser	private void parseClassAttributes() thr
 NÃO com.jasml.compiler.SourceCodeParser	private void parseClassAttributes() throws com.jasml.compiler.GrammerException, com.jasml.compiler.ParsingException	scanner	B2	0/8
 NÃO com.jasml.compiler.SourceCodeParser	private void parseClassAttributes() throws com.jasml.compiler.GrammerException, com.jasml.compiler.ParsingException	scanner	B3	0/7
 NÃO com.jasml.compiler.ConstantPoolGenerator	private int addMethodNameAndType(java.lang.String, java.lang.String, java.lang.String) 	type	B1	0/4
-SIM jasml	private static void processFile(java.io.File) 	temp	B1	0/4
+
+Sim jasml	private static void processFile(java.io.File) 	temp	B1	0/4
+Refactoring.
+
 NÃO jasml	private static void compile(java.io.File, java.io.File) 	jcd	B3	0/4
+
 SIM com.jasml.compiler.SourceCodeParser	private void updateLabelLinks(Hashtable#RAW, ArrayList#RAW) throws com.jasml.compiler.GrammerException	j	B9	0/3
+Refactoring
+
 NÃO com.jasml.compiler.Scanner	private void consumeDigits() 	c	B1	0/3
 NÃO com.jasml.compiler.Scanner	private void consumeDigits() 	c	B2	0/2
 NÃO com.jasml.compiler.Scanner	private void skipSpaces() 	c	B1	0/3
 NÃO com.jasml.compiler.Scanner	private void skipSpaces() 	c	B2	0/2
+
 SIM com.jasml.decompiler.JavaClassParser	private com.jasml.classes.Attribute readAttribute(java.io.DataInputStream) throws java.io.IOException	exception_index_table	B21	0/3
 SIM com.jasml.decompiler.JavaClassParser	private com.jasml.classes.Attribute readAttribute(java.io.DataInputStream) throws java.io.IOException	innerClasses	B26	0/3
 SIM com.jasml.decompiler.JavaClassParser	private com.jasml.classes.Attribute readAttribute(java.io.DataInputStream) throws java.io.IOException	line_number_table	B32	0/3
 SIM com.jasml.decompiler.JavaClassParser	private com.jasml.classes.Attribute readAttribute(java.io.DataInputStream) throws java.io.IOException	local_variable_table	B37	0/3
+Refactoring
+
 SIM com.jasml.compiler.SourceCodeParser	private com.jasml.classes.Field parseField() throws com.jasml.compiler.ParsingException, com.jasml.compiler.GrammerException	acc	B5	0/2
 SIM com.jasml.compiler.SourceCodeParser	private com.jasml.compiler.SourceCodeParser.LabeledInstructions parseMethodInstructions(com.jasml.classes.Method) throws com.jasml.compiler.ParsingException, com.jasml.compiler.GrammerException	j	B142	0/2
 SIM com.jasml.compiler.SourceCodeParser	private com.jasml.compiler.SourceCodeParser.LabeledInstructions parseMethodInstructions(com.jasml.classes.Method) throws com.jasml.compiler.ParsingException, com.jasml.compiler.GrammerException	t	B99	0/2
