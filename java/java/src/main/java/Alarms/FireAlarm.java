@@ -1,19 +1,20 @@
-package AnaliseIncendio;
+package Alarms;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FireAnaliser {
+public class FireAlarm extends Alarm {
 
+	static LinkedList<Double> ultimosValoresComAnomalias = new LinkedList<Double>();
 	static LinkedList<Double> lastValues = new LinkedList<Double>();
-	static final Double CurrentGrowthLimiar = 5.0;
-	static final Double TotalGrowth_MinLimiar = 10.0;
-	static final Double TotalGrowth_MaxLimiar = 20.0;
+	
+	static Double crescimentoInstantaneo = 0.05;
+	static Double TotalGrowth_MinLimiar = 10.0;
+	static Double TotalGrowth_MaxLimiar = 20.0;
 	
 	private Double temp;
 	
-	
-	public FireAnaliser( Double temp) {
+	public FireAlarm (Double temp) {
 		this.temp = temp;
 		System.out.println(temp);
 		System.out.println(lastValues.toString());
@@ -21,7 +22,12 @@ public class FireAnaliser {
 		analiseValues();
 	}
 	
+	
+	
 	public void analiseValues() {
+		
+		
+		
 		if(getCurrentGrowth() > CurrentGrowthLimiar) {	
 			sendFireAlert();
 		} else if (getTotalGrowth() > TotalGrowth_MinLimiar && getTotalGrowth() < TotalGrowth_MaxLimiar) {
@@ -31,6 +37,8 @@ public class FireAnaliser {
 	
 	public void addCurrentTemperature(Double temp) {
 
+		
+		
 		if(lastValues.size() == 10) {
 			lastValues.poll();
 			lastValues.add(temp);
@@ -39,7 +47,7 @@ public class FireAnaliser {
 			lastValues.add(temp);
 			
 		}
-		
+	
 	}
 	
 	public Double getCurrentGrowth() {
@@ -75,7 +83,7 @@ public class FireAnaliser {
 	public static void main(String[] args) {
 		
 		for (int i = 0; i < 3; i++) {
-			new FireAnaliser(20.0 + i*6);
+			new FireAlarm (20.0 + i*6);
 		}
 		
 		/*
@@ -88,4 +96,6 @@ public class FireAnaliser {
 			}
 		}*/
 	}
+	
+	
 }
