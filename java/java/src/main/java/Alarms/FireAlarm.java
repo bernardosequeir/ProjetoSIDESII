@@ -28,7 +28,7 @@ public class FireAlarm extends Alarm {
 		
 		
 		
-		if(getCurrentGrowth() > CurrentGrowthLimiar) {	
+		if(getCurrentGrowth() > crescimentoInstantaneo) {	
 			sendFireAlert();
 		} else if (getTotalGrowth() > TotalGrowth_MinLimiar && getTotalGrowth() < TotalGrowth_MaxLimiar) {
 			sendPossibleFireAlert();
