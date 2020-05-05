@@ -1,4 +1,4 @@
-package Anomalias;
+
 
 public class Medicao {
 	
@@ -9,7 +9,14 @@ public class Medicao {
 	
 
 	public Medicao(String valorMedicao, String tipoSensor, String dataHoraMedicao, String possivelAnomalia) {
-		
+		this.valorMedicao = Double.parseDouble(valorMedicao);
+		this.tipoSensor = tipoSensor;
+		this.dataHoraMedicao = dataHoraMedicao;
+		this.possivelAnomalia = Integer.parseInt(possivelAnomalia);
 	}
-	
+
+
+	public double getValorMedicao() {
+		return valorMedicao;
+	}	
 }
