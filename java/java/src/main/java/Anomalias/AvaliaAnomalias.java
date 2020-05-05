@@ -73,18 +73,17 @@ public class AvaliaAnomalias {
 	private void testaAnomalia(double[] t) {
 		boolean anomalia = false;
 		
+		//Caso seja o primeiro buffer em verificação, ele compara o primeiro valor com ele mesmo dado que não há um ultimo valor valido.
 		if(ultimaTemperaturaValida == 0.0) {
 			ultimaTemperaturaValida = t[0];
 		}
 		
-		ultimaTemperaturaValida = t[0];
-		
+		//Vai verificar cada valor do array
 		for(int i = 0; i < t.length; i++) {
 			anomalia = false;
-			//System.out.println("Analisando: " + t[i]);
 			
+			//Caso este valor tenha um crescimento acima do normal relativamente ao ultimo valor valido, entra porque pode ser uma possivel anomalia
 			if(Math.abs( (t[i]/ultimaTemperaturaValida) - 1 ) >= variacaoMaxima) {
-				//System.out.println("Variacao: " + ((t[i]/ultimaTemperaturaValida) - 1.00));
 				
 				int j = i + 1;
 				
