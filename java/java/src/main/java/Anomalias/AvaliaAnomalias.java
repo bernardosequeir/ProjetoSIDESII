@@ -59,7 +59,7 @@ public class AvaliaAnomalias {
     }
 	
 	public static void main(String[] args) {
-		double[] temperaturas = {10.0, 12.0, 70.0, 16.0, 20.0};
+		double[] temperaturas = {10.0, 12.0, 14.0, 16.0, 70.0};
 		double[] humidades = {10.0, 12.0, 70.0, 16.0, 20.0};
 		double[] luminosidades = {10.0, 12.0, 70.0, 16.0, 20.0};
 		
@@ -81,21 +81,24 @@ public class AvaliaAnomalias {
 		
 		for(int i = 0; i < t.length; i++) {
 			anomalia = false;
-			System.out.println("Analisando: " + t[i]);
+			//System.out.println("Analisando: " + t[i]);
 			
 			if(Math.abs( (t[i]/ultimaTemperaturaValida) - 1 ) >= variacaoMaxima) {
-				System.out.println("Variacao: " + ((t[i]/ultimaTemperaturaValida) - 1.00));
+				//System.out.println("Variacao: " + ((t[i]/ultimaTemperaturaValida) - 1.00));
 				
 				int j = i + 1;
 				
-				do {
+				while((j < t.length) && !anomalia) {
 					
 					if(Math.abs( (t[j]/t[j-1]) - 1.00 ) >= variacaoMaxima) {
 						anomalia = true;
 						System.err.println(t[i]);
+						break;
 					}
 					
-				}while((j < t.length - 1) && !anomalia);
+					j++;
+					
+				}
 				
 				if(!anomalia) {
 					ultimaTemperaturaValida = t[i];
