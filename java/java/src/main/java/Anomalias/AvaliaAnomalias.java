@@ -91,7 +91,7 @@ public class AvaliaAnomalias {
 					
 					if(Math.abs( (t[j]/t[j-1]) - 1.00 ) >= variacaoMaxima) {
 						anomalia = true;
-						System.err.println(t[i]);
+						System.out.println(t[i] + "x");
 						break;
 					}
 					
