@@ -2,6 +2,10 @@ package Anomalias;
 
 import java.util.ArrayList;
 
+import Alertas.AvaliaAlertaAssalto;
+import Alertas.AvaliaAlertaHumidade;
+import Alertas.AvaliaAlertaTemperatura;
+
 public class AvaliaAnomalias {
 	
 	private ArrayList<Medicao> temperaturas = new ArrayList<Medicao>();
@@ -59,16 +63,20 @@ public class AvaliaAnomalias {
     }
 	
 	public static void main(String[] args) {
-		double[] temperaturas = {10.0, 12.0, 14.0, 16.0, 70.0};
-		double[] humidades = {10.0, 12.0, 70.0, 16.0, 20.0};
-		double[] luminosidades = {10.0, 12.0, 70.0, 16.0, 20.0};
+		double[] temperaturas1 = {10.0, 10.0, 10.0, 10.0, 10.0};
+		double[] temperaturas2 = {10.0, 10.0, -60.0, 10.0, 70.0};
+		
+		
+		double[] humidades = {10.0, 20.0, 30.0, 50.0, 70.0};
+		double[] luminosidades = {75.0, 80.0, 80.0, 16.0, 20.0};
 		
 		//new AvaliaAnomalias(temperaturas, humidades, luminosidades);
-		new AvaliaAnomalias().testaAnomalia(temperaturas);
+		new AvaliaAnomalias().testaAnomalia(temperaturas1);
+		new AvaliaAnomalias().testaAnomalia(temperaturas2);
 	}
 	
 	static double ultimaTemperaturaValida = 0.0;
-	static double variacaoMaxima = 0.25;
+	static double variacaoMaxima = 0.8;
 
 	private void testaAnomalia(double[] t) {
 		boolean anomalia = false;
@@ -101,18 +109,39 @@ public class AvaliaAnomalias {
 				
 				if(!anomalia) {
 					ultimaTemperaturaValida = t[i];
-					System.out.println(t[i]);
+					avaliaPossivelAlerta(t[i]);
 				}
 				
 			} else {	
-				
 				ultimaTemperaturaValida = t[i];
-				System.out.println(t[i]);
+				avaliaPossivelAlerta(t[i]);
+				
 				
 			}
 			
 		}
 		
+	}
+
+	private void avaliaPossivelAlerta(double d) {
+		System.out.println(d);
+		int tipo = 0;
+		
+		switch (tipo) {
+			case 0:
+				new AvaliaAlertaTemperatura(d);
+				break;
+				
+			case 1:
+				new AvaliaAlertaHumidade(d);
+				break;
+				
+			case 2:
+				new AvaliaAlertaAssalto(d);
+				
+			default:
+				break;
+		}
 	}
 	
  }

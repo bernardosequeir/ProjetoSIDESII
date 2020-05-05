@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 
-import Alarms.Alarm;
+import Alertas.AvaliaAlertas;
 
 import java.util.*;
 import java.util.Vector;

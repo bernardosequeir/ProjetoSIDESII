@@ -86,6 +86,10 @@ public class MongoParaMysql {
 				if(!doc.equals(novo)) {
 					doc = novo;
 					valoresASerConferidos = getValoresMedicao(doc);
+					//abre a ligançao
+					//corre o teste anomalia //insert cenas
+					//fecha ligacao
+			
 					SqlCommando = "INSERT INTO medicaosensores (idMedicao, ValorMedicao, TipoSensor, DataHoraMedicao, PossivelAnomalia) VALUES (default, '"+valoresASerConferidos.get(0)+"', 'tmp', '"+valoresASerConferidos.get(2)+"', '1');";
 					s.executeUpdate(SqlCommando);
 					Thread.sleep(1000);
