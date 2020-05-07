@@ -9,8 +9,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 
-import Alertas.AvaliaAlertas;
-
 import java.util.*;
 import java.util.Vector;
 import java.io.File;

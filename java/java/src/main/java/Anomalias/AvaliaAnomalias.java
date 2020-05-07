@@ -12,55 +12,12 @@ public class AvaliaAnomalias {
 	private ArrayList<Medicao> humidades = new ArrayList<Medicao>();
 	private ArrayList<Medicao> luminosidades = new ArrayList<Medicao>();
 	
-	public AvaliaAnomalias(/*ArrayList<Medicao> temperaturas, ArrayList<Medicao> humidades, ArrayList<Medicao> luminosidades*/) {
+	public AvaliaAnomalias() {
 		this.temperaturas = temperaturas;
 		this.humidades = humidades;
 		this.luminosidades = luminosidades;
 		
-		//avaliaAnomaliaNasTemperaturas(temperaturas);
-		avaliaAnomaliaNasHumidades(humidades);
-		avaliaAnomaliaNasLuminosidades(luminosidades);
 	}
-
-	private void avaliaAnomaliaNasLuminosidades(ArrayList<Medicao> l) {
-		
-		
-	}
-
-	private void avaliaAnomaliaNasHumidades(ArrayList<Medicao> h) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/*private void avaliaAnomaliaNasTemperaturas(ArrayList<Medicao> t) {
-		double sum = 0.0;
-		
-		for(int i = 0; i < t.size(); i++) {
-			sum += t[i];
-		}
-		
-		double m = (sum / (double) t.length);
-		System.out.println("Temp avg: " + m);
-		System.out.println("Temp SD: " + calculateSD();
-		
-	}*/
-
-	public static double calculateSD(double numArray[]) {
-        double sum = 0.0, standardDeviation = 0.0;
-        int length = numArray.length;
-
-        for(double num : numArray) {
-            sum += num;
-        }
-
-        double mean = sum/length;
-
-        for(double num: numArray) {
-            standardDeviation += Math.pow(num - mean, 2);
-        }
-
-        return Math.sqrt(standardDeviation/length);
-    }
 	
 	public static void main(String[] args) {
 		double[] temperaturas1 = {10.0, 10.0, 10.0, 10.0, 10.0};
