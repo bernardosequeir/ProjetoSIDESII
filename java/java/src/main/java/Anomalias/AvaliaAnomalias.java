@@ -20,8 +20,8 @@ public class AvaliaAnomalias {
 	}
 	
 	public static void main(String[] args) {
-		double[] temperaturas1 = {10.0, 10.0, 10.0, 10.0, 10.0};
-		double[] temperaturas2 = {10.0, 10.0, -60.0, 10.0, 70.0};
+		double[] temperaturas1 = {0.0, 0.0, 1.0, 1.0, 0.0};
+		double[] temperaturas2 = {0.0, 0.0, 0.0, 0.0, 0.0};
 		
 		
 		double[] humidades = {10.0, 20.0, 30.0, 50.0, 70.0};
@@ -30,6 +30,15 @@ public class AvaliaAnomalias {
 		//new AvaliaAnomalias(temperaturas, humidades, luminosidades);
 		new AvaliaAnomalias().testaAnomalia(temperaturas1);
 		new AvaliaAnomalias().testaAnomalia(temperaturas2);
+		
+		Medicao("2asdasfasfdsfasdfsa");
+		Medicao("2asdasfasfdsfasdfsa");
+		
+		int id;
+		int med;
+		if(deumerda) {
+			setAnomalia = true;
+		}
 	}
 	
 	static double ultimaTemperaturaValida = 0.0;
@@ -54,7 +63,7 @@ public class AvaliaAnomalias {
 				
 				while((j < t.length) && !anomalia) {
 					
-					if(Math.abs( (t[j]/t[j-1]) - 1.00 ) >= variacaoMaxima) {
+					if(Math.abs( (t[j - 1]/t[j]) - 1.00 ) >= variacaoMaxima) {
 						anomalia = true;
 						System.out.println(t[i] + "x");
 						break;
