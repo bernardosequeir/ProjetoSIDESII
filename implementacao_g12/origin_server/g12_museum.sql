@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11-Maio-2020 às 00:46
+-- Tempo de geração: 11-Maio-2020 às 01:22
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -216,27 +216,7 @@ CREATE TRIGGER `Atualizar_Medicoes` AFTER UPDATE ON `medicao_sensores` FOR EACH 
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logmedicaosensores VALUES (DEFAULT, @UserMail ,'UPDATE', now(),new.ValorMedicao, new.TipoSensor, new.DataHoraMedicao, new.PossivelAnomalia);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `Eliminar_Medicoes` AFTER DELETE ON `medicao_sensores` FOR EACH ROW BEGIN
-	-- Find username of person performing the INSERT into table
-	SELECT user INTO @UserMail FROM (
-        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
-    WHERE userhost = USER();
-	INSERT INTO g12_logmedicaosensores VALUES (DEFAULT, @UserMail ,'DELETE', now(),old.ValorMedicao, old.TipoSensor, old.DataHoraMedicao, old.PossivelAnomalia);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `Inserir_Medicoes` AFTER INSERT ON `medicao_sensores` FOR EACH ROW BEGIN
-	-- Find username of person performing the INSERT into table
-	SELECT user INTO @UserMail FROM (
-        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
-    WHERE userhost = USER();
-	INSERT INTO g12_logmedicaosensores VALUES ( DEFAULT, @UserMail ,'INSERT', now(),new.ValorMedicao, new.TipoSensor, new.DataHoraMedicao, new.PossivelAnomalia);
+	INSERT INTO g12_logmedicao_sensores VALUES (DEFAULT, @UserMail ,'UPDATE', now(),old.idMedicao, new.idMedicao, old.ValorMedicao,new.ValorMedicao, old.TipoSensor,new.TipoSensor, old.DataHoraMedicao,new.DataHoraMedicao);
 END
 $$
 DELIMITER ;
@@ -253,6 +233,20 @@ CREATE TABLE `medicao_sensores_anomalos` (
   `TipoSensor` varchar(3) NOT NULL,
   `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Acionadores `medicao_sensores_anomalos`
+--
+DELIMITER $$
+CREATE TRIGGER `Atualizar_Medicoes_Anomalos` AFTER UPDATE ON `medicao_sensores_anomalos` FOR EACH ROW BEGIN
+	-- Find username of person performing the INSERT into table
+	SELECT user INTO @UserMail FROM (
+        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logmedicao_sensores_anomalos VALUES (DEFAULT, @UserMail ,'UPDATE', now(),old.idMedicao, new.idMedicao, old.ValorMedicao,new.ValorMedicao, old.TipoSensor,new.TipoSensor, old.DataHoraMedicao,new.DataHoraMedicao);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -275,7 +269,7 @@ CREATE TRIGGER `Atualizar_RondaExtra` AFTER UPDATE ON `ronda_extra` FOR EACH ROW
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logrondaextra VALUES (DEFAULT,  @UserMail , 'UPDATE', now(),new.dataHoraEntrada,new.EmailUtilizador, new.datahoraSaida);
+	INSERT INTO g12_logronda_extra VALUES (DEFAULT,  @UserMail , 'UPDATE', now(),old.dataHoraEntrada,new.dataHoraEntrada,old.datahoraSaida ,new.datahoraSaida );
 END
 $$
 DELIMITER ;
@@ -346,17 +340,7 @@ CREATE TRIGGER `Atualizar_Sistema` AFTER UPDATE ON `sistema` FOR EACH ROW BEGIN
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logsistema VALUES ( DEFAULT, @UserMail, 'UPDATE', now(), new.IDSistema, new.LimiteTemperatura, new.LimiteHumidade, new.LimiteLuminosidade, new.LimiarTemperatura, new.LimiarHumidade, new.LimiarLuminosidade, new.DuraçãoPadrãoRonda, new.PeriocidadeImportacaoExportacao);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `Eliminar_Sistema` AFTER DELETE ON `sistema` FOR EACH ROW BEGIN
-	-- Find username of person performing the INSERT into table
-	SELECT user INTO @UserMail FROM (
-        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
-    WHERE userhost = USER();
-	INSERT INTO g12_logsistema VALUES ( DEFAULT, @UserMail, 'DELETE', now(), old.IDSistema, old.LimiteTemperatura, old.LimiteHumidade, old.LimiteLuminosidade, old.LimiarTemperatura, old.LimiarHumidade, old.LimiarLuminosidade, old.DuraçãoPadrãoRonda, old.PeriocidadeImportacaoExportacao);
+	INSERT INTO g12_logsistema VALUES ( DEFAULT, @UserMail, 'UPDATE', now(), old.IDSistema,new.IDSistema,old.IntervaloImportacaoMongo ,new.IntervaloImportacaoMongo , 	old.TempoLimiteMedicao, 	new.TempoLimiteMedicao, 	old.tamanhoDosBuffersAnomalia, 	new.tamanhoDosBuffersAnomalia, 	old.tamanhoDosBuffersAlerta, 	new.tamanhoDosBuffersAlerta,old.variacaoAnomalaTemperatura ,new.variacaoAnomalaTemperatura ,old.variacaoAnomalaHumidade ,new.variacaoAnomalaHumidade ,old.crescimentoInstantaneoTemperatura,new.crescimentoInstantaneoTemperatura,old.crescimentoGradualTemperatura,new.crescimentoGradualTemperatura ,old.crescimentoInstantaneoHumidade ,new.crescimentoInstantaneoHumidade ,old.crescimentoGradualHumidade,new.crescimentoGradualHumidade,old.luminosidadeLuzesDesligadas ,new.luminosidadeLuzesDesligadas,old.limiteTemperatura ,new.limiteTemperatura , 	old.limiteHumidade,new.limiteHumidade,old.periocidadeImportacaoExportacaoAuditor,new.periocidadeImportacaoExportacaoAuditor);
 END
 $$
 DELIMITER ;
@@ -393,7 +377,7 @@ CREATE TRIGGER `Atualizar_Utilizador` AFTER UPDATE ON `utilizador` FOR EACH ROW 
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_loguser VALUES ( DEFAULT, @UserMail , 'UPDATE',now(), new.EmailUtilizador, new.NomeUtilizador, new.TipoUtilizador, new.Morada);
+	INSERT INTO g12_loguser VALUES ( DEFAULT, @UserMail , 'UPDATE',now(), old.EmailUtilizador,new.EmailUtilizador,old.NomeUtilizador, new.NomeUtilizador, old.TipoUtilizador,new.TipoUtilizador,old.Morada, new.Morada);
 END
 $$
 DELIMITER ;
