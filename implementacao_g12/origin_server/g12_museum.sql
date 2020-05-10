@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Maio-2020 às 23:41
+-- Tempo de geração: 10-Maio-2020 às 17:21
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -43,19 +43,19 @@ CREATE TABLE `alerta` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `diasemana`
+-- Estrutura da tabela `dia_semana`
 --
 
-CREATE TABLE `diasemana` (
+CREATE TABLE `dia_semana` (
   `DiaSemana` varchar(20) NOT NULL,
   `HoraRonda` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `diasemana`
+-- Acionadores `dia_semana`
 --
 DELIMITER $$
-CREATE TRIGGER `Atualizar_DiaSemana` AFTER UPDATE ON `diasemana` FOR EACH ROW BEGIN
+CREATE TRIGGER `Atualizar_DiaSemana` AFTER UPDATE ON `dia_semana` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -65,7 +65,7 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `Eliminar_DiaSemana` AFTER DELETE ON `diasemana` FOR EACH ROW BEGIN
+CREATE TRIGGER `Eliminar_DiaSemana` AFTER DELETE ON `dia_semana` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -75,7 +75,7 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `Inserir_DiaSemana` AFTER INSERT ON `diasemana` FOR EACH ROW BEGIN
+CREATE TRIGGER `Inserir_DiaSemana` AFTER INSERT ON `dia_semana` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -240,22 +240,21 @@ CREATE TABLE `g12_loguserhasdiasemana` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `medicaosensores`
+-- Estrutura da tabela `medicao_sensores`
 --
 
-CREATE TABLE `medicaosensores` (
+CREATE TABLE `medicao_sensores` (
   `idMedicao` int(11) NOT NULL,
   `ValorMedicao` decimal(6,2) NOT NULL,
   `TipoSensor` varchar(3) NOT NULL,
-  `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `PossivelAnomalia` tinyint(4) NOT NULL
+  `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `medicaosensores`
+-- Acionadores `medicao_sensores`
 --
 DELIMITER $$
-CREATE TRIGGER `Atualizar_Medicoes` AFTER UPDATE ON `medicaosensores` FOR EACH ROW BEGIN
+CREATE TRIGGER `Atualizar_Medicoes` AFTER UPDATE ON `medicao_sensores` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -265,7 +264,7 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `Eliminar_Medicoes` AFTER DELETE ON `medicaosensores` FOR EACH ROW BEGIN
+CREATE TRIGGER `Eliminar_Medicoes` AFTER DELETE ON `medicao_sensores` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -275,7 +274,7 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `Inserir_Medicoes` AFTER INSERT ON `medicaosensores` FOR EACH ROW BEGIN
+CREATE TRIGGER `Inserir_Medicoes` AFTER INSERT ON `medicao_sensores` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -288,20 +287,33 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rondaextra`
+-- Estrutura da tabela `medicao_sensores_anomalos`
 --
 
-CREATE TABLE `rondaextra` (
+CREATE TABLE `medicao_sensores_anomalos` (
+  `idMedicao` int(11) NOT NULL,
+  `ValorMedicao` decimal(6,2) NOT NULL,
+  `TipoSensor` varchar(3) NOT NULL,
+  `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `ronda_extra`
+--
+
+CREATE TABLE `ronda_extra` (
   `dataHoraEntrada` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `EmailUtilizador` varchar(100) NOT NULL,
   `datahoraSaida` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `rondaextra`
+-- Acionadores `ronda_extra`
 --
 DELIMITER $$
-CREATE TRIGGER `Atualizar_RondaExtra` AFTER UPDATE ON `rondaextra` FOR EACH ROW BEGIN
+CREATE TRIGGER `Atualizar_RondaExtra` AFTER UPDATE ON `ronda_extra` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -311,7 +323,7 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `Eliminar_RondaExtra` AFTER DELETE ON `rondaextra` FOR EACH ROW BEGIN
+CREATE TRIGGER `Eliminar_RondaExtra` AFTER DELETE ON `ronda_extra` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -321,7 +333,7 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `Inserir_RondaExtra` AFTER INSERT ON `rondaextra` FOR EACH ROW BEGIN
+CREATE TRIGGER `Inserir_RondaExtra` AFTER INSERT ON `ronda_extra` FOR EACH ROW BEGIN
 	-- Find username of person performing the INSERT into table
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
@@ -366,7 +378,7 @@ CREATE TABLE `sistema` (
   `luminosidadeLuzesDesligadas` int(11) DEFAULT NULL,
   `limiteTemperatura` int(11) DEFAULT NULL,
   `limiteHumidade` int(11) DEFAULT NULL,
-  `periocidadeImportacaoExportacao` int(11) DEFAULT NULL
+  `periocidadeImportacaoExportacaoAuditor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -461,9 +473,9 @@ ALTER TABLE `alerta`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Índices para tabela `diasemana`
+-- Índices para tabela `dia_semana`
 --
-ALTER TABLE `diasemana`
+ALTER TABLE `dia_semana`
   ADD PRIMARY KEY (`DiaSemana`,`HoraRonda`),
   ADD KEY `HoraRonda` (`HoraRonda`);
 
@@ -510,15 +522,21 @@ ALTER TABLE `g12_loguserhasdiasemana`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `medicaosensores`
+-- Índices para tabela `medicao_sensores`
 --
-ALTER TABLE `medicaosensores`
+ALTER TABLE `medicao_sensores`
   ADD PRIMARY KEY (`idMedicao`);
 
 --
--- Índices para tabela `rondaextra`
+-- Índices para tabela `medicao_sensores_anomalos`
 --
-ALTER TABLE `rondaextra`
+ALTER TABLE `medicao_sensores_anomalos`
+  ADD PRIMARY KEY (`idMedicao`);
+
+--
+-- Índices para tabela `ronda_extra`
+--
+ALTER TABLE `ronda_extra`
   ADD PRIMARY KEY (`dataHoraEntrada`),
   ADD KEY `EmailUtilizador` (`EmailUtilizador`);
 
@@ -588,18 +606,18 @@ ALTER TABLE `g12_loguserhasdiasemana`
 --
 
 --
--- Limitadores para a tabela `rondaextra`
+-- Limitadores para a tabela `ronda_extra`
 --
-ALTER TABLE `rondaextra`
-  ADD CONSTRAINT `rondaextra_ibfk_1` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`);
+ALTER TABLE `ronda_extra`
+  ADD CONSTRAINT `ronda_extra_ibfk_1` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`);
 
 --
 -- Limitadores para a tabela `ronda_planeada`
 --
 ALTER TABLE `ronda_planeada`
-  ADD CONSTRAINT `ronda_planeada_ibfk_1` FOREIGN KEY (`DiaSemana`) REFERENCES `diasemana` (`DiaSemana`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ronda_planeada_ibfk_1` FOREIGN KEY (`DiaSemana`) REFERENCES `dia_semana` (`DiaSemana`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ronda_planeada_ibfk_2` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`) ON DELETE CASCADE,
-  ADD CONSTRAINT `ronda_planeada_ibfk_3` FOREIGN KEY (`HoraRondaInicio`) REFERENCES `diasemana` (`HoraRonda`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ronda_planeada_ibfk_3` FOREIGN KEY (`HoraRondaInicio`) REFERENCES `dia_semana` (`HoraRonda`) ON DELETE CASCADE ON UPDATE CASCADE;
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
