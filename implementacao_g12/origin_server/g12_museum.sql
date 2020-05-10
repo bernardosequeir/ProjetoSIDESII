@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Maio-2020 às 23:59
+-- Tempo de geração: 11-Maio-2020 às 00:46
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -50,78 +50,84 @@ CREATE TABLE `g12_logalerta` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` time DEFAULT NULL,
-  `IDAlerta` int(11) NOT NULL,
-  `DataHoraMedicaoAnterior` timestamp NULL DEFAULT NULL,
+  `Time` time NOT NULL,
+  `IDAlertaAntigo` int(11) DEFAULT NULL,
+  `IDAlertaNovo` varchar(45) DEFAULT NULL,
+  `DataHoraMedicaoAntigo` timestamp NULL DEFAULT NULL,
   `DataHoraMedicaoNovo` timestamp NULL DEFAULT NULL,
-  `TipoSensorAnterior` varchar(3) NOT NULL,
-  `TipoSensorNovo` varchar(3) NOT NULL,
-  `ValorMedicaoAnterior` decimal(6,2) NOT NULL,
-  `ValorMedicaoNovo` decimal(6,2) NOT NULL,
-  `LimiteAnterior` decimal(6,2) NOT NULL,
-  `LimiteNovo` decimal(6,2) NOT NULL,
-  `DescricaoAnterior` varchar(1000) NOT NULL,
-  `DescricaoNovo` varchar(1000) NOT NULL,
-  `ControloAnterior` tinyint(1) NOT NULL,
-  `ControloNovo` tinyint(1) NOT NULL,
-  `ExtraAnterior` varchar(50) NOT NULL,
-  `ExtraNovo` varchar(50) NOT NULL
+  `TipoSensorAntigo` varchar(3) DEFAULT NULL,
+  `TipoSensorNovo` varchar(3) DEFAULT NULL,
+  `ValorMedicaoAntigo` decimal(6,2) DEFAULT NULL,
+  `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
+  `LimiteAntigo` decimal(6,2) DEFAULT NULL,
+  `LimiteNovo` decimal(6,2) DEFAULT NULL,
+  `DescricaoAntigo` varchar(1000) DEFAULT NULL,
+  `DescricaoNovo` varchar(1000) DEFAULT NULL,
+  `ControloAntigo` tinyint(1) DEFAULT NULL,
+  `ControloNovo` tinyint(1) DEFAULT NULL,
+  `ExtraAntigo` varchar(50) DEFAULT NULL,
+  `ExtraNovo` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logdiasemana`
+-- Estrutura da tabela `g12_logmedicao_sensores`
 --
 
-CREATE TABLE `g12_logdiasemana` (
+CREATE TABLE `g12_logmedicao_sensores` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `DiaSemanaAnterior` varchar(20) NOT NULL,
-  `DiaSemanaNovo` varchar(20) NOT NULL,
-  `HoraRondaAnterior` time NOT NULL,
-  `HoraRondaNovo` time NOT NULL
+  `IDMedicaoAntigo` int(11) DEFAULT NULL,
+  `IDMedicalNovo` int(11) DEFAULT NULL,
+  `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
+  `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
+  `TipoDeSensorAnterior` varchar(3) DEFAULT NULL,
+  `TipoDeSensorNovo` varchar(3) DEFAULT NULL,
+  `DataHoraMedicaoAnterior` timestamp NULL DEFAULT current_timestamp(),
+  `DataHoraMedicaoNovo` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logmedicaosensores`
+-- Estrutura da tabela `g12_logmedicao_sensores_anomalos`
 --
 
-CREATE TABLE `g12_logmedicaosensores` (
+CREATE TABLE `g12_logmedicao_sensores_anomalos` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `ValorMedicaoAnterior` decimal(6,2) NOT NULL,
-  `ValorMedicaoNovo` decimal(6,2) NOT NULL,
-  `TipoDeSensorAnterior` varchar(3) NOT NULL,
-  `TipoDeSensorNovo` varchar(3) NOT NULL,
-  `DataHoraMedicaoAnterior` timestamp NOT NULL DEFAULT current_timestamp(),
-  `DataHoraMedicaoNovo` timestamp NOT NULL DEFAULT current_timestamp(),
-  `PossivelAnomaliaAnterior` varchar(45) NOT NULL,
-  `PossivelAnomaliaNovo` varchar(45) NOT NULL
+  `IDMedicaoAntigo` int(11) DEFAULT NULL,
+  `IDMedicalNovo` int(11) DEFAULT NULL,
+  `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
+  `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
+  `TipoDeSensorAnterior` varchar(3) DEFAULT NULL,
+  `TipoDeSensorNovo` varchar(3) DEFAULT NULL,
+  `DataHoraMedicaoAnterior` timestamp NULL DEFAULT current_timestamp(),
+  `DataHoraMedicaoNovo` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logrondaextra`
+-- Estrutura da tabela `g12_logronda_extra`
 --
 
-CREATE TABLE `g12_logrondaextra` (
+CREATE TABLE `g12_logronda_extra` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `DataHoraAnterior` timestamp NOT NULL DEFAULT current_timestamp(),
-  `EmailUtilizadorAnterior` varchar(100) NOT NULL,
-  `EmailUtilizadorNovo` varchar(100) NOT NULL,
-  `datahoraSaidaAnterior` timestamp NOT NULL DEFAULT current_timestamp(),
-  `datahoraSaidaNovo` timestamp NOT NULL DEFAULT current_timestamp()
+  `dataHoraEntradaAntigo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dataHoraEntradaNovo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dataHoraSaidaAntigo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dataHoraSaidaNovo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `EmailUtilizadorAntigo` varchar(100) DEFAULT NULL,
+  `EmailUtilizadorNovo` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -135,23 +141,36 @@ CREATE TABLE `g12_logsistema` (
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `IDSistemaAnterior` int(11) NOT NULL,
-  `LimiteTemperaturaAnterior` decimal(6,2) DEFAULT NULL,
-  `LimiteTemperaturaNovo` decimal(6,2) DEFAULT NULL,
-  `LimiteHumidadeAnterior` decimal(6,2) DEFAULT NULL,
-  `LimiteHumidadeNovo` decimal(6,2) DEFAULT NULL,
-  `LimiteLuminosidadeAnterior` decimal(6,2) DEFAULT NULL,
-  `LimiteLuminosidadeNovo` decimal(6,2) DEFAULT NULL,
-  `LimiarTemperaturaAnterior` decimal(6,2) DEFAULT NULL,
-  `LimiarTemperaturaNovo` decimal(6,2) DEFAULT NULL,
-  `LimiarHumidadeAnterior` decimal(6,2) DEFAULT NULL,
-  `LimiarHumidadeNovo` decimal(6,2) DEFAULT NULL,
-  `LimiarLuminosidadeAnterior` decimal(6,2) DEFAULT NULL,
-  `LimiarLuminosidadeAnteriorNovo` decimal(6,2) DEFAULT NULL,
-  `DuracaoPadraoRondaAnterior` int(11) DEFAULT NULL,
-  `DuracaoPadraoRondaNovo` int(11) DEFAULT NULL,
-  `PeriocidadeImportacaoExportacaoAnterior` int(11) DEFAULT NULL,
-  `PeriocidadeImportacaoExportacaoNovo` int(11) DEFAULT NULL
+  `IDSistemaAntigo` int(11) DEFAULT NULL,
+  `IDSistemaNovo` int(11) DEFAULT NULL,
+  `IntervaloImportacaoMongoAntigo` decimal(6,2) DEFAULT NULL,
+  `IntervaloImportacaoMongoNovo` decimal(6,2) DEFAULT NULL,
+  `TempoLimiteMedicaoAntigo` int(11) DEFAULT NULL,
+  `TempoLimiteMedicaoNovo` int(11) DEFAULT NULL,
+  `tamanhoDosBuffersAnomaliaAntigo` int(11) DEFAULT NULL,
+  `tamanhoDosBuffersAnomaliaNovo` int(11) DEFAULT NULL,
+  `tamanhoDosBuffersAlertaAntigo` int(11) DEFAULT NULL,
+  `tamanhoDosBuffersAlertaNovo` int(11) DEFAULT NULL,
+  `variacaoAnomalaTemperaturaAntigo` decimal(3,2) DEFAULT NULL,
+  `variacaoAnomalaTemperaturaNovo` decimal(3,2) DEFAULT NULL,
+  `variacaoAnomalaHumidadeAntigo` decimal(3,2) DEFAULT NULL,
+  `variacaoAnomalaHumidadeNovo` decimal(3,2) DEFAULT NULL,
+  `crescimentoInstantaneoTemperaturaAntigo` decimal(3,2) DEFAULT NULL,
+  `crescimentoInstantaneoTemperaturaNovo` decimal(3,2) DEFAULT NULL,
+  `crescimentoGradualTemperaturaAntigo` decimal(3,2) DEFAULT NULL,
+  `crescimentoGradualTemperaturaNovo` decimal(3,2) DEFAULT NULL,
+  `crescimentoInstantaneoHumidadeAntigo` decimal(3,2) DEFAULT NULL,
+  `crescimentoInstantaneoHumidadeNovo` decimal(3,2) DEFAULT NULL,
+  `crescimentoGradualHumidadeAntigo` decimal(3,2) DEFAULT NULL,
+  `crescimentoGradualHumidadeNovo` decimal(3,2) DEFAULT NULL,
+  `luminosidadeLuzesDesligadasAntigo` int(11) DEFAULT NULL,
+  `luminosidadeLuzesDesligadasNovo` int(11) DEFAULT NULL,
+  `limiteTemperaturaAntigo` int(11) DEFAULT NULL,
+  `limiteTemperaturaNovo` int(11) DEFAULT NULL,
+  `limiteHumidadeAntigo` int(11) DEFAULT NULL,
+  `limiteHumidadeNovo` int(11) DEFAULT NULL,
+  `periocidadeImportacaoExportacaoAuditorAntigo` int(11) DEFAULT NULL,
+  `periocidadeImportacaoExportacaoAuditorNovo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -166,30 +185,13 @@ CREATE TABLE `g12_loguser` (
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
   `EmailAnterior` varchar(100) NOT NULL,
-  `NomeUtilizadorAnterior` varchar(200) NOT NULL,
-  `NomeUtilizadorNovo` varchar(200) NOT NULL,
-  `TipoUtilizadorAnterior` varchar(3) NOT NULL,
-  `TipoUtilizadorNovo` varchar(3) NOT NULL,
+  `EmailNovo` varchar(100) DEFAULT NULL,
+  `NomeUtilizadorAnterior` varchar(200) DEFAULT NULL,
+  `NomeUtilizadorNovo` varchar(200) DEFAULT NULL,
+  `TipoUtilizadorAnterior` varchar(3) DEFAULT NULL,
+  `TipoUtilizadorNovo` varchar(3) DEFAULT NULL,
   `MoradaAnterior` varchar(200) DEFAULT NULL,
   `MoradaNovo` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `g12_loguserhasdiasemana`
---
-
-CREATE TABLE `g12_loguserhasdiasemana` (
-  `id` int(11) NOT NULL,
-  `User` varchar(100) NOT NULL,
-  `Operacao` varchar(10) NOT NULL,
-  `Time` time NOT NULL,
-  `User_EmailAnterior` varchar(100) NOT NULL,
-  `DiaSemana_DiaDaSemanaAnterior` varchar(20) NOT NULL,
-  `DiaSemana_DiaDaSemanaNovo` varchar(20) NOT NULL,
-  `DiaSemana_HoraRondaAnterior` varchar(45) NOT NULL,
-  `DiaSemana_HoraRondaNovo` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -260,8 +262,8 @@ CREATE TABLE `medicao_sensores_anomalos` (
 
 CREATE TABLE `ronda_extra` (
   `dataHoraEntrada` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `EmailUtilizador` varchar(100) NOT NULL,
-  `datahoraSaida` timestamp NULL DEFAULT NULL
+  `datahoraSaida` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `EmailUtilizador` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -433,21 +435,21 @@ ALTER TABLE `g12_logalerta`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_logdiasemana`
+-- Índices para tabela `g12_logmedicao_sensores`
 --
-ALTER TABLE `g12_logdiasemana`
+ALTER TABLE `g12_logmedicao_sensores`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_logmedicaosensores`
+-- Índices para tabela `g12_logmedicao_sensores_anomalos`
 --
-ALTER TABLE `g12_logmedicaosensores`
+ALTER TABLE `g12_logmedicao_sensores_anomalos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_logrondaextra`
+-- Índices para tabela `g12_logronda_extra`
 --
-ALTER TABLE `g12_logrondaextra`
+ALTER TABLE `g12_logronda_extra`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -460,12 +462,6 @@ ALTER TABLE `g12_logsistema`
 -- Índices para tabela `g12_loguser`
 --
 ALTER TABLE `g12_loguser`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `g12_loguserhasdiasemana`
---
-ALTER TABLE `g12_loguserhasdiasemana`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -513,21 +509,21 @@ ALTER TABLE `utilizador`
 --
 
 --
--- AUTO_INCREMENT de tabela `g12_logdiasemana`
+-- AUTO_INCREMENT de tabela `g12_logmedicao_sensores`
 --
-ALTER TABLE `g12_logdiasemana`
+ALTER TABLE `g12_logmedicao_sensores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `g12_logmedicaosensores`
+-- AUTO_INCREMENT de tabela `g12_logmedicao_sensores_anomalos`
 --
-ALTER TABLE `g12_logmedicaosensores`
+ALTER TABLE `g12_logmedicao_sensores_anomalos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `g12_logrondaextra`
+-- AUTO_INCREMENT de tabela `g12_logronda_extra`
 --
-ALTER TABLE `g12_logrondaextra`
+ALTER TABLE `g12_logronda_extra`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -543,20 +539,8 @@ ALTER TABLE `g12_loguser`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `g12_loguserhasdiasemana`
---
-ALTER TABLE `g12_loguserhasdiasemana`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Restrições para despejos de tabelas
 --
-
---
--- Limitadores para a tabela `ronda_extra`
---
-ALTER TABLE `ronda_extra`
-  ADD CONSTRAINT `ronda_extra_ibfk_1` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`);
 
 --
 -- Limitadores para a tabela `ronda_planeada`
