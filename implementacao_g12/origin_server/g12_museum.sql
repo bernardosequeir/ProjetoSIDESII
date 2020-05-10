@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Maio-2020 às 17:21
+-- Tempo de geração: 10-Maio-2020 às 21:43
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -370,7 +370,6 @@ CREATE TABLE `sistema` (
   `tamanhoDosBuffersAlerta` int(11) DEFAULT NULL,
   `variacaoAnomalaTemperatura` decimal(3,2) DEFAULT NULL,
   `variacaoAnomalaHumidade` decimal(3,2) DEFAULT NULL,
-  `variacaoAnomalaLuminosidade` decimal(3,2) DEFAULT NULL,
   `crescimentoInstantaneoTemperatura` decimal(3,2) DEFAULT NULL,
   `crescimentoGradualTemperatura` decimal(3,2) DEFAULT NULL,
   `crescimentoInstantaneoHumidade` decimal(3,2) DEFAULT NULL,
