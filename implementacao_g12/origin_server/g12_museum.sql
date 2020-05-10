@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Maio-2020 às 21:43
+-- Tempo de geração: 10-Maio-2020 às 23:34
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -39,51 +39,6 @@ CREATE TABLE `alerta` (
   `Controlo` tinyint(1) NOT NULL,
   `Extra` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `dia_semana`
---
-
-CREATE TABLE `dia_semana` (
-  `DiaSemana` varchar(20) NOT NULL,
-  `HoraRonda` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Acionadores `dia_semana`
---
-DELIMITER $$
-CREATE TRIGGER `Atualizar_DiaSemana` AFTER UPDATE ON `dia_semana` FOR EACH ROW BEGIN
-	-- Find username of person performing the INSERT into table
-	SELECT user INTO @UserMail FROM (
-        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
-    WHERE userhost = USER();
-	INSERT INTO g12_logdiasemana VALUES ( DEFAULT, @UserMail, 'UPDATE', now(), new.DiaSemana, new.HoraRonda);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `Eliminar_DiaSemana` AFTER DELETE ON `dia_semana` FOR EACH ROW BEGIN
-	-- Find username of person performing the INSERT into table
-	SELECT user INTO @UserMail FROM (
-        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
-    WHERE userhost = USER();
-	INSERT INTO g12_logdiasemana VALUES ( DEFAULT, @UserMail, 'DELETE', now(), old.DiaSemana, old.HoraRonda);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `Inserir_DiaSemana` AFTER INSERT ON `dia_semana` FOR EACH ROW BEGIN
-	-- Find username of person performing the INSERT into table
-	SELECT user INTO @UserMail FROM (
-        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
-    WHERE userhost = USER();
-	INSERT INTO g12_logdiasemana VALUES ( DEFAULT, @UserMail, 'INSERT', now(), new.DiaSemana, new.HoraRonda);
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -472,13 +427,6 @@ ALTER TABLE `alerta`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Índices para tabela `dia_semana`
---
-ALTER TABLE `dia_semana`
-  ADD PRIMARY KEY (`DiaSemana`,`HoraRonda`),
-  ADD KEY `HoraRonda` (`HoraRonda`);
-
---
 -- Índices para tabela `g12_logalerta`
 --
 ALTER TABLE `g12_logalerta`
@@ -616,7 +564,7 @@ ALTER TABLE `ronda_extra`
 ALTER TABLE `ronda_planeada`
   ADD CONSTRAINT `ronda_planeada_ibfk_1` FOREIGN KEY (`DiaSemana`) REFERENCES `dia_semana` (`DiaSemana`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ronda_planeada_ibfk_2` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`) ON DELETE CASCADE,
-  ADD CONSTRAINT `ronda_planeada_ibfk_3` FOREIGN KEY (`HoraRondaInicio`) REFERENCES `dia_semana` (`HoraRonda`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ronda_planeada_ibfk_3` FOREIGN KEY (`HoraRondaInicio`) REFERENCES `dia_semana` (`HoraRondaInicio`) ON DELETE CASCADE ON UPDATE CASCADE;
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
