@@ -9,15 +9,14 @@ import Alertas.AvaliaAlertaTemperatura;
 
 public class AvaliaAnomalias {
 	private int tamanhoBuffer;
-	private double ultimaTemperaturaValida = 0.0;
-	private double ultimaHumidadeValida = 0.0;
-	private double variacaoMaximaTemperatura;
-	private double variacaoMaximaHumidade;
-	private ArrayList<Medicao> temperaturas = new ArrayList<Medicao>();
-	private ArrayList<Medicao> humidades = new ArrayList<Medicao>();
+	private double ultimaMedicaoValida = 0.0;
+	private double variacaoMaxima;
+	private ArrayList<Medicao> medicoes;
 
-	public AvaliaAnomalias(int tamanhoBuffer, double variacaoMaximaTemperatura, double variacaoMaximaHumidade) {
+	public AvaliaAnomalias(int tamanhoBuffer, double variacaoMaxima) {
 		this.tamanhoBuffer = tamanhoBuffer;
+		this.variacaoMaxima = variacaoMaxima;
+		medicoes = new ArrayList<Medicao>();
 	}
 
 	public static void main(String[] args) {
@@ -37,8 +36,8 @@ public class AvaliaAnomalias {
 		boolean anomalia = false;
 		
 		//Caso seja o primeiro buffer em verificação, ele compara o primeiro valor com ele mesmo dado que não há um ultimo valor valido.
-		if(ultimaTemperaturaValida == 0.0) {
-			ultimaTemperaturaValida = lista.get(0).getValorMedicao();
+		if(ultimaMedicaoValida == 0.0) {
+			ultimaMedicaoValida = lista.get(0).getValorMedicao();
 		}
 		
 		//Vai verificar cada valor do array
@@ -46,13 +45,13 @@ public class AvaliaAnomalias {
 			anomalia = false;
 			
 			//Caso este valor tenha um crescimento acima do normal relativamente ao ultimo valor valido, entra porque pode ser uma possivel anomalia
-			if(Math.abs( (lista.get(i).getValorMedicao()/ultimaTemperaturaValida) - 1 ) >= variacaoMaximaTemperatura) {
+			if(Math.abs( (lista.get(i).getValorMedicao()/ultimaMedicaoValida) - 1 ) >= ultimaMedicaoValida) {
 				
 				int j = i + 1;
 				
 				while((j < lista.size()) && !anomalia) {
 					
-					if(Math.abs( (lista.get(j - 1).getValorMedicao()/lista.get(j).getValorMedicao()) - 1.00 ) >= variacaoMaximaTemperatura) {
+					if(Math.abs( (lista.get(j - 1).getValorMedicao()/lista.get(j).getValorMedicao()) - 1.00 ) >= variacaoMaxima) {
 						anomalia = true;
 						System.out.println(lista.get(i).getValorMedicao() + "x");
 						break;
@@ -63,12 +62,12 @@ public class AvaliaAnomalias {
 				}
 				
 				if(!anomalia) {
-					ultimaTemperaturaValida = lista.get(i).getValorMedicao();
+					ultimaMedicaoValida = lista.get(i).getValorMedicao();
 					avaliaPossivelAlerta(lista.get(i).getValorMedicao());
 				}
 				
 			} else {
-				ultimaTemperaturaValida = lista.get(i).getValorMedicao();
+				ultimaMedicaoValida = lista.get(i).getValorMedicao();
 				avaliaPossivelAlerta(lista.get(i).getValorMedicao());
 			}
 			
@@ -77,12 +76,12 @@ public class AvaliaAnomalias {
 	}
 
 	public void addicionarValores(Medicao m){
-		while(temperaturas.size() < tamanhoBuffer){
-			temperaturas.add(m);
+		while(medicoes.size() < tamanhoBuffer){
+			medicoes.add(m);
 		}
-		if(temperaturas.size() == tamanhoBuffer)
+		if(medicoes.size() == tamanhoBuffer)
 		{
-			testaAnomalia(temperaturas);
+			testaAnomalia(medicoes);
 		}
 	}
 	private void avaliaPossivelAlerta(double d) {
