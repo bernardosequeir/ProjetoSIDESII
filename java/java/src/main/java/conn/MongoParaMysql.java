@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import Anomalias.AvaliaAnomalias;
 import Anomalias.Medicao;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -36,6 +37,7 @@ public class MongoParaMysql {
     private String database_connection;
     private HashMap<String, Double> valoresTabelaSistema;
     private List<Medicao> valoresASerConferidos;
+    private AvaliaAnomalias avaliaAnomalias;
     private final Bson lastFilter = new Document("_id", -1);
 
     public void connectMongo() {
@@ -77,7 +79,7 @@ public class MongoParaMysql {
         connectMongo();
         try {
             irBuscarDadosMysql();
-            System.out.println("entrei aqui");
+            setUpBuffers();
             Document doc = getUltimoValor();
             System.out.println(doc);
             while (true) {
@@ -98,6 +100,10 @@ public class MongoParaMysql {
             System.out.println("Error quering  the database . " + e);
         }
 
+    }
+
+    private void setUpBuffers() {
+        avaliaAnomalias = new AvaliaAnomalias(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),valoresTabelaSistema.get("variacaoAnomalaTemperatura"),valoresTabelaSistema.get("variacaoAnomalaTemperatura"));
     }
 
     private void irBuscarDadosMysql() throws SQLException {
@@ -142,10 +148,9 @@ public class MongoParaMysql {
     }
 
     private void insereMedicoes() {
+        for (Medicao m: valoresASerConferidos){
         //TODO falta fazer isto
         SqlCommando = "call InserirMedicao";
-        for (Medicao m: valoresASerConferidos){
-            
         }
     }
 }
