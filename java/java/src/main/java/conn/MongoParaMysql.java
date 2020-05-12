@@ -36,8 +36,9 @@ public class MongoParaMysql {
     private String database_user;
     private String database_connection;
     private HashMap<String, Double> valoresTabelaSistema;
-    private List<Medicao> valoresASerConferidos;
-    private AvaliaAnomalias avaliaAnomalias;
+    private HashMap<String,Medicao> valoresASerConferidos;
+    private AvaliaAnomalias avaliaAnomaliasTemperatura;
+    private AvaliaAnomalias avaliaAnomaliasHumidade;
     private final Bson lastFilter = new Document("_id", -1);
 
     public void connectMongo() {
@@ -88,6 +89,8 @@ public class MongoParaMysql {
                     doc = novo;
                     valoresASerConferidos = getValoresMedicao(doc);
                     insereMedicoes();
+                    avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
+                    avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
                     //abre a ligaçao
                     //corre o teste anomalia //insert cenas
                     //fecha ligacao
@@ -103,7 +106,8 @@ public class MongoParaMysql {
     }
 
     private void setUpBuffers() {
-        avaliaAnomalias = new AvaliaAnomalias(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),valoresTabelaSistema.get("variacaoAnomalaTemperatura"),valoresTabelaSistema.get("variacaoAnomalaTemperatura"));
+        avaliaAnomaliasTemperatura = new AvaliaAnomalias(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),valoresTabelaSistema.get("variacaoAnomalaTemperatura"));
+        avaliaAnomaliasHumidade = new AvaliaAnomalias(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),valoresTabelaSistema.get("variacaoAnomalaHumidade"));
     }
 
     private void irBuscarDadosMysql() throws SQLException {
@@ -132,26 +136,26 @@ public class MongoParaMysql {
         return novosresultados.get(0);
     }
 
-    private List<Medicao> getValoresMedicao(Document doc) {
+    private HashMap<String,Medicao> getValoresMedicao(Document doc) {
         String[] date_split = doc.getString("dat").split("/");
         String date_fixed = date_split[2] + "-" + date_split[1] + "-" + date_split[0] + " " + doc.getString("tim");
         Medicao medicaoTemperatura = new Medicao(doc.getString("tmp"), "tmp", date_fixed);
         Medicao medicaoHumidade = new Medicao(doc.getString("hum"), "hum", date_fixed);
         Medicao medicaoLuminosidade = new Medicao(doc.getString("cell"), "lum", date_fixed);
         Medicao medicaoMovimento = new Medicao(doc.getString("sens\""), "mov", date_fixed);
-        List<Medicao> medicoes = new ArrayList<Medicao>();
-        medicoes.add(medicaoTemperatura);
-        medicoes.add(medicaoHumidade);
-        medicoes.add(medicaoLuminosidade);
-        medicoes.add(medicaoMovimento);
+        HashMap<String,Medicao> medicoes = new HashMap<String, Medicao>();
+        medicoes.put("tmp",medicaoTemperatura);
+        medicoes.put("hum",medicaoHumidade);
+        medicoes.put("lum",medicaoLuminosidade);
+        medicoes.put("mov",medicaoMovimento);
         return medicoes;
     }
 
     private void insereMedicoes() {
-        for (Medicao m: valoresASerConferidos){
+
         //TODO falta fazer isto
         SqlCommando = "call InserirMedicao";
-        }
+
     }
 }
 
