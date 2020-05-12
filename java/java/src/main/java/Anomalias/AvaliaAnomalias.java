@@ -63,12 +63,12 @@ public class AvaliaAnomalias {
 				
 				if(!anomalia) {
 					ultimaMedicaoValida = lista.get(i).getValorMedicao();
-					avaliaPossivelAlerta(lista.get(i).getValorMedicao());
+					avaliaPossivelAlerta(lista.get(i));
 				}
 				
 			} else {
 				ultimaMedicaoValida = lista.get(i).getValorMedicao();
-				avaliaPossivelAlerta(lista.get(i).getValorMedicao());
+				avaliaPossivelAlerta(lista.get(i));
 			}
 			
 		}
@@ -84,24 +84,11 @@ public class AvaliaAnomalias {
 			testaAnomalia(medicoes);
 		}
 	}
-	private void avaliaPossivelAlerta(double d) {
-		System.out.println(d);
-		int tipo = 0;
-		
-		switch (tipo) {
-			case 0:
-				new AvaliaAlertaTemperatura(d);
-				break;
-				
-			case 1:
-				new AvaliaAlertaHumidade(d);
-				break;
-				
-			case 2:
-				new AvaliaAlertaAssalto(d);
-				
-			default:
-				break;
+	private void avaliaPossivelAlerta(Medicao m) {
+		if (m.getTipoMedicao().equals("tmp")){
+			//mando para AvaliaAlertaTemperatura
+		} else if (m.getTipoMedicao().equals("hum")){
+			//mando para AvaliaAlertaHumidade
 		}
 	}
 	

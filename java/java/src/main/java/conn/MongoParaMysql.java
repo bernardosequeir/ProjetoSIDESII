@@ -40,6 +40,7 @@ public class MongoParaMysql {
     private AvaliaAnomalias avaliaAnomaliasTemperatura;
     private AvaliaAnomalias avaliaAnomaliasHumidade;
     private final Bson lastFilter = new Document("_id", -1);
+    private  Document ulitmaMedicao;
 
     public void connectMongo() {
         Properties p = new Properties();
@@ -81,28 +82,32 @@ public class MongoParaMysql {
         try {
             irBuscarDadosMysql();
             setUpBuffers();
-            Document doc = getUltimoValor();
-            System.out.println(doc);
+            Document ulitmaMedicao = getUltimoValor(); // Primeira medição do mongo
+            System.out.println(ulitmaMedicao);
             while (true) {
-                Document novo = getUltimoValor();
-                if (!doc.equals(novo)) {
-                    doc = novo;
-                    valoresASerConferidos = getValoresMedicao(doc);
-                    insereMedicoes();
-                    avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
-                    avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
-                    //abre a ligaçao
-                    //corre o teste anomalia //insert cenas
-                    //fecha ligacao
-                    Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
-                } else {
-                    Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
-                }
+                verificaValoresNovos();
             }
         } catch (Exception e) {
-            System.out.println("Error quering  the database . " + e);
+            System.out.println("Error querying  the database . " + e);
         }
 
+    }
+
+    private void verificaValoresNovos() throws Exception {
+        Document novo = getUltimoValor();
+        if (!ulitmaMedicao.equals(novo)) {
+            ulitmaMedicao = novo;
+            valoresASerConferidos = getValoresMedicao(ulitmaMedicao);
+            insereMedicoesFase2();
+            avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
+            avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
+            //abre a ligaçao
+            //corre o teste anomalia //insert cenas
+            //fecha ligacao
+            Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
+        } else {
+            Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
+        }
     }
 
     private void setUpBuffers() {
@@ -151,7 +156,7 @@ public class MongoParaMysql {
         return medicoes;
     }
 
-    private void insereMedicoes() {
+    private void insereMedicoesFase2() {
 
         //TODO falta fazer isto
         SqlCommando = "call InserirMedicao";

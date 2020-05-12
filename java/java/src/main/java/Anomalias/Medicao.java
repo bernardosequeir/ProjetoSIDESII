@@ -3,21 +3,21 @@ package Anomalias;
 public class Medicao {
 	
 	private double valorMedicao;
-	private String tipoSensor;
+	private String tipoMedicao;
 	private String dataHoraMedicao;
 	private int possivelAnomalia = 0;
 	
 
-	public Medicao(String valorMedicao, String tipoSensor, String dataHoraMedicao) {
+	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
 		checkTipo();
 		checkData();
-		if((tipoSensor.equals("hum")||tipoSensor.equals("lum")) && possivelAnomalia==0){
+		if((tipoMedicao.equals("hum")||tipoMedicao.equals("lum")) && possivelAnomalia==0){
 			checkPositivo();
 		}
-		if(tipoSensor.equals("mov") && possivelAnomalia ==0){
+		if(tipoMedicao.equals("mov") && possivelAnomalia ==0){
 			checkMovimento();
 		}
-		this.tipoSensor = tipoSensor;
+		this.tipoMedicao = tipoMedicao;
 		this.dataHoraMedicao = dataHoraMedicao;
 	}
 
@@ -40,7 +40,7 @@ public class Medicao {
 
 	private void checkTipo() {
 			try {
-				this.valorMedicao = Double.parseDouble(tipoSensor);
+				this.valorMedicao = Double.parseDouble(tipoMedicao);
 			} catch (Exception e) {
 				this.possivelAnomalia = 1;
 			}
@@ -49,5 +49,8 @@ public class Medicao {
 
 	public double getValorMedicao() {
 		return valorMedicao;
-	}	
+	}
+	public String getTipoMedicao(){
+		return tipoMedicao;
+	}
 }
