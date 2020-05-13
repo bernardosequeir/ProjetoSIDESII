@@ -5,16 +5,16 @@ public class Medicao {
 	private double valorMedicao;
 	private String tipoMedicao;
 	private String dataHoraMedicao;
-	private int possivelAnomalia = 0;
+	private boolean possivelAnomalia = false;
 	
 
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
 		checkTipo();
 		checkData();
-		if((tipoMedicao.equals("hum")||tipoMedicao.equals("lum")) && possivelAnomalia==0){
+		if((tipoMedicao.equals("hum")||tipoMedicao.equals("lum")) && !possivelAnomalia){
 			checkPositivo();
 		}
-		if(tipoMedicao.equals("mov") && possivelAnomalia ==0){
+		if(tipoMedicao.equals("mov") && !possivelAnomalia){
 			checkMovimento();
 		}
 		this.tipoMedicao = tipoMedicao;
@@ -23,13 +23,13 @@ public class Medicao {
 
 	private void checkPositivo() {
 		if(valorMedicao<0){
-			possivelAnomalia = 1;
+			possivelAnomalia = true;
 		}
 	}
 
 	private void checkMovimento(){
 		if(valorMedicao != 0.0 || valorMedicao != 1.0){
-			possivelAnomalia = 1;
+			possivelAnomalia = true;
 		}
 	}
 
@@ -40,9 +40,9 @@ public class Medicao {
 
 	private void checkTipo() {
 			try {
-				this.valorMedicao = Double.parseDouble(tipoMedicao);
+				valorMedicao = Double.parseDouble(tipoMedicao);
 			} catch (Exception e) {
-				this.possivelAnomalia = 1;
+				possivelAnomalia = true;
 			}
 	}
 
@@ -52,5 +52,8 @@ public class Medicao {
 	}
 	public String getTipoMedicao(){
 		return tipoMedicao;
+	}
+	public boolean isAnomalo(){
+		return possivelAnomalia;
 	}
 }

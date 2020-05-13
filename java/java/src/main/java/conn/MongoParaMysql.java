@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import Alertas.AvaliaAlertaAssalto;
 import Anomalias.AvaliaAnomalias;
 import Anomalias.Medicao;
 import org.bson.Document;
@@ -39,8 +40,8 @@ public class MongoParaMysql {
     private HashMap<String,Medicao> valoresASerConferidos;
     private AvaliaAnomalias avaliaAnomaliasTemperatura;
     private AvaliaAnomalias avaliaAnomaliasHumidade;
+    private  Document ultimaMedicao;
     private final Bson lastFilter = new Document("_id", -1);
-    private  Document ulitmaMedicao;
 
     public void connectMongo() {
         Properties p = new Properties();
@@ -82,8 +83,8 @@ public class MongoParaMysql {
         try {
             irBuscarDadosMysql();
             setUpBuffers();
-            Document ulitmaMedicao = getUltimoValor(); // Primeira medição do mongo
-            System.out.println(ulitmaMedicao);
+            Document ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
+            System.out.println(ultimaMedicao);
             while (true) {
                 verificaValoresNovos();
             }
@@ -95,10 +96,10 @@ public class MongoParaMysql {
 
     private void verificaValoresNovos() throws Exception {
         Document novo = getUltimoValor();
-        if (!ulitmaMedicao.equals(novo)) {
-            ulitmaMedicao = novo;
-            valoresASerConferidos = getValoresMedicao(ulitmaMedicao);
-            insereMedicoesFase2();
+        if (!ultimaMedicao.equals(novo)) {
+            ultimaMedicao = novo;
+            valoresASerConferidos = getValoresMedicao(ultimaMedicao);
+            verificarAssalto();
             avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
             avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
             //abre a ligaçao
@@ -108,6 +109,12 @@ public class MongoParaMysql {
         } else {
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         }
+    }
+
+    private void verificarAssalto() {
+        Medicao movimento = valoresASerConferidos.get("mov");
+        Medicao luminosidade = valoresASerConferidos.get("lum");
+        //AvaliaAlertaAssalto assalto = new AvaliaAlertaAssalto();
     }
 
     private void setUpBuffers() {

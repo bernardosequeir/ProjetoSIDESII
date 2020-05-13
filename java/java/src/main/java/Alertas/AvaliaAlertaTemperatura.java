@@ -4,11 +4,11 @@ import java.util.LinkedList;
 
 public class AvaliaAlertaTemperatura {
 
-	static LinkedList<Double> lastValues = new LinkedList<Double>();
+	LinkedList<Medicao> lastValues = new LinkedList<Medicao>();
 	
 	private double d;
 	
-	public AvaliaAlertaTemperatura(double d) {
+	public AvaliaAlertaTemperatura(Medicao m,double limite) {
 		this.d = d;
 		
 		avaliaAlerta();
