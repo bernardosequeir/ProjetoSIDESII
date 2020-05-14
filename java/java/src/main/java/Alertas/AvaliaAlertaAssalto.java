@@ -78,18 +78,15 @@ public class AvaliaAlertaAssalto {
 	}
 
 	public boolean existeAlerta() {		
-		if (naoEAnomalo() && valorEAlerta() && verificaRonda()) return true;
-		return false;
+		return (naoEAnomalo() && valorEAlerta() && verificaRonda());
 	}
 
 	private boolean naoEAnomalo() {
-		if (!movimento.isAnomalo() || !luminosidade.isAnomalo()) return true;
-		return false;
+		return (!movimento.isAnomalo() || !luminosidade.isAnomalo()) ;
 	}
 
 	public boolean valorEAlerta() {
-		if (movimento.getValorMedicao() == 1 ||  luminosidade.getValorMedicao() > luminosidadeLuzEscuro) return true;	
-		return false;		
+		return (movimento.getValorMedicao() == 1 ||  luminosidade.getValorMedicao() > luminosidadeLuzEscuro);
 	}
 	public boolean verificaRonda() {
 
