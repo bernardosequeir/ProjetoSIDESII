@@ -8,6 +8,10 @@ public class Medicao {
 	private boolean possivelAnomalia = false;
 	
 
+	public String getDataHoraMedicao() {
+		return dataHoraMedicao;
+	}
+
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
 		checkTipo();
 		checkData();
