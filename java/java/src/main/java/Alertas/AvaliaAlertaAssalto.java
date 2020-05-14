@@ -17,7 +17,8 @@ import com.mongodb.client.MongoDatabase;
 
 /**
  * 
- * @author joaof, grupo12 Opens a new sql connection
+ * @author joaof, grupo12 
+ * Opens a new sql connection
  *
  */
 public class AvaliaAlertaAssalto {
@@ -40,14 +41,27 @@ public class AvaliaAlertaAssalto {
 	private Statement s;
 	private ResultSet rs;
 	private String timestampUsedInRonda;
-	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double LuminosidadeLuzEscuro) {
+	private Double luminosidadeLuzEscuro;
+
+	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
 		this.movimento = movimento;
 		this.luminosidade = luminosidade;
+		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
 		timestampUsedInRonda = movimento.getDataHoraMedicao();
+		
 		connectMysqlAssalto();
-		verificaRonda();
+		if(existeAlerta()) enviaAlerta();
 	}
 
+	private void enviaAlerta() {
+		// TODO Auto-generated method stub
+		System.out.println("ENVIAR ALERTA");
+	}
+
+	
+	/**
+	 * Connects to the MySQL database
+	 */
 	public void connectMysqlAssalto() {
 
 		database_password = "teste123";
@@ -63,27 +77,34 @@ public class AvaliaAlertaAssalto {
 		}
 	}
 
+	public boolean existeAlerta() {		
+		if (naoEAnomalo() && valorEAlerta() && verificaRonda()) return true;
+		return false;
+	}
+
+	private boolean naoEAnomalo() {
+		if (!movimento.isAnomalo() || !luminosidade.isAnomalo()) return true;
+		return false;
+	}
+
+	public boolean valorEAlerta() {
+		if (movimento.getValorMedicao() == 1 ||  luminosidade.getValorMedicao() > luminosidadeLuzEscuro) return true;	
+		return false;		
+	}
 	public boolean verificaRonda() {
-		// 1º Verificar o mov ou luz
-		// 2º Ver ronda
-		// 3º Profit
-		
-		//             NAO APAGAR ESTE IF!!!!!!!!!!!
-		//if (!movimento.isAnomalo() || !luminosidade.isAnomalo()) {
 
 		Statement st;
 		try {
 			st = conn.createStatement();
-			String Sqlcommando = "CALL VerificaSeExisteRonda("+timestampUsedInRonda+")";
-			
+			String Sqlcommando = "CALL VerificaSeExisteRonda(" + timestampUsedInRonda + ")";
+
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
-			int result =  rs.getInt("existeronda");
-			if  (result == 0) {
+			int result = rs.getInt("existeronda");
+			if (result == 0) {
 				System.out.println("Nao existe ronda");
 				return false;
-			}
-			else {
+			} else {
 				System.out.println("RONDA");
 				return true;
 			}
@@ -92,16 +113,14 @@ public class AvaliaAlertaAssalto {
 			e.printStackTrace();
 		}
 		return false;
-		//}
-		//return false;
 
 	}
 
 	public static void main(String[] args) {
 		Medicao medicaoMov = new Medicao("0", "mov", "'2020.05.13 12:12:12'");
-		Medicao medicaoLuz = new Medicao("0.0","lum", null);
-		new AvaliaAlertaAssalto(medicaoMov , medicaoLuz, 0.0);
-			
+		Medicao medicaoLuz = new Medicao("0.0", "lum", null);
+		new AvaliaAlertaAssalto(medicaoMov, medicaoLuz, 0.0);
+
 	}
 
 }
