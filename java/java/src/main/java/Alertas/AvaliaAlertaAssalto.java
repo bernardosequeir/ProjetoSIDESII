@@ -43,6 +43,7 @@ public class AvaliaAlertaAssalto {
 	private Double luminosidadeLuzEscuro;
 	private String movimentoOuLuminosidade;
 	private String valorAlarmeAInserir;
+	private String tipoAlerta;
 
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
 		this.movimento = movimento;
@@ -84,29 +85,68 @@ public class AvaliaAlertaAssalto {
 	}
 
 	public boolean valorEAlerta() {
-		if(movimento.isAnomalo() && luminosidade.isAnomalo()) return false;
-		else if (movimento.isAnomalo())
-			return luminosidade.getValorMedicao() > luminosidadeLuzEscuro;
-		else if (luminosidade.isAnomalo())
-			return movimento.getValorMedicao() == 1;
-		else return luminosidade.getValorMedicao() > luminosidadeLuzEscuro || movimento.getValorMedicao() == 1;
+		if (movimento.isAnomalo() && luminosidade.isAnomalo())
+			return false;
+		else if (movimento.isAnomalo()) {
+			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
+				tipoAlerta = "lum";
+				return true;
+			}
+		} else if (luminosidade.isAnomalo()) {
+			if (movimento.getValorMedicao() == 1) {
+				tipoAlerta = "mov";
+				return true;
+			}
+		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro && movimento.getValorMedicao() == 1) {
+			tipoAlerta = "both";
+			return true;
+		}
+		if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
+			tipoAlerta = "lum";
+			return true;
+		} else if (movimento.getValorMedicao() == 1) {
+			tipoAlerta = "mov";
+			return true;
+		}
+		return false;
 
 	}
-	/*
-	 * public boolean insereTabelaAlerta() {
-	 * 
-	 * Statement st; try { st = conn.createStatement(); String Sqlcommando =
-	 * "CALL InserirAlerta("+timestampUsedInRonda+","+movimentoOuLuminosidade+","+
-	 * valorAlarmeAInserir+", null, null,null)";
-	 * 
-	 * ResultSet rs = st.executeQuery(Sqlcommando); rs.next(); int result =
-	 * rs.getInt("existeronda"); if (result == 0) {
-	 * System.out.println("Nao existe ronda"); return false; } else {
-	 * System.out.println("RONDA"); return true; } } catch (SQLException e) { //
-	 * TODO Auto-generated catch block e.printStackTrace(); } return false;
-	 * 
-	 * }
-	 */
+
+	public boolean insereTabelaAlerta() {
+
+		Statement st;
+		try {
+			st = conn.createStatement();
+			String Sqlcommando = null;
+			if(tipoAlerta.equals("mov")) {
+				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", mov ,"+ valorAlarmeAInserir + ", null, null,null)";
+				rs = st.executeQuery(Sqlcommando);
+			}
+			else if(tipoAlerta.equals("lum")) {
+				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", lum ,"+ valorAlarmeAInserir + ", null, null,null)";
+				rs = st.executeQuery(Sqlcommando);
+			} else if(tipoAlerta.equals("both")){
+				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", mov ,"+ valorAlarmeAInserir + ", null, null,null)";
+				rs = st.executeQuery(Sqlcommando);
+				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", lum ,"+ valorAlarmeAInserir + ", null, null,null)";
+				rs = st.executeQuery(Sqlcommando);
+			}
+			
+			rs.next();
+			int result = rs.getInt("existeronda");
+			if (result == 0) {
+				System.out.println("Nao existe ronda");
+				return false;
+			} else {
+				System.out.println("RONDA");
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	public boolean verificaRonda() {
 
