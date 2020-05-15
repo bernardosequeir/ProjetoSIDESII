@@ -20,28 +20,18 @@ public class Alertas {
 	//Variaveis de assalto
 
 	public static void adicionaValor(double val) {
-		int tipo = 0;
-		switch (tipo) {
-			case 0:
-				if (ultimosValoresTemperatura.size() == tamanhoBuffer) {
-					ultimosValoresTemperatura.poll();
-					ultimosValoresTemperatura.add(val);
+		int tipo = 0;	
+		if(tipo == 0) {
+			if (ultimosValoresTemperatura.size() == tamanhoBuffer) {
+				ultimosValoresTemperatura.poll();
+				ultimosValoresTemperatura.add(val);
 
-				} else {
-					ultimosValoresTemperatura.add(val);
+			} else {
+				ultimosValoresTemperatura.add(val);
 
-				}
-				break;
-			case 1:
-	
-				break;
-			case 2:
-	
-				break;
-
-		default:
-			break;
+			}
 		}
+		
 		
 	}
 
@@ -61,84 +51,65 @@ public class Alertas {
 
 	public static double getUltimoValor(String string) {
 		int tipo = 0;
-		switch (tipo) {
-			case 0:
-				double n = -1.0;
-				if(ultimosValoresTemperatura.size() != 0) {
-					n = ultimosValoresTemperatura.getLast();
-				}
-				return n;
-				
-			case 1:
-	
-				return -1.0;
-			case 2:
-	
-				return -1.0;
-
-			default:
-				break;
+		if(tipo == 0) {
+			double n = -1.0;
+			if(ultimosValoresTemperatura.size() != 0) {
+				n = ultimosValoresTemperatura.getLast();
+			}
+			return n;
+		}
+		if(tipo == 1) {
+			return -1.0;
+		}
+		if(tipo == 2) {
+			return -1.0;
 		}
 		return tipo;
 	}
 
 	public static double getPrimeiroValor(String string) {
 		int tipo = 0;
-		switch (tipo) {
-			case 0:
-				double n = -1.0;
-				if(ultimosValoresTemperatura.size() != 0.0) {
-					n = ultimosValoresTemperatura.getFirst();
-				}
-				return n;
-				
-			case 1:
-	
-				return -1.0;
-			case 2:
-	
-				return -1.0;
-
-			default:
-				break;
+		if(tipo == 0) {
+			double n = -1.0;
+			if(ultimosValoresTemperatura.size() != 0.0) {
+				n = ultimosValoresTemperatura.getFirst();
+			}
+			return n;
 		}
+		if(tipo == 1) {
+			return -1.0;
+		}
+		if(tipo == 2) {
+			return -1.0;
+		}
+		
 		return tipo;
 	}
 	
 	public static double getCrescimentoInstantaneo(String string) {
 		int tipo = 0;
-		switch (tipo) {
-			case 0:
-				return crescimentoInstantaneoTemperatura;
-				
-			case 1:
-	
-				return -1.0;
-			case 2:
-	
-				return -1.0;
-
-			default:
-				break;
+		if(tipo == 0) {
+			return crescimentoInstantaneoTemperatura;
+		}
+		if(tipo == 1) {
+			return -1.0;
+		}
+		if(tipo == 2) {
+			return -1.0;
 		}
 		return tipo;
 	}
 
 	public static double getCrescimentoGradual(String string) {
 		int tipo = 0;
-		switch (tipo) {
-			case 0:
-				return crescimentoGradualTemperatura;
-				
-			case 1:
-	
-				return -1.0;
-			case 2:
-	
-				return -1.0;
-
-			default:
-				break;
+		if(tipo == 0) {
+			return crescimentoGradualTemperatura;
+		}
+		if(tipo == 1) {
+			return -1.0;
+		}
+		if(tipo == 2) {
+			return -1.0;
 		}
 		return tipo;
 	}
