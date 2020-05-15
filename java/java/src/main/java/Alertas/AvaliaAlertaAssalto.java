@@ -133,14 +133,7 @@ public class AvaliaAlertaAssalto {
 			}
 			
 			rs.next();
-			int result = rs.getInt("existeronda");
-			if (result == 0) {
-				System.out.println("Nao existe ronda");
-				return false;
-			} else {
-				System.out.println("RONDA");
-				return true;
-			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
