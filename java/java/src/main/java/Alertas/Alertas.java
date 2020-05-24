@@ -122,8 +122,7 @@ public class Alertas {
 	public void enviaAlerta(Connection conn) {
 		try {
 			Statement st = conn.createStatement();
-			String Sqlcommando = "CALL InserirAlerta("null," + timestampUsedInRonda + ", mov ," + valorAlarmeAInserir
-					+ ", null, null,null)";
+			String Sqlcommando = "CALL InserirAlerta("+null+", + timestampUsedInRonda + , "+mov+", + valorAlarmeAInserir + , null, null,null)";
 			ResultSet rs = st.executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

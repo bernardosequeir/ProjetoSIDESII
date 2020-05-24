@@ -82,7 +82,7 @@ public class MongoParaMysql {
         connectMongo();
         try {
             irBuscarDadosMysql();
-            setUpBuffers();
+            criaBuffersAnomalia();
             Document ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
             System.out.println(ultimaMedicao);
             while (true) {
@@ -117,7 +117,7 @@ public class MongoParaMysql {
         //AvaliaAlertaAssalto assalto = new AvaliaAlertaAssalto();
     }
 
-    private void setUpBuffers() {
+    private void criaBuffersAnomalia() {
         avaliaAnomaliasTemperatura = new AvaliaAnomalias(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),valoresTabelaSistema.get("variacaoAnomalaTemperatura"));
         avaliaAnomaliasHumidade = new AvaliaAnomalias(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),valoresTabelaSistema.get("variacaoAnomalaHumidade"));
     }
