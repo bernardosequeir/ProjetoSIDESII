@@ -14,7 +14,7 @@ public class AvaliaAnomalias {
 	private ArrayList<Medicao> medicoes;
 	private Alerta alerta;
 
-	public AvaliaAnomalias(int tamanhoBuffer, double variacaoMaxima, Alerta alerta) {
+	public AvaliaAnomalias(int tamanhoBuffer, double variacaoMaxima) {
 		this.alerta = alerta;
 		this.tamanhoBuffer = tamanhoBuffer;
 		this.variacaoMaxima = variacaoMaxima;

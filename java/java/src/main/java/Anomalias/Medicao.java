@@ -1,10 +1,16 @@
 package Anomalias;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Medicao {
 
 	private double valorMedicao;
 	private String tipoMedicao;
 	private String dataHoraMedicao;
+	private String dataHoraFormatado;
 	private boolean possivelAnomalia = false;
 
 	public String getDataHoraMedicao() {
@@ -12,6 +18,7 @@ public class Medicao {
 	}
 
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
+		//dataHoraParaFormatoCerto();
 		checkTipo();
 		checkData();
 		if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
@@ -64,6 +71,6 @@ public class Medicao {
 	public int getValorAnomalia() {
 		if (isAnomalo())
 			return 1;
-			return 0;
+		return 0;
 	}
 }

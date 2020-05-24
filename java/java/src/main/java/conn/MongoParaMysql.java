@@ -84,8 +84,8 @@ public class MongoParaMysql {
         try {
             irBuscarDadosMysql();
             criaBuffersAnomalia();
-            Document ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
-            System.out.println(ultimaMedicao);
+            ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
+           
             while (true) {
                 verificaValoresNovos();
             }
@@ -100,12 +100,12 @@ public class MongoParaMysql {
         if (!ultimaMedicao.equals(novo)) {
             ultimaMedicao = novo;
             valoresASerConferidos = getValoresMedicao(ultimaMedicao);
-            verificarAssalto();
+            verificarAssalto();       
             avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
             avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
-            Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
+            //Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         } else {
-            Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
+           // Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         }
     }
 
@@ -143,6 +143,7 @@ public class MongoParaMysql {
     private Document getUltimoValor() {
         List<Document> novosresultados = new ArrayList<Document>();
         mongocol.find().sort(lastFilter).limit(1).into(novosresultados);
+        
         return novosresultados.get(0);
     }
 

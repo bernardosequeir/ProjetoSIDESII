@@ -21,7 +21,7 @@ import com.mongodb.client.MongoDatabase;
  * @author joaof, grupo12 Opens a new sql connection
  *
  */
-public class AvaliaAlertaAssalto extends Alerta {
+public class AvaliaAlertaAssalto  {
 
 	/*
 	 * O que é que ele precisa: - Duas medição - luminosidade e movimento - Se há
@@ -158,10 +158,8 @@ public class AvaliaAlertaAssalto extends Alerta {
 			rs.next();
 			int result = rs.getInt("existeronda");
 			if (result == 0) {
-				System.out.println("Nao existe ronda");
 				return false;
 			} else {
-				System.out.println("RONDA");
 				return true;
 			}
 		} catch (SQLException e) {
@@ -172,11 +170,6 @@ public class AvaliaAlertaAssalto extends Alerta {
 
 	}
 
-	public static void main(String[] args) {
-		Medicao medicaoLuz = new Medicao("1", "mov", "'2020.05.13 12:12:12'");
-		Medicao medicaoMov = new Medicao("1", "lum", "'2020.05.13 12:12:12'");
-		new AvaliaAlertaAssalto(medicaoMov, medicaoLuz, 0.0);
-
-	}
+	
 
 }

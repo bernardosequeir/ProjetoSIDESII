@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class InsereMedicoesNoMySql {
 
@@ -42,14 +46,27 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 
-	//Alterar porque SP ainda nao esta feito
 	public void insereMedicoesNoMySql() {
-		String Sqlcommando = "CALL InserirMedicao(DEFAULT,'"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+medicao.getDataHoraMedicao()+"','"+medicao.getValorAnomalia()+"');";
+		String Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"',"+medicao.getValorAnomalia()+");";
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private String dataHoraParaFormatoCerto() {
+		// TODO Auto-generated method stub
+		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
+			Timestamp stamp = new Timestamp(date.getTime());
+			return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(stamp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
