@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.List;
 
-import Anomalias.InsereAnomaliasLuminosidadeMovimento;
+import Anomalias.InsereAnomaliasNoMySql;
 import Anomalias.Medicao;
 import org.bson.Document;
 
@@ -87,18 +87,18 @@ public class AvaliaAlertaAssalto {
 
 	public boolean valorEAlerta() {
 		if (movimento.isAnomalo() && luminosidade.isAnomalo()) {
-			new InsereAnomaliasLuminosidadeMovimento(movimento,conn);
-			new InsereAnomaliasLuminosidadeMovimento(luminosidade,conn);
+			new InsereAnomaliasNoMySql(movimento,conn);
+			new InsereAnomaliasNoMySql(luminosidade,conn);
 			return false;
 		}
 		else if (movimento.isAnomalo()) {
-			new InsereAnomaliasLuminosidadeMovimento(movimento,conn);
+			new InsereAnomaliasNoMySql(movimento,conn);
 			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 				tipoAlerta = "lum";
 				return true;
 			}
 		} else if (luminosidade.isAnomalo()) {
-			new InsereAnomaliasLuminosidadeMovimento(luminosidade,conn);
+			new InsereAnomaliasNoMySql(luminosidade,conn);
 			if (movimento.getValorMedicao() == 1) {
 				tipoAlerta = "mov";
 				return true;
