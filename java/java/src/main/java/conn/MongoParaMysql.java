@@ -103,9 +103,6 @@ public class MongoParaMysql {
             verificarAssalto();
             avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
             avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
-            //abre a ligaçao
-            //corre o teste anomalia //insert cenas
-            //fecha ligacao
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         } else {
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);

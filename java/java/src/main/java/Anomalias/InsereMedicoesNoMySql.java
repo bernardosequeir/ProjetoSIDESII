@@ -6,9 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class InsereAnomaliasNoMySql {
+public class InsereMedicoesNoMySql {
 
-	
 	private Medicao medicao;
 	private Connection conn;
 	private String database_password;
@@ -16,12 +15,15 @@ public class InsereAnomaliasNoMySql {
 	private String database_connection;
 	private Statement s;
 	private ResultSet rs;
-	public InsereAnomaliasNoMySql(Medicao medicao) {
+	private Boolean anomalia;
+
+	public InsereMedicoesNoMySql(Medicao medicao, Boolean anomalia) {
 		this.medicao = medicao;
+		this.anomalia = anomalia;
 		connect();
 		insereMedicoesNoMySql();
 	}
-	
+
 	/**
 	 * Connects to the MySQL database
 	 */
@@ -41,7 +43,14 @@ public class InsereAnomaliasNoMySql {
 	}
 
 	public void insereMedicoesNoMySql() {
-		String Sqlcommando = "INSERT INTO `medicao_sensores_anomalos` (`NULL`, `ValorMedicao`, `TipoSensor`, `DataHoraMedicao`) VALUES ('NULL', '"+ medicao.getValorMedicao()+ "', '"+medicao.getTipoMedicao() + "', '"+medicao.getDataHoraMedicao()+"');";
+		String nomeTabela;
+		if (anomalia = true)
+			nomeTabela = "medicao_sensores_anomalos";
+		else
+			nomeTabela = "medicao_sensores";
+		String Sqlcommando = "INSERT INTO `"+nomeTabela+"` (`NULL`, `ValorMedicao`, `TipoSensor`, `DataHoraMedicao`) VALUES ('NULL', '"
+				+ medicao.getValorMedicao() + "', '" + medicao.getTipoMedicao() + "', '" + medicao.getDataHoraMedicao()
+				+ "');";
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
 		} catch (SQLException e) {

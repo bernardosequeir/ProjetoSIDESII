@@ -19,19 +19,6 @@ public class AvaliaAnomalias {
 		medicoes = new ArrayList<Medicao>();
 	}
 
-	public static void main(String[] args) {
-		double[] temperaturas1 = {0.0, 0.0, 1.0, 1.0, 0.0};
-		double[] temperaturas2 = {0.0, 0.0, 0.0, 0.0, 0.0};
-
-		double[] humidades = {10.0, 20.0, 30.0, 50.0, 70.0};
-		double[] luminosidades = {75.0, 80.0, 80.0, 16.0, 20.0};
-		
-		// AvaliaAnomalias(temperaturas, humidades, luminosidades);
-		//new AvaliaAnomalias(5,0.8,0.8).testaAnomalia(temperaturas1);
-		//new AvaliaAnomalias(5,0.8,0.8).testaAnomalia(temperaturas2);
-
-	}
-
 	private void testaAnomalia(List<Medicao> lista) {
 		boolean anomalia = false;
 		
@@ -53,7 +40,7 @@ public class AvaliaAnomalias {
 					
 					if(Math.abs( (lista.get(j - 1).getValorMedicao()/lista.get(j).getValorMedicao()) - 1.00 ) >= variacaoMaxima) {
 						anomalia = true;
-						new InsereAnomaliasNoMySql(lista.get(i));
+						new InsereMedicoesNoMySql(lista.get(i),true);
 						break;
 					}
 					
@@ -63,12 +50,12 @@ public class AvaliaAnomalias {
 				
 				if(!anomalia) {
 					ultimaMedicaoValida = lista.get(i).getValorMedicao();
-					avaliaPossivelAlerta(lista.get(i));
+					avaliaPossivelAlertaEInsereMedicaoNoMysql(lista.get(i));
 				}
 				
 			} else {
 				ultimaMedicaoValida = lista.get(i).getValorMedicao();
-				avaliaPossivelAlerta(lista.get(i));
+				avaliaPossivelAlertaEInsereMedicaoNoMysql(lista.get(i));
 			}
 			
 		}
@@ -84,7 +71,8 @@ public class AvaliaAnomalias {
 			testaAnomalia(medicoes);
 		}
 	}
-	private void avaliaPossivelAlerta(Medicao m) {
+	private void avaliaPossivelAlertaEInsereMedicaoNoMysql(Medicao m) {
+		new InsereMedicoesNoMySql(m,false);
 		if (m.getTipoMedicao().equals("tmp")){
 			//mando para AvaliaAlertaTemperatura
 		} else if (m.getTipoMedicao().equals("hum")){

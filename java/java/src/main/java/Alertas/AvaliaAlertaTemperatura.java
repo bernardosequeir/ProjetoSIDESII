@@ -2,6 +2,8 @@ package Alertas;
 
 import java.util.LinkedList;
 
+import Anomalias.Medicao;
+
 public class AvaliaAlertaTemperatura {
 
 	LinkedList<Medicao> lastValues = new LinkedList<Medicao>();
