@@ -17,7 +17,7 @@ public class InsereMedicoesNoMySql {
 	private ResultSet rs;
 	private Boolean anomalia;
 
-	public InsereMedicoesNoMySql(Medicao medicao, Boolean anomalia) {
+	public InsereMedicoesNoMySql(Medicao medicao) {
 		this.medicao = medicao;
 		this.anomalia = anomalia;
 		connect();
@@ -42,15 +42,9 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 
+	//Alterar porque SP ainda nao esta feito
 	public void insereMedicoesNoMySql() {
-		String nomeTabela;
-		if (anomalia = true)
-			nomeTabela = "medicao_sensores_anomalos";
-		else
-			nomeTabela = "medicao_sensores";
-		String Sqlcommando = "INSERT INTO `"+nomeTabela+"` (`NULL`, `ValorMedicao`, `TipoSensor`, `DataHoraMedicao`) VALUES ('NULL', '"
-				+ medicao.getValorMedicao() + "', '" + medicao.getTipoMedicao() + "', '" + medicao.getDataHoraMedicao()
-				+ "');";
+		String Sqlcommando = "CALL InserirMedicao(DEFAULT,'"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+medicao.getDataHoraMedicao()+"','"+medicao.getValorAnomalia()+"');";
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
 		} catch (SQLException e) {
