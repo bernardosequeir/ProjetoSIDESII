@@ -42,6 +42,7 @@ public class MongoParaMysql {
     private AvaliaAnomalias avaliaAnomaliasHumidade;
     private  Document ultimaMedicao;
     private final Bson lastFilter = new Document("_id", -1);
+    private Double luminosidadeLuzEscuro = 10.0;
 
     public void connectMongo() {
         Properties p = new Properties();
@@ -60,7 +61,7 @@ public class MongoParaMysql {
 
     public void connectMysql() {
 
-        database_password = "";
+        database_password = "teste123";
         database_user = "root";
         database_connection = "jdbc:mysql://localhost/g12_museum";
         try {
@@ -114,7 +115,7 @@ public class MongoParaMysql {
     private void verificarAssalto() {
         Medicao movimento = valoresASerConferidos.get("mov");
         Medicao luminosidade = valoresASerConferidos.get("lum");
-        //AvaliaAlertaAssalto assalto = new AvaliaAlertaAssalto();
+        new AvaliaAlertaAssalto(movimento, luminosidade, luminosidadeLuzEscuro);
     }
 
     private void criaBuffersAnomalia() {
