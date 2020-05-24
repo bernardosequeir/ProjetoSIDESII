@@ -4,11 +4,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 
-public class Alertas {
+public class Alerta {
 
+	
+	
+	public Alerta(HashMap valoresTabelaSistema) {
+		
+	}
 	static LinkedList<Double> ultimosValoresTemperatura = new LinkedList<Double>();
 	static LinkedList<Double> ultimosValoresHumidade = new LinkedList<Double>();
 	static LinkedList<Double> ultimosValoresLuminosidade = new LinkedList<Double>();
@@ -122,8 +128,8 @@ public class Alertas {
 	public void enviaAlerta(Connection conn) {
 		try {
 			Statement st = conn.createStatement();
-			String Sqlcommando = "CALL InserirAlerta("+null+", + timestampUsedInRonda + , "+mov+", + valorAlarmeAInserir + , null, null,null)";
-			ResultSet rs = st.executeQuery(Sqlcommando);
+			//String Sqlcommando = "CALL InserirAlerta("+null+", + timestampUsedInRonda + , "+mov+", + valorAlarmeAInserir + , null, null,null)";
+			//ResultSet rs = st.executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

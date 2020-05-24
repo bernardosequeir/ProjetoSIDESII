@@ -21,7 +21,7 @@ import com.mongodb.client.MongoDatabase;
  * @author joaof, grupo12 Opens a new sql connection
  *
  */
-public class AvaliaAlertaAssalto {
+public class AvaliaAlertaAssalto extends Alerta {
 
 	/*
 	 * O que é que ele precisa: - Duas medição - luminosidade e movimento - Se há

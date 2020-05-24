@@ -15,15 +15,15 @@ public class AvaliaAlertaTemperaturaHumidade {
 		
 		avaliaAlerta();
 		
-		Alertas.adicionaValor(d);
+		Alerta.adicionaValor(d);
 	}
 
 	private void avaliaAlerta() {
-		if(d >= Alertas.getLimiteTemperatura()) {
+		if(d >= Alerta.getLimiteTemperatura()) {
 			enviaAlerta();
 		} else {
-			boolean crescimentoInstantaneo = (d / Alertas.getUltimoValor("tmp") - 1 > Alertas.getCrescimentoInstantaneo("tmp"));
-			boolean crescimentoGradual = (d / Alertas.getPrimeiroValor("tmp") - 1 > Alertas.getCrescimentoGradual("tmp"));
+			boolean crescimentoInstantaneo = (d / Alerta.getUltimoValor("tmp") - 1 > Alerta.getCrescimentoInstantaneo("tmp"));
+			boolean crescimentoGradual = (d / Alerta.getPrimeiroValor("tmp") - 1 > Alerta.getCrescimentoGradual("tmp"));
 			
 			if(crescimentoInstantaneo || crescimentoGradual) {
 				System.out.println(crescimentoInstantaneo+" "+crescimentoGradual);

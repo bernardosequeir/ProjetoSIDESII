@@ -3,6 +3,7 @@ package Anomalias;
 import java.util.ArrayList;
 import java.util.List;
 
+import Alertas.Alerta;
 import Alertas.AvaliaAlertaAssalto;
 import Alertas.AvaliaAlertaTemperaturaHumidade;
 
@@ -11,8 +12,10 @@ public class AvaliaAnomalias {
 	private double ultimaMedicaoValida = 0.0;
 	private double variacaoMaxima;
 	private ArrayList<Medicao> medicoes;
+	private Alerta alerta;
 
-	public AvaliaAnomalias(int tamanhoBuffer, double variacaoMaxima) {
+	public AvaliaAnomalias(int tamanhoBuffer, double variacaoMaxima, Alerta alerta) {
+		this.alerta = alerta;
 		this.tamanhoBuffer = tamanhoBuffer;
 		this.variacaoMaxima = variacaoMaxima;
 		medicoes = new ArrayList<Medicao>();
