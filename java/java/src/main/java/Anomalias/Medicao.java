@@ -18,7 +18,7 @@ public class Medicao {
 	}
 
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
-		//dataHoraParaFormatoCerto();
+		System.out.println(valorMedicao);
 		checkTipo();
 		checkData();
 		if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {

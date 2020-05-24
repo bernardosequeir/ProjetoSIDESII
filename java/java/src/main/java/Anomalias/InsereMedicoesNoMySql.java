@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class InsereMedicoesNoMySql {
 
@@ -58,11 +59,13 @@ public class InsereMedicoesNoMySql {
 	
 	private String dataHoraParaFormatoCerto() {
 		// TODO Auto-generated method stub
-		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		try {
-			Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
-			Timestamp stamp = new Timestamp(date.getTime());
-			return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(stamp);
+			 Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
+			 Timestamp stamp =  new Timestamp(date.getTime());
+			 SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
+			 return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

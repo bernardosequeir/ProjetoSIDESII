@@ -152,13 +152,13 @@ public class MongoParaMysql {
         String date_fixed = date_split[2] + "-" + date_split[1] + "-" + date_split[0] + " " + doc.getString("tim");
         Medicao medicaoTemperatura = new Medicao(doc.getString("tmp"), "tmp", date_fixed);
         Medicao medicaoHumidade = new Medicao(doc.getString("hum"), "hum", date_fixed);
-        Medicao medicaoLuminosidade = new Medicao(doc.getString("cell"), "lum", date_fixed);
-        Medicao medicaoMovimento = new Medicao(doc.getString("sens\""), "mov", date_fixed);
+        //Medicao medicaoLuminosidade = new Medicao(doc.getString("cell"), "lum", date_fixed);
+        //Medicao medicaoMovimento = new Medicao(doc.getString("sens\""), "mov", date_fixed);
         HashMap<String,Medicao> medicoes = new HashMap<String, Medicao>();
         medicoes.put("tmp",medicaoTemperatura);
         medicoes.put("hum",medicaoHumidade);
-        medicoes.put("lum",medicaoLuminosidade);
-        medicoes.put("mov",medicaoMovimento);
+       // medicoes.put("lum",medicaoLuminosidade);
+       // medicoes.put("mov",medicaoMovimento);
         return medicoes;
     }
 
