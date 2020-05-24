@@ -1,15 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11-Maio-2020 às 01:22
--- Versão do servidor: 10.4.10-MariaDB
--- versão do PHP: 7.1.33
+-- Generation Time: May 24, 2020 at 06:44 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.30
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -20,13 +19,285 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `g12_museum`
+-- Database: `g12_museum`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AlterarUtilizador` (IN `Mail` VARCHAR(100), IN `nPass` VARCHAR(10), IN `nMorada` VARCHAR(200))  BEGIN
+	SELECT user INTO @userId FROM (
+		SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	SELECT default_role INTO @role FROM (
+        SELECT default_role, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+    IF(CURRENT_ROLE = 'seguranca' OR @role= 'seguranca') THEN 
+		IF(Mail = @userID) THEN
+            IF(NOT(nPass = 'NULL')) THEN
+SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+			END IF;
+            IF(NOT(nMorada = 'NULL')) THEN
+				UPDATE utilizador
+SET Morada = nMorada WHERE EmailUtilizador = @userId;
+			END IF;
+        END IF;
+    ELSEIF(CURRENT_ROLE = 'chefe_seguranca' OR @role= 'chefe_seguranca') THEN 
+		IF(Mail = @userID) THEN
+			IF(NOT(nMorada = 'NULL')) THEN
+				UPDATE utilizador
+SET Morada = nMorada WHERE EmailUtilizador = @userId;
+			END IF;
+            IF(NOT(nPass = 'NULL')) THEN
+SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+			END IF;
+        ELSE
+			SELECT TipoUtilizador FROM utilizador WHERE EmailUtilizador = Mail INTO @Tipppo;
+            IF (@Tipppo = 'SEG') THEN
+				IF(NOT(nPass = 'NULL')) THEN
+					SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
+					PREPARE stmt FROM @sql;
+					EXECUTE stmt;
+				END IF;
+				IF(NOT(nMorada = 'NULL')) THEN
+					UPDATE utilizador
+					SET Morada = nMorada WHERE EmailUtilizador = Mail;
+				END IF;
+			END IF;	
+        END IF;
+	ELSE 
+		IF(NOT(nPass = 'NULL')) THEN
+			SET @sql := CONCAT('ALTER USER ','''', Mail,'''','@localhost', ' IDENTIFIED BY ', '''', nPass,'''');
+			PREPARE stmt FROM @sql;
+			EXECUTE stmt;
+		END IF;
+		IF(NOT(nMorada = 'NULL')) THEN
+				UPDATE utilizador
+SET Morada = nMorada WHERE EmailUtilizador = Mail;
+		END IF;
+        
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ConsultarSistema` ()  BEGIN
+	SELECT IntervaloImportacaoMongo,TempoLimiteMedicao,tamanhoDosBuffersAnomalia,tamanhoDosBuffersAlerta,variacaoAnomalaTemperatura,variacaoAnomalaHumidade,crescimentoInstantaneoTemperatura,crescimentoGradualTemperatura,crescimentoInstantaneoHumidade,crescimentoGradualHumidade,luminosidadeLuzesDesligadas,limiteTemperatura,limiteHumidade FROM sistema;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ConsultarUtilizador` (`Email` VARCHAR(100))  BEGIN
+	SELECT user INTO @userId FROM (
+		SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	SELECT default_role INTO @role FROM (
+        SELECT default_role, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	 IF(CURRENT_ROLE = 'chefe_seguranca' OR @role= 'chefe_seguranca') THEN
+		SELECT NomeUtilizador FROM utilizador WHERE EmailUtilizador = Email INTO @Nomee;
+        SELECT TipoUtilizador FROM utilizador WHERE EmailUtilizador = Email INTO @Tipoo;
+        SELECT Morada FROM utilizador WHERE EmailUtilizador = Email INTo @Morada;
+        SELECT Morada FROM utilizador WHERE EmailUtilizador = Email INTo @cMorada;
+        SELECT NomeUtilizador FROM utilizador WHERE EmailUtilizador = @userId INTO @cNomee;
+        SELECT TipoUtilizador FROM utilizador WHERE EmailUtilizador = @userId INTO @cTipoo;
+		IF (Email = 'NULL') Then
+			SELECT * FROM utilizador where (TipoUtilizador = 'SEG' OR EmailUtilizador = @userId);
+            INSERT INTO g12_loguser VALUES (DEFAULT, @UserID , 'SELECT',now(), "NULL", Email, NULL, @cNomee, NULL, @cTipoo, NULL, @cMorada);
+		ELSEIF ( Email = @userId) THEN
+			SELECT * FROM utilizador where (EmailUtilizador = @userId);
+            INSERT INTO g12_loguser VALUES (DEFAULT, @UserID , 'SELECT',now(), "NULL", Email, NULL, @Nomee, NULL, @Tipoo, NULL, @Morada);
+		ELSE 
+			SELECT * FROM utilizador where (EmailUtilizador = Email AND TipoUtilizador = 'SEG');
+            INSERT INTO g12_loguser VALUES (DEFAULT, @UserID , 'SELECT',now(), "NULL", Email, NULL, @Nomee, NULL, @Tipoo, NULL, @Morada);
+        END IF;
+	ELSEIF(CURRENT_ROLE = 'seguranca' OR @role= 'seguranca') THEN 
+		SELECT NomeUtilizador FROM utilizador WHERE EmailUtilizador = Email INTO @Nomee;
+        SELECT TipoUtilizador FROM utilizador WHERE EmailUtilizador = Email INTO @Tipoo;
+        SELECT Morada FROM utilizador WHERE EmailUtilizador = Email INTo @Morada;
+        SELECT NomeUtilizador FROM utilizador WHERE EmailUtilizador = @userId INTO @cNomee;
+        SELECT TipoUtilizador FROM utilizador WHERE EmailUtilizador = @userId INTO @cTipoo;
+		IF (Email = 'NULL') Then
+			SELECT * FROM utilizador where (EmailUtilizador = @userId);
+            INSERT INTO g12_loguser VALUES (DEFAULT, @UserID , 'SELECT',now(), "NULL", Email, NULL, @cNomee, NULL, @cTipoo, NULL, @cMorada);
+		ELSEIF ( Email = @userId) THEN
+			SELECT * FROM utilizador where (EmailUtilizador = @userId);
+            INSERT INTO g12_loguser VALUES (DEFAULT, @UserID , 'SELECT',now(), "NULL", Email, NULL, @Nomee, NULL, @Tipoo, NULL, @Morada);
+		ELSE
+			SELECT * FROM utilizador where (EmailUtilizador = @userId AND EmailUtilizador = Email);
+        END IF;
+	ELSEIF(CURRENT_ROLE = 'diretor' OR @role= 'diretor' OR CURRENT_ROLE = 'admnistrador' OR @role= 'admnistrador') THEN
+		SELECT NomeUtilizador FROM utilizador WHERE EmailUtilizador = Email INTO @Nomee;
+        SELECT TipoUtilizador FROM utilizador WHERE EmailUtilizador = Email INTO @Tipoo;        
+        SELECT Morada FROM utilizador WHERE EmailUtilizador = Email INTo @Morada;
+        SELECT NomeUtilizador FROM utilizador WHERE EmailUtilizador = @userId INTO @cNomee;
+        SELECT TipoUtilizador FROM utilizador WHERE EmailUtilizador = @userId INTO @cTipoo;
+        IF (Email = 'NULL') Then
+			SELECT * FROM utilizador;
+             INSERT INTO g12_loguser VALUES (DEFAULT, @UserID , 'SELECT',now(), "NULL", Email, NULL, @cNomee, NULL, @cTipoo, NULL, @cMorada);
+		ELSE
+			SELECT * FROM utilizador where (EmailUtilizador = Email);
+            INSERT INTO g12_loguser VALUES (DEFAULT, @UserID , 'SELECT',now(), "NULL", Email, NULL, @Nomee, NULL, @Tipoo, NULL, @Morada);
+		END IF;
+            
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirAlerta` (IN `ID` INT, IN `DataHoraMedicao` TIMESTAMP, IN `TipoSensor` VARCHAR(3), IN `ValorMedicao` DECIMAL(6,2), IN `Limite` DECIMAL(6,2), IN `Descricao` VARCHAR(1000), IN `Controlo` TINYINT, IN `Extra` VARCHAR(50))  BEGIN
+
+INSERT INTO alerta VALUES (ID,DataHoraMedicao,TipoSensor,ValorMedicao,Limite,Descricao,Controlo,Extra);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicao` (IN `idMedicao` INT, IN `ValorMedicao` DECIMAL(6,2), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP, IN `Anomala` TINYINT)  BEGIN
+
+IF Anomala = 1
+	THEN INSERT INTO medicao_sensores_anomalos VALUES (idMedicao,ValorMedicao,TipoSensor,DataHoraMedicao);
+ELSE 
+	INSERT INTO medicao_sensores VALUES (idMedicao,ValorMedicao,TipoSensor,DataHoraMedicao);
+END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirUtilizador` (`Email` VARCHAR(100), `Nome` VARCHAR(200), `Tipo` VARCHAR(3), `Pass` VARCHAR(10), `Morada` VARCHAR(200))  BEGIN
+	SELECT user INTO @userId FROM (
+		SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	SELECT default_role INTO @role FROM (
+        SELECT default_role, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	 IF(CURRENT_ROLE = 'chefe_seguranca' OR @role= 'chefe_seguranca') THEN
+		IF(Tipo = 'SEG') THEN
+			INSERT INTO utilizador (
+				`EmailUtilizador`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES (
+				Email,
+				Nome,
+				Tipo,
+Morada);
+				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
+					Pass := CONCAT('''', Pass, '''');
+				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				SET @sql := CONCAT('GRANT seguranca TO ', Email);
+PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+				SET @sql := CONCAT('SET DEFAULT ROLE seguranca FOR ', Email);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+		END IF;
+    ELSEIF (CURRENT_ROLE = 'diretor' OR @role = 'diretor' OR CURRENT_ROLE = 'admnistrador' OR @role='admnistrador') THEN
+		IF(Tipo = 'SEG') THEN
+			INSERT INTO utilizador (
+				`EmailUtilizador`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES (
+				Email,
+				Nome,
+				Tipo,
+Morada);
+				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
+					Pass := CONCAT('''', Pass, '''');
+				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				SET @sql := CONCAT('GRANT seguranca TO ', Email);
+PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+				SET @sql := CONCAT('SET DEFAULT ROLE seguranca FOR ', Email);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+		ELSEIF(Tipo = 'CSG') THEN
+			INSERT INTO utilizador (
+				`EmailUtilizador`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES (
+				Email,
+				Nome,
+				Tipo,
+Morada);
+				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
+					Pass := CONCAT('''', Pass, '''');
+				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				SET @sql := CONCAT('GRANT chefe_seguranca TO ', Email);
+PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+				SET @sql := CONCAT('SET DEFAULT ROLE chefe_seguranca FOR ', Email);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+		ELSEIF(Tipo = 'DIR') THEN
+			INSERT INTO utilizador (
+				`EmailUtilizador`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES (
+				Email,
+				Nome,
+				Tipo,
+Morada);
+				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
+					Pass := CONCAT('''', Pass, '''');
+				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				SET @sql := CONCAT('GRANT diretor TO ', Email);
+PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+				SET @sql := CONCAT('SET DEFAULT ROLE diretor FOR ', Email);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+        ELSEIF(Tipo = 'AUD') THEN
+			INSERT INTO utilizador (
+				`EmailUtilizador`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES (
+				Email,
+				Nome,
+				Tipo,
+Morada);
+				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
+					Pass := CONCAT('''', Pass, '''');
+				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				SET @sql := CONCAT('GRANT auditor TO ', Email);
+PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+				SET @sql := CONCAT('SET DEFAULT ROLE auditor FOR ', Email);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt; 
+		ELSEIF(Tipo = 'ADM') THEN
+			INSERT INTO utilizador (
+				`EmailUtilizador`, `NomeUtilizador`, `TipoUtilizador`, `Morada`) VALUES (
+				Email,
+				Nome,
+				Tipo,
+Morada);
+				SET Email := CONCAT('''', Email, '''', '@', 'localhost'),
+					Pass := CONCAT('''', Pass, '''');
+				SET @sql := CONCAT('CREATE USER ', Email, ' IDENTIFIED BY ', Pass);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				SET @sql := CONCAT('GRANT admnistrador TO ', Email);
+PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+				SET @sql := CONCAT('SET DEFAULT ROLE admnistrador FOR ', Email);
+				PREPARE stmt FROM @sql;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+		END IF;
+    END IF;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alerta`
+-- Table structure for table `alerta`
 --
 
 CREATE TABLE `alerta` (
@@ -40,10 +311,43 @@ CREATE TABLE `alerta` (
   `Extra` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Triggers `alerta`
+--
+DELIMITER $$
+CREATE TRIGGER `alerta_AFTER_DELETE` AFTER DELETE ON `alerta` FOR EACH ROW BEGIN
+	SELECT user INTO @UserMail FROM (
+        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logalerta VALUES (DEFAULT, @UserMail ,'UPDATE', now(), old.ID, NULL, old.DataHoraMedicao, NULL, old.TipoSensor, NULL, old.ValorMedicao, NULL, old.Limite, NULL, old.Descricao, NULL, old.Controlo, NULL, old.Extra, NULL);
+
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `alerta_AFTER_INSERT` AFTER INSERT ON `alerta` FOR EACH ROW BEGIN
+	SELECT user INTO @UserMail FROM (
+        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logalerta VALUES (DEFAULT, @UserMail ,'INSERT', now(), NULL, new.ID, NULL, new.DataHoraMedicao, NULL, new.TipoSensor, NULL, new.ValorMedicao, NULL, new.Limite, NULL, new.Descricao, NULL, new.Controlo, NULL, new.Extra);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `alerta_AFTER_UPDATE` AFTER UPDATE ON `alerta` FOR EACH ROW BEGIN
+	SELECT user INTO @UserMail FROM (
+        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logalerta VALUES (DEFAULT, @UserMail ,'UPDATE', now(), old.ID, new.ID, old.DataHoraMedicao, new.DataHoraMedicao, old.TipoSensor, new.TipoSensor, old.ValorMedicao, new.ValorMedicao, old.Limite, new.Limite, old.Descricao, new.Descricao, old.Controlo, new.Controlo, old.Extra, new.Extra);
+
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logalerta`
+-- Table structure for table `g12_logalerta`
 --
 
 CREATE TABLE `g12_logalerta` (
@@ -72,7 +376,7 @@ CREATE TABLE `g12_logalerta` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logmedicao_sensores`
+-- Table structure for table `g12_logmedicao_sensores`
 --
 
 CREATE TABLE `g12_logmedicao_sensores` (
@@ -93,7 +397,7 @@ CREATE TABLE `g12_logmedicao_sensores` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logmedicao_sensores_anomalos`
+-- Table structure for table `g12_logmedicao_sensores_anomalos`
 --
 
 CREATE TABLE `g12_logmedicao_sensores_anomalos` (
@@ -114,7 +418,7 @@ CREATE TABLE `g12_logmedicao_sensores_anomalos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logronda_extra`
+-- Table structure for table `g12_logronda_extra`
 --
 
 CREATE TABLE `g12_logronda_extra` (
@@ -133,7 +437,7 @@ CREATE TABLE `g12_logronda_extra` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_logsistema`
+-- Table structure for table `g12_logsistema`
 --
 
 CREATE TABLE `g12_logsistema` (
@@ -176,7 +480,7 @@ CREATE TABLE `g12_logsistema` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `g12_loguser`
+-- Table structure for table `g12_loguser`
 --
 
 CREATE TABLE `g12_loguser` (
@@ -197,7 +501,7 @@ CREATE TABLE `g12_loguser` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `medicao_sensores`
+-- Table structure for table `medicao_sensores`
 --
 
 CREATE TABLE `medicao_sensores` (
@@ -208,7 +512,7 @@ CREATE TABLE `medicao_sensores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `medicao_sensores`
+-- Triggers `medicao_sensores`
 --
 DELIMITER $$
 CREATE TRIGGER `Atualizar_Medicoes` AFTER UPDATE ON `medicao_sensores` FOR EACH ROW BEGIN
@@ -216,7 +520,25 @@ CREATE TRIGGER `Atualizar_Medicoes` AFTER UPDATE ON `medicao_sensores` FOR EACH 
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logmedicao_sensores VALUES (DEFAULT, @UserMail ,'UPDATE', now(),old.idMedicao, new.idMedicao, old.ValorMedicao,new.ValorMedicao, old.TipoSensor,new.TipoSensor, old.DataHoraMedicao,new.DataHoraMedicao);
+	INSERT INTO g12_logmedicao_sensores VALUES (DEFAULT, @UserMail ,'UPDATE', now(), old.idMedicao, new.idMedicao, old.ValorMedicao, new.ValorMedicao, old.TipoSensor, new.TipoSensor, old.DataHoraMedicao, new.DataHoraMedicao);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `medicao_sensores_AFTER_DELETE` AFTER DELETE ON `medicao_sensores` FOR EACH ROW BEGIN
+	SELECT user INTO @UserMail FROM (
+        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logmedicao_sensores VALUES (DEFAULT, @UserMail ,'DELETE', now(), old.idMedicao, NULL, old.ValorMedicao, NULL, old.TipoSensor, NULL, old.DataHoraMedicao, NULL);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `medicao_sensores_AFTER_INSERT` AFTER INSERT ON `medicao_sensores` FOR EACH ROW BEGIN
+	SELECT user INTO @UserMail FROM (
+		SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logmedicao_sensores VALUES (DEFAULT, @UserMail ,'INSERT', now(), NULL, new.idMedicao, NULL, new.ValorMedicao, NULL, new.TipoSensor, NULL, new.DataHoraMedicao);
 END
 $$
 DELIMITER ;
@@ -224,7 +546,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `medicao_sensores_anomalos`
+-- Table structure for table `medicao_sensores_anomalos`
 --
 
 CREATE TABLE `medicao_sensores_anomalos` (
@@ -235,7 +557,7 @@ CREATE TABLE `medicao_sensores_anomalos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `medicao_sensores_anomalos`
+-- Triggers `medicao_sensores_anomalos`
 --
 DELIMITER $$
 CREATE TRIGGER `Atualizar_Medicoes_Anomalos` AFTER UPDATE ON `medicao_sensores_anomalos` FOR EACH ROW BEGIN
@@ -243,7 +565,25 @@ CREATE TRIGGER `Atualizar_Medicoes_Anomalos` AFTER UPDATE ON `medicao_sensores_a
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logmedicao_sensores_anomalos VALUES (DEFAULT, @UserMail ,'UPDATE', now(),old.idMedicao, new.idMedicao, old.ValorMedicao,new.ValorMedicao, old.TipoSensor,new.TipoSensor, old.DataHoraMedicao,new.DataHoraMedicao);
+	INSERT INTO g12_logmedicao_sensores_anomalos VALUES (DEFAULT, @UserMail ,'UPDATE', now(), old.idMedicao, new.idMedicao, old.ValorMedicao, new.ValorMedicao, old.TipoSensor, new.TipoSensor, old.DataHoraMedicao, new.DataHoraMedicao);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `medicao_sensores_anomalos_AFTER_DELETE` AFTER DELETE ON `medicao_sensores_anomalos` FOR EACH ROW BEGIN
+SELECT user INTO @UserMail FROM (
+	SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logmedicao_sensores_anomalos VALUES (DEFAULT, @UserMail ,'DELETE', now(), old.idMedicao, NULL, old.ValorMedicao, NULL, old.TipoSensor, NULL, old.DataHoraMedicao, NULL);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `medicao_sensores_anomalos_AFTER_INSERT` AFTER INSERT ON `medicao_sensores_anomalos` FOR EACH ROW BEGIN
+SELECT user INTO @UserMail FROM (
+	SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logmedicao_sensores_anomalos VALUES (DEFAULT, @UserMail ,'INSERT', now(), NULL, new.idMedicao, NULL, new.ValorMedicao, NULL, new.TipoSensor, NULL, new.DataHoraMedicao);
 END
 $$
 DELIMITER ;
@@ -251,7 +591,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ronda_extra`
+-- Table structure for table `ronda_extra`
 --
 
 CREATE TABLE `ronda_extra` (
@@ -261,7 +601,7 @@ CREATE TABLE `ronda_extra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `ronda_extra`
+-- Triggers `ronda_extra`
 --
 DELIMITER $$
 CREATE TRIGGER `Atualizar_RondaExtra` AFTER UPDATE ON `ronda_extra` FOR EACH ROW BEGIN
@@ -269,7 +609,7 @@ CREATE TRIGGER `Atualizar_RondaExtra` AFTER UPDATE ON `ronda_extra` FOR EACH ROW
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logronda_extra VALUES (DEFAULT,  @UserMail , 'UPDATE', now(),old.dataHoraEntrada,new.dataHoraEntrada,old.datahoraSaida ,new.datahoraSaida );
+	INSERT INTO g12_logronda_extra VALUES (DEFAULT, @UserMail, 'UPDATE', now(), old.dataHoraEntrada, new.dataHoraEntrada, old.datahoraSaida, new.datahoraSaida, old.EmailUtilizador, new.EmailUtilizador);
 END
 $$
 DELIMITER ;
@@ -279,7 +619,7 @@ CREATE TRIGGER `Eliminar_RondaExtra` AFTER DELETE ON `ronda_extra` FOR EACH ROW 
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logrondaextra VALUES ( DEFAULT,  @UserMail , 'DELETE', now(),old.dataHoraEntrada,old.EmailUtilizador, old.datahoraSaida);
+	INSERT INTO g12_logronda_extra VALUES (DEFAULT, @UserMail, 'DELETE', now(), old.dataHoraEntrada, NULL, old.datahoraSaida, NULL, old.EmailUtilizador, NULL);
 END
 $$
 DELIMITER ;
@@ -289,7 +629,7 @@ CREATE TRIGGER `Inserir_RondaExtra` AFTER INSERT ON `ronda_extra` FOR EACH ROW B
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logrondaextra VALUES ( DEFAULT,  @UserMail , 'INSERT', now(),new.dataHoraEntrada, new.EmailUtilizador, new.datahoraSaida);
+	INSERT INTO g12_logronda_extra VALUES (DEFAULT, @UserMail, 'INSERT', now(), NULL, new.dataHoraEntrada, NULL, new.datahoraSaida, NULL, new.EmailUtilizador);
 END
 $$
 DELIMITER ;
@@ -297,7 +637,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ronda_planeada`
+-- Table structure for table `ronda_planeada`
 --
 
 CREATE TABLE `ronda_planeada` (
@@ -310,7 +650,7 @@ CREATE TABLE `ronda_planeada` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `sistema`
+-- Table structure for table `sistema`
 --
 
 CREATE TABLE `sistema` (
@@ -332,7 +672,7 @@ CREATE TABLE `sistema` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `sistema`
+-- Triggers `sistema`
 --
 DELIMITER $$
 CREATE TRIGGER `Atualizar_Sistema` AFTER UPDATE ON `sistema` FOR EACH ROW BEGIN
@@ -340,17 +680,25 @@ CREATE TRIGGER `Atualizar_Sistema` AFTER UPDATE ON `sistema` FOR EACH ROW BEGIN
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logsistema VALUES ( DEFAULT, @UserMail, 'UPDATE', now(), old.IDSistema,new.IDSistema,old.IntervaloImportacaoMongo ,new.IntervaloImportacaoMongo , 	old.TempoLimiteMedicao, 	new.TempoLimiteMedicao, 	old.tamanhoDosBuffersAnomalia, 	new.tamanhoDosBuffersAnomalia, 	old.tamanhoDosBuffersAlerta, 	new.tamanhoDosBuffersAlerta,old.variacaoAnomalaTemperatura ,new.variacaoAnomalaTemperatura ,old.variacaoAnomalaHumidade ,new.variacaoAnomalaHumidade ,old.crescimentoInstantaneoTemperatura,new.crescimentoInstantaneoTemperatura,old.crescimentoGradualTemperatura,new.crescimentoGradualTemperatura ,old.crescimentoInstantaneoHumidade ,new.crescimentoInstantaneoHumidade ,old.crescimentoGradualHumidade,new.crescimentoGradualHumidade,old.luminosidadeLuzesDesligadas ,new.luminosidadeLuzesDesligadas,old.limiteTemperatura ,new.limiteTemperatura , 	old.limiteHumidade,new.limiteHumidade,old.periocidadeImportacaoExportacaoAuditor,new.periocidadeImportacaoExportacaoAuditor);
+	INSERT INTO g12_logsistema VALUES (DEFAULT, @UserMail, 'UPDATE', now(), old.IDSistema, new.IDSistema, old.IntervaloImportacaoMongo, new.IntervaloImportacaoMongo, old.TempoLimiteMedicao, new.TempoLimiteMedicao, old.tamanhoDosBuffersAnomalia, new.tamanhoDosBuffersAnomalia, old.tamanhoDosBuffersAlerta, new.tamanhoDosBuffersAlerta, old.variacaoAnomalaTemperatura, new.variacaoAnomalaTemperatura, old.variacaoAnomalaHumidade, new.variacaoAnomalaHumidade, old.crescimentoInstantaneoTemperatura, new.crescimentoInstantaneoTemperatura, old.crescimentoGradualTemperatura, new.crescimentoGradualTemperatura, old.crescimentoInstantaneoHumidade, new.crescimentoInstantaneoHumidade, old.crescimentoGradualHumidade, new.crescimentoGradualHumidade, old.luminosidadeLuzesDesligadas, new.luminosidadeLuzesDesligadas, old.limiteTemperatura, new.limiteTemperatura, old.limiteHumidade, new.limiteHumidade, old.periocidadeImportacaoExportacaoAuditor, new.periocidadeImportacaoExportacaoAuditor);
 END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `Inserir_Sistema` AFTER INSERT ON `sistema` FOR EACH ROW BEGIN
-	-- Find username of person performing the INSERT into table
+CREATE TRIGGER `sistema_AFTER_DELETE` AFTER DELETE ON `sistema` FOR EACH ROW BEGIN
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logsistema VALUES ( DEFAULT, @UserMail, 'INSERT', now(), new.IDSistema, new.LimiteTemperatura, new.LimiteHumidade, new.LimiteLuminosidade, new.LimiarTemperatura, new.LimiarHumidade, new.LimiarLuminosidade, new.DuraçãoPadrãoRonda, new.PeriocidadeImportacaoExportacao);
+	INSERT INTO g12_logsistema VALUES (DEFAULT, @UserMail, 'UPDATE', now(), old.IDSistema, NULL, old.IntervaloImportacaoMongo, NULL, old.TempoLimiteMedicao, NULL, old.tamanhoDosBuffersAnomalia, NULL, old.tamanhoDosBuffersAlerta, NULL, old.variacaoAnomalaTemperatura, NULL, old.variacaoAnomalaHumidade, NULL, old.crescimentoInstantaneoTemperatura, NULL, old.crescimentoGradualTemperatura, NULL, old.crescimentoInstantaneoHumidade, NULL, old.crescimentoGradualHumidade, NULL, old.luminosidadeLuzesDesligadas, NULL, old.limiteTemperatura, NULL, old.limiteHumidade, NULL, old.periocidadeImportacaoExportacaoAuditor, NULL);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `sistema_AFTER_INSERT` AFTER INSERT ON `sistema` FOR EACH ROW BEGIN
+	SELECT user INTO @UserMail FROM (
+        SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
+    WHERE userhost = USER();
+	INSERT INTO g12_logsistema VALUES (DEFAULT, @UserMail, 'INSERT', now(), NULL, new.IDSistema, NULL, new.IntervaloImportacaoMongo, NULL, new.TempoLimiteMedicao, NULL, new.tamanhoDosBuffersAnomalia, NULL, new.tamanhoDosBuffersAlerta, NULL, new.variacaoAnomalaTemperatura, NULL, new.variacaoAnomalaHumidade, NULL, new.crescimentoInstantaneoTemperatura, NULL, new.crescimentoGradualTemperatura, NULL, new.crescimentoInstantaneoHumidade, NULL, new.crescimentoGradualHumidade, NULL, new.luminosidadeLuzesDesligadas, NULL, new.limiteTemperatura, NULL, new.limiteHumidade, NULL, new.periocidadeImportacaoExportacaoAuditor);
 END
 $$
 DELIMITER ;
@@ -358,7 +706,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `utilizador`
+-- Table structure for table `utilizador`
 --
 
 CREATE TABLE `utilizador` (
@@ -369,7 +717,7 @@ CREATE TABLE `utilizador` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Acionadores `utilizador`
+-- Triggers `utilizador`
 --
 DELIMITER $$
 CREATE TRIGGER `Atualizar_Utilizador` AFTER UPDATE ON `utilizador` FOR EACH ROW BEGIN
@@ -377,7 +725,7 @@ CREATE TRIGGER `Atualizar_Utilizador` AFTER UPDATE ON `utilizador` FOR EACH ROW 
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_loguser VALUES ( DEFAULT, @UserMail , 'UPDATE',now(), old.EmailUtilizador,new.EmailUtilizador,old.NomeUtilizador, new.NomeUtilizador, old.TipoUtilizador,new.TipoUtilizador,old.Morada, new.Morada);
+	INSERT INTO g12_loguser VALUES (DEFAULT, @UserMail , 'UPDATE',now(), old.EmailUtilizador,new.EmailUtilizador,old.NomeUtilizador, new.NomeUtilizador, old.TipoUtilizador,new.TipoUtilizador,old.Morada, new.Morada);
 END
 $$
 DELIMITER ;
@@ -387,7 +735,7 @@ CREATE TRIGGER `Eliminar_Utilizador` AFTER DELETE ON `utilizador` FOR EACH ROW B
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_loguser VALUES (DEFAULT, @UserMail , 'DELETE',now(), old.EmailUtilizador, old.NomeUtilizador, old.TipoUtilizador, old.Morada);
+	INSERT INTO g12_loguser VALUES (DEFAULT, @UserMail , 'DELETE',now(), old.EmailUtilizador, NULL, old.NomeUtilizador, NULL, old.TipoUtilizador, NULL,  old.Morada, NULL);
 END
 $$
 DELIMITER ;
@@ -397,78 +745,78 @@ CREATE TRIGGER `Inserir_Utilizador` AFTER INSERT ON `utilizador` FOR EACH ROW BE
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_loguser VALUES ( DEFAULT, @UserMail , 'INSERT',now(), new.EmailUtilizador, new.NomeUtilizador, new.TipoUtilizador, new.Morada);
+	INSERT INTO g12_loguser VALUES (DEFAULT, @UserMail , 'INSERT',now(), "NULL", new.EmailUtilizador, NULL, new.NomeUtilizador, NULL, new.TipoUtilizador, NULL, new.Morada);
 END
 $$
 DELIMITER ;
 
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices para tabela `alerta`
+-- Indexes for table `alerta`
 --
 ALTER TABLE `alerta`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Índices para tabela `g12_logalerta`
+-- Indexes for table `g12_logalerta`
 --
 ALTER TABLE `g12_logalerta`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_logmedicao_sensores`
+-- Indexes for table `g12_logmedicao_sensores`
 --
 ALTER TABLE `g12_logmedicao_sensores`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_logmedicao_sensores_anomalos`
+-- Indexes for table `g12_logmedicao_sensores_anomalos`
 --
 ALTER TABLE `g12_logmedicao_sensores_anomalos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_logronda_extra`
+-- Indexes for table `g12_logronda_extra`
 --
 ALTER TABLE `g12_logronda_extra`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_logsistema`
+-- Indexes for table `g12_logsistema`
 --
 ALTER TABLE `g12_logsistema`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `g12_loguser`
+-- Indexes for table `g12_loguser`
 --
 ALTER TABLE `g12_loguser`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `medicao_sensores`
+-- Indexes for table `medicao_sensores`
 --
 ALTER TABLE `medicao_sensores`
   ADD PRIMARY KEY (`idMedicao`);
 
 --
--- Índices para tabela `medicao_sensores_anomalos`
+-- Indexes for table `medicao_sensores_anomalos`
 --
 ALTER TABLE `medicao_sensores_anomalos`
   ADD PRIMARY KEY (`idMedicao`);
 
 --
--- Índices para tabela `ronda_extra`
+-- Indexes for table `ronda_extra`
 --
 ALTER TABLE `ronda_extra`
   ADD PRIMARY KEY (`dataHoraEntrada`),
   ADD KEY `EmailUtilizador` (`EmailUtilizador`);
 
 --
--- Índices para tabela `ronda_planeada`
+-- Indexes for table `ronda_planeada`
 --
 ALTER TABLE `ronda_planeada`
   ADD KEY `DiaSemana` (`DiaSemana`),
@@ -476,58 +824,64 @@ ALTER TABLE `ronda_planeada`
   ADD KEY `HoraRondaInicio` (`HoraRondaInicio`);
 
 --
--- Índices para tabela `sistema`
+-- Indexes for table `sistema`
 --
 ALTER TABLE `sistema`
   ADD PRIMARY KEY (`IDSistema`);
 
 --
--- Índices para tabela `utilizador`
+-- Indexes for table `utilizador`
 --
 ALTER TABLE `utilizador`
   ADD PRIMARY KEY (`EmailUtilizador`),
   ADD KEY `EmailUtilizador` (`EmailUtilizador`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `g12_logmedicao_sensores`
+-- AUTO_INCREMENT for table `g12_logalerta`
+--
+ALTER TABLE `g12_logalerta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `g12_logmedicao_sensores`
 --
 ALTER TABLE `g12_logmedicao_sensores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `g12_logmedicao_sensores_anomalos`
+-- AUTO_INCREMENT for table `g12_logmedicao_sensores_anomalos`
 --
 ALTER TABLE `g12_logmedicao_sensores_anomalos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `g12_logronda_extra`
+-- AUTO_INCREMENT for table `g12_logronda_extra`
 --
 ALTER TABLE `g12_logronda_extra`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `g12_logsistema`
+-- AUTO_INCREMENT for table `g12_logsistema`
 --
 ALTER TABLE `g12_logsistema`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `g12_loguser`
+-- AUTO_INCREMENT for table `g12_loguser`
 --
 ALTER TABLE `g12_loguser`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Restrições para despejos de tabelas
+-- Constraints for dumped tables
 --
 
 --
--- Limitadores para a tabela `ronda_planeada`
+-- Constraints for table `ronda_planeada`
 --
 ALTER TABLE `ronda_planeada`
   ADD CONSTRAINT `ronda_planeada_ibfk_1` FOREIGN KEY (`DiaSemana`) REFERENCES `dia_semana` (`DiaSemana`) ON DELETE CASCADE ON UPDATE CASCADE,
