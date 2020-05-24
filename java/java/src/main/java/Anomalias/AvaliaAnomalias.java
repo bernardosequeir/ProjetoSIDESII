@@ -53,7 +53,7 @@ public class AvaliaAnomalias {
 					
 					if(Math.abs( (lista.get(j - 1).getValorMedicao()/lista.get(j).getValorMedicao()) - 1.00 ) >= variacaoMaxima) {
 						anomalia = true;
-						System.out.println(lista.get(i).getValorMedicao() + "x");
+						new InsereAnomaliasNoMySql(lista.get(i));
 						break;
 					}
 					

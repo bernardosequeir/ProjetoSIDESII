@@ -87,18 +87,18 @@ public class AvaliaAlertaAssalto {
 
 	public boolean valorEAlerta() {
 		if (movimento.isAnomalo() && luminosidade.isAnomalo()) {
-			new InsereAnomaliasNoMySql(movimento,conn);
-			new InsereAnomaliasNoMySql(luminosidade,conn);
+			new InsereAnomaliasNoMySql(movimento);
+			new InsereAnomaliasNoMySql(luminosidade);
 			return false;
 		}
 		else if (movimento.isAnomalo()) {
-			new InsereAnomaliasNoMySql(movimento,conn);
+			new InsereAnomaliasNoMySql(movimento);
 			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 				tipoAlerta = "lum";
 				return true;
 			}
 		} else if (luminosidade.isAnomalo()) {
-			new InsereAnomaliasNoMySql(luminosidade,conn);
+			new InsereAnomaliasNoMySql(luminosidade);
 			if (movimento.getValorMedicao() == 1) {
 				tipoAlerta = "mov";
 				return true;
