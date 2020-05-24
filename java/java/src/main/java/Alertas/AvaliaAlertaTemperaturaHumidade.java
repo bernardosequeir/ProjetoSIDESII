@@ -4,13 +4,13 @@ import java.util.LinkedList;
 
 import Anomalias.Medicao;
 
-public class AvaliaAlertaTemperatura {
+public class AvaliaAlertaTemperaturaHumidade {
 
 	LinkedList<Medicao> lastValues = new LinkedList<Medicao>();
 	
 	private double d;
 	
-	public AvaliaAlertaTemperatura(Medicao m,double limite) {
+	public AvaliaAlertaTemperaturaHumidade(Medicao m) {
 		this.d = d;
 		
 		avaliaAlerta();
@@ -20,24 +20,24 @@ public class AvaliaAlertaTemperatura {
 
 	private void avaliaAlerta() {
 		if(d >= Alertas.getLimiteTemperatura()) {
-			enviaAlertaIncendio();
+			enviaAlerta();
 		} else {
 			boolean crescimentoInstantaneo = (d / Alertas.getUltimoValor("tmp") - 1 > Alertas.getCrescimentoInstantaneo("tmp"));
 			boolean crescimentoGradual = (d / Alertas.getPrimeiroValor("tmp") - 1 > Alertas.getCrescimentoGradual("tmp"));
 			
 			if(crescimentoInstantaneo || crescimentoGradual) {
 				System.out.println(crescimentoInstantaneo+" "+crescimentoGradual);
-				enviaAlertaPossivelIncendio();
+				enviaAlerta();
 			}
 		}
 	}
 
-	private void enviaAlertaPossivelIncendio() {
+	private void enviaAlertaPossivel() {
 		System.out.println("POSSIVEL INCENDIO");
 		
 	}
 
-	private void enviaAlertaIncendio() {
+	private void enviaAlerta() {
 		System.out.println("INCENDIO");
 		
 	}

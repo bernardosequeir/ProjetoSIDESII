@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Alertas.AvaliaAlertaAssalto;
-import Alertas.AvaliaAlertaHumidade;
-import Alertas.AvaliaAlertaTemperatura;
+import Alertas.AvaliaAlertaTemperaturaHumidade;
 
 public class AvaliaAnomalias {
 	private int tamanhoBuffer;
@@ -73,11 +72,7 @@ public class AvaliaAnomalias {
 	}
 	private void avaliaPossivelAlertaEInsereMedicaoNoMysql(Medicao m) {
 		new InsereMedicoesNoMySql(m,false);
-		if (m.getTipoMedicao().equals("tmp")){
-			//mando para AvaliaAlertaTemperatura
-		} else if (m.getTipoMedicao().equals("hum")){
-			//mando para AvaliaAlertaHumidade
-		}
+		new AvaliaAlertaTemperaturaHumidade(m);
 	}
 	
  }
