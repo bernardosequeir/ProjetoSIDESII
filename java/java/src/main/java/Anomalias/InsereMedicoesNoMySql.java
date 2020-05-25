@@ -55,6 +55,11 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 	
+	/**
+	 * The data comes in as xx-xx-xx xx:xx:xx but without leading zeros. For example 1990-5-3 12:4:20 gets converted to 1990-05-03 12:04:20
+	 * Due to the sensor's hour being an hour behind, it also add it to the correct date(GMT +1 +1 again).
+	 * @return
+	 */
 	public String dataHoraParaFormatoCerto() {
 		// TODO Auto-generated method stub
 		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
