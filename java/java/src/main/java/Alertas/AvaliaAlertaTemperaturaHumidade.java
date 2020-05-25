@@ -9,23 +9,23 @@ public class AvaliaAlertaTemperaturaHumidade {
 	LinkedList<Medicao> lastValues = new LinkedList<Medicao>();
 	
 	private double d;
-	private String tipoMedicao;
+	private Medicao medicao;
 	
 	public AvaliaAlertaTemperaturaHumidade(Medicao m) {
-		this.tipoMedicao = m.getTipoMedicao();
+		this.medicao = m;
 		
 		avaliaAlerta();
 		
-		Alerta.adicionaValor(d);
+		Alerta.adicionaValor(m);
 	}
 
 	
 	private void avaliaAlerta() {
-		if(d >= Alerta.getLimite(tipoMedicao)) {
+		if(d >= Alerta.getLimite(medicao.getTipoMedicao())) {
 			//Alerta.enviaAlerta();
 		} else {
-			boolean crescimentoInstantaneo = (d / Alerta.getUltimoValor("tmp") - 1 > Alerta.getCrescimentoInstantaneo("tmp"));
-			boolean crescimentoGradual = (d / Alerta.getPrimeiroValor("tmp") - 1 > Alerta.getCrescimentoGradual("tmp"));
+			boolean crescimentoInstantaneo = (d / Alerta.getUltimoValor("tmp").getValorMedicao() - 1 > Alerta.getCrescimentoInstantaneo("tmp"));
+			boolean crescimentoGradual = (d / Alerta.getPrimeiroValor("tmp").getValorMedicao() - 1 > Alerta.getCrescimentoGradual("tmp"));
 			
 			if(crescimentoInstantaneo || crescimentoGradual) {
 				System.out.println(crescimentoInstantaneo+" "+crescimentoGradual);
