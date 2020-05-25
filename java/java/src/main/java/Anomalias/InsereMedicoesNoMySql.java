@@ -57,7 +57,7 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 	
-	private String dataHoraParaFormatoCerto() {
+	public String dataHoraParaFormatoCerto() {
 		// TODO Auto-generated method stub
 		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		try {

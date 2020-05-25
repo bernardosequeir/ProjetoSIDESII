@@ -50,7 +50,7 @@ public class AvaliaAlertaAssalto  {
 		this.movimento = movimento;
 		this.luminosidade = luminosidade;
 		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
-		timestampUsedInRonda = movimento.getDataHoraMedicao();
+		timestampUsedInRonda = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
 
 		connectMysqlAssalto();
 		if (existeAlerta())
@@ -99,18 +99,18 @@ public class AvaliaAlertaAssalto  {
 			}
 		} else if (luminosidade.isAnomalo()) {
 			new InsereMedicoesNoMySql(luminosidade);
-			if (movimento.getValorMedicao() == 1) {
+			if (movimento.getValorMedicao() == 1.00) {
 				tipoAlerta = "mov";
 				return true;
 			}
-		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro && movimento.getValorMedicao() == 1) {
+		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro && movimento.getValorMedicao() == 1.00) {
 			tipoAlerta = "both";
 			return true;
 		}
 		if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 			tipoAlerta = "lum";
 			return true;
-		} else if (movimento.getValorMedicao() == 1) {
+		} else if (movimento.getValorMedicao() == 1.00) {
 			tipoAlerta = "mov";
 			return true;
 		}
@@ -152,8 +152,7 @@ public class AvaliaAlertaAssalto  {
 		Statement st;
 		try {
 			st = conn.createStatement();
-			String Sqlcommando = "CALL VerificaSeExisteRonda(" + timestampUsedInRonda + ")";
-
+			String Sqlcommando = "CALL VerificaSeExisteRonda('" + timestampUsedInRonda + "')";
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
 			int result = rs.getInt("existeronda");

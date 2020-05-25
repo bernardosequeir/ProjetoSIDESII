@@ -18,9 +18,7 @@ public class Medicao {
 	}
 
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
-		System.out.println(valorMedicao);
-		checkTipo();
-		checkData();
+		checkTipo(valorMedicao);
 		if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
 			checkPositivo();
 		}
@@ -38,19 +36,14 @@ public class Medicao {
 	}
 
 	private void checkMovimento() {
-		if (valorMedicao != 0.0 || valorMedicao != 1.0) {
+		if (Double.compare(valorMedicao, 0.0)!=0 && Double.compare(valorMedicao, 1.0)!=0) {
 			possivelAnomalia = true;
 		}
 	}
 
-	private void checkData() {
-		// TODO Implementar um método no mongo to mysql que devolve a data do último doc
-		// inserido e compara com a deste
-	}
-
-	private void checkTipo() {
+	private void checkTipo(String valorMedicao) {
 		try {
-			valorMedicao = Double.parseDouble(tipoMedicao);
+				this.valorMedicao = Double.valueOf(valorMedicao);
 		} catch (Exception e) {
 			possivelAnomalia = true;
 		}
