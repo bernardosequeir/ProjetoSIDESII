@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import Anomalias.InsereMedicoesNoMySql;
@@ -21,7 +22,7 @@ import com.mongodb.client.MongoDatabase;
  * @author joaof, grupo12 Opens a new sql connection
  *
  */
-public class AvaliaAlertaAssalto  {
+public class AvaliaAlertaAssalto {
 
 	/*
 	 * O que é que ele precisa: - Duas medição - luminosidade e movimento - Se há
@@ -46,7 +47,10 @@ public class AvaliaAlertaAssalto  {
 	private String valorAlarmeAInserir;
 	private String tipoAlerta;
 
+	
+
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
+		
 		this.movimento = movimento;
 		this.luminosidade = luminosidade;
 		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
@@ -125,17 +129,13 @@ public class AvaliaAlertaAssalto  {
 			st = conn.createStatement();
 			String Sqlcommando = null;
 			if(tipoAlerta.equals("mov")) {
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", mov ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",movimento);
 			}
 			else if(tipoAlerta.equals("lum")) {
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", lum ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",luminosidade);
 			} else if(tipoAlerta.equals("both")){
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", mov ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", lum ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",movimento);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",luminosidade);
 			}
 			
 			rs.next();

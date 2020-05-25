@@ -7,13 +7,17 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import Anomalias.InsereMedicoesNoMySql;
+import Anomalias.Medicao;
+
 
 public class Alerta {
 
+	private Medicao medicao;
 	
 	
-	public Alerta(HashMap valoresTabelaSistema) {
-		
+	public Alerta(HashMap valoresTabelaSistema, Medicao medicao) {
+		this.medicao = medicao;
 	}
 	static LinkedList<Double> ultimosValoresTemperatura = new LinkedList<Double>();
 	static LinkedList<Double> ultimosValoresHumidade = new LinkedList<Double>();
@@ -125,14 +129,19 @@ public class Alerta {
 		return tipo;
 	}
 
-	public void enviaAlerta(Connection conn) {
+	public static void enviaAlerta(Connection conn, String descricao, Medicao medicao) {
 		try {
 			Statement st = conn.createStatement();
-			//String Sqlcommando = "CALL InserirAlerta("+null+", + timestampUsedInRonda + , "+mov+", + valorAlarmeAInserir + , null, null,null)";
-			//ResultSet rs = st.executeQuery(Sqlcommando);
+			String Sqlcommando = "CALL InserirAlerta(NULL, '" + new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() +  "','"+medicao.getTipoMedicao()+  "','"+ medicao.getValorMedicao()+  "',NULL,'"+descricao+"',0,NULL);";
+			ResultSet rs = st.executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static double getLimite(String tipoMedicao) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

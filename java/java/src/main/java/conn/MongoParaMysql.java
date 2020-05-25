@@ -42,7 +42,6 @@ public class MongoParaMysql {
     private AvaliaAnomalias avaliaAnomaliasHumidade;
     private  Document ultimaMedicao;
     private final Bson lastFilter = new Document("_id", -1);
-    private Double luminosidadeLuzEscuro = 10.0;
 
     public void connectMongo() {
         Properties p = new Properties();
@@ -100,6 +99,7 @@ public class MongoParaMysql {
         if (!ultimaMedicao.equals(novo)) {
             ultimaMedicao = novo;
             valoresASerConferidos = getValoresMedicao(ultimaMedicao);
+            //tabela hash ja esta certa
             verificarAssalto();       
             avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
             avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
@@ -112,7 +112,7 @@ public class MongoParaMysql {
     private void verificarAssalto() {
         Medicao movimento = valoresASerConferidos.get("mov");
         Medicao luminosidade = valoresASerConferidos.get("lum");
-        new AvaliaAlertaAssalto(movimento, luminosidade, luminosidadeLuzEscuro);
+        new AvaliaAlertaAssalto(movimento, luminosidade, valoresTabelaSistema.get("luminosidadeLuzesDesligadas"));
     }
 
     private void criaBuffersAnomalia() {
