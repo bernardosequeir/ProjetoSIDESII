@@ -60,7 +60,7 @@ public class MongoParaMysql {
 
     public void connectMysql() {
 
-        database_password = "teste123";
+        database_password = "";
         database_user = "root";
         database_connection = "jdbc:mysql://localhost/g12_museum";
         try {

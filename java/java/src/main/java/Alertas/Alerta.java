@@ -9,6 +9,7 @@ import java.util.LinkedList;
 
 import Anomalias.InsereMedicoesNoMySql;
 import Anomalias.Medicao;
+import com.sun.java.swing.plaf.motif.MotifEditorPaneUI;
 
 
 public class Alerta {
@@ -19,9 +20,9 @@ public class Alerta {
 	public Alerta(HashMap valoresTabelaSistema, Medicao medicao) {
 		this.medicao = medicao;
 	}
-	static LinkedList<Double> ultimosValoresTemperatura = new LinkedList<Double>();
-	static LinkedList<Double> ultimosValoresHumidade = new LinkedList<Double>();
-	static LinkedList<Double> ultimosValoresLuminosidade = new LinkedList<Double>();
+	static LinkedList<Medicao> ultimosValoresTemperatura = new LinkedList<Medicao>();
+	static LinkedList<Medicao> ultimosValoresHumidade = new LinkedList<Medicao>();
+	static LinkedList<Medicao> ultimosValoresLuminosidade = new LinkedList<Medicao>();
 
 	private static int tamanhoBuffer = 5;
 
@@ -34,17 +35,22 @@ public class Alerta {
 
 	// Variaveis de assalto
 
-	public static void adicionaValor(double val) {
-		int tipo = 0;
-		if (tipo == 0) {
+	public static void adicionaValor(Medicao m) {
+		if (m.getTipoMedicao().equals("tmp")) {
 			if (ultimosValoresTemperatura.size() == tamanhoBuffer) {
 				ultimosValoresTemperatura.poll();
-				ultimosValoresTemperatura.add(val);
-
-			} else {
-				ultimosValoresTemperatura.add(val);
-
 			}
+			ultimosValoresTemperatura.add(m);
+		} else if (m.getTipoMedicao().equals("hum")) {
+			if (ultimosValoresHumidade.size() == tamanhoBuffer) {
+				ultimosValoresHumidade.poll();
+			}
+			ultimosValoresHumidade.add(m);
+		} else if (m.getTipoMedicao().equals("lum")){
+			if (ultimosValoresLuminosidade.size() == tamanhoBuffer) {
+				ultimosValoresLuminosidade.poll();
+			}
+			ultimosValoresLuminosidade.add(m);
 		}
 
 	}
@@ -64,41 +70,50 @@ public class Alerta {
 		return limiteTemperatura;
 	}
 
-	public static double getUltimoValor(String string) {
-		int tipo = 0;
-		if (tipo == 0) {
-			double n = -1.0;
+	public static Medicao getUltimoValor(String tipo) {
+		Medicao m;
+		if (tipo.equals("tmp")) {
 			if (ultimosValoresTemperatura.size() != 0) {
-				n = ultimosValoresTemperatura.getLast();
+				m = ultimosValoresTemperatura.getLast();
 			}
-			return n;
+			return null;
 		}
-		if (tipo == 1) {
-			return -1.0;
+		else if (tipo.equals("hum")) {
+			if (ultimosValoresHumidade.size() != 0) {
+				m = ultimosValoresHumidade.getLast();
+			}
+			return null;
 		}
-		if (tipo == 2) {
-			return -1.0;
+		else if (tipo.equals("lum")) {
+			if (ultimosValoresHumidade.size() != 0) {
+				m = ultimosValoresHumidade.getLast();
+			}
+			return null;
 		}
-		return tipo;
+		return null;
 	}
 
-	public static double getPrimeiroValor(String string) {
-		int tipo = 0;
-		if (tipo == 0) {
-			double n = -1.0;
-			if (ultimosValoresTemperatura.size() != 0.0) {
-				n = ultimosValoresTemperatura.getFirst();
+	public static Medicao getPrimeiroValor(String tipo) {
+		Medicao m;
+		if (tipo.equals("tmp")) {
+			if (ultimosValoresTemperatura.size() != 0) {
+				m = ultimosValoresTemperatura.getFirst();
 			}
-			return n;
+			return null;
 		}
-		if (tipo == 1) {
-			return -1.0;
+		else if (tipo.equals("hum")) {
+			if (ultimosValoresHumidade.size() != 0) {
+				m = ultimosValoresHumidade.getFirst();
+			}
+			return null;
 		}
-		if (tipo == 2) {
-			return -1.0;
+		else if (tipo.equals("lum")) {
+			if (ultimosValoresHumidade.size() != 0) {
+				m = ultimosValoresHumidade.getFirst();
+			}
+			return null;
 		}
-
-		return tipo;
+		return null;
 	}
 
 	public static double getCrescimentoInstantaneo(String string) {

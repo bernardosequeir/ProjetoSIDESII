@@ -72,7 +72,7 @@ public class AvaliaAlertaAssalto {
 	 */
 	public void connectMysqlAssalto() {
 
-		database_password = "teste123";
+		database_password = "";
 		database_user = "root";
 		database_connection = "jdbc:mysql://localhost/g12_museum";
 		try {
