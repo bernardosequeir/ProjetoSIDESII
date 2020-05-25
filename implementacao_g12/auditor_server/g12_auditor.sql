@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11-Maio-2020 às 00:47
+-- Tempo de geração: 25-Maio-2020 às 23:17
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -63,8 +63,8 @@ CREATE TABLE `g12_logmedicao_sensores` (
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `IDMedicaoAntigo` int(11) DEFAULT NULL,
-  `IDMedicalNovo` int(11) DEFAULT NULL,
+  `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
+  `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
   `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
   `TipoDeSensorAnterior` varchar(3) DEFAULT NULL,
@@ -84,8 +84,8 @@ CREATE TABLE `g12_logmedicao_sensores_anomalos` (
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `IDMedicaoAntigo` int(11) DEFAULT NULL,
-  `IDMedicalNovo` int(11) DEFAULT NULL,
+  `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
+  `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
   `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
   `TipoDeSensorAnterior` varchar(3) DEFAULT NULL,

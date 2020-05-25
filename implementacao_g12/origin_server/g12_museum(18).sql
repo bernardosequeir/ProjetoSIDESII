@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25-Maio-2020 às 19:49
+-- Tempo de geração: 25-Maio-2020 às 23:16
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -400,8 +400,8 @@ CREATE TABLE `g12_logmedicao_sensores` (
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `IDMedicaoAntigo` int(11) DEFAULT NULL,
-  `IDMedicalNovo` int(11) DEFAULT NULL,
+  `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
+  `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
   `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
   `TipoDeSensorAnterior` varchar(3) DEFAULT NULL,
@@ -421,8 +421,8 @@ CREATE TABLE `g12_logmedicao_sensores_anomalos` (
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
   `Time` time NOT NULL,
-  `IDMedicaoAntigo` int(11) DEFAULT NULL,
-  `IDMedicalNovo` int(11) DEFAULT NULL,
+  `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
+  `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
   `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
   `TipoDeSensorAnterior` varchar(3) DEFAULT NULL,
@@ -521,7 +521,7 @@ CREATE TABLE `g12_loguser` (
 --
 
 CREATE TABLE `medicao_sensores` (
-  `idMedicao` int(11) NOT NULL,
+  `idMedicao` bigint(20) NOT NULL,
   `ValorMedicao` decimal(6,2) NOT NULL,
   `TipoSensor` varchar(3) NOT NULL,
   `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -566,7 +566,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `medicao_sensores_anomalos` (
-  `idMedicao` int(11) NOT NULL,
+  `idMedicao` bigint(20) NOT NULL,
   `ValorMedicao` decimal(6,2) NOT NULL,
   `TipoSensor` varchar(3) NOT NULL,
   `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -896,13 +896,13 @@ ALTER TABLE `g12_loguser`
 -- AUTO_INCREMENT de tabela `medicao_sensores`
 --
 ALTER TABLE `medicao_sensores`
-  MODIFY `idMedicao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idMedicao` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `medicao_sensores_anomalos`
 --
 ALTER TABLE `medicao_sensores_anomalos`
-  MODIFY `idMedicao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idMedicao` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `sistema`
