@@ -9,37 +9,29 @@ public class AvaliaAlertaTemperaturaHumidade {
 	LinkedList<Medicao> lastValues = new LinkedList<Medicao>();
 	
 	private double d;
+	private String tipoMedicao;
 	
 	public AvaliaAlertaTemperaturaHumidade(Medicao m) {
-		this.d = d;
+		this.tipoMedicao = m.getTipoMedicao();
 		
 		avaliaAlerta();
 		
-		Alertas.adicionaValor(d);
+		Alerta.adicionaValor(d);
 	}
 
+	
 	private void avaliaAlerta() {
-		if(d >= Alertas.getLimiteTemperatura()) {
-			enviaAlerta();
+		if(d >= Alerta.getLimite(tipoMedicao)) {
+			Alerta.enviaAlerta();
 		} else {
-			boolean crescimentoInstantaneo = (d / Alertas.getUltimoValor("tmp") - 1 > Alertas.getCrescimentoInstantaneo("tmp"));
-			boolean crescimentoGradual = (d / Alertas.getPrimeiroValor("tmp") - 1 > Alertas.getCrescimentoGradual("tmp"));
+			boolean crescimentoInstantaneo = (d / Alerta.getUltimoValor("tmp") - 1 > Alerta.getCrescimentoInstantaneo("tmp"));
+			boolean crescimentoGradual = (d / Alerta.getPrimeiroValor("tmp") - 1 > Alerta.getCrescimentoGradual("tmp"));
 			
 			if(crescimentoInstantaneo || crescimentoGradual) {
 				System.out.println(crescimentoInstantaneo+" "+crescimentoGradual);
-				enviaAlerta();
+				Alerta.enviaAlerta();
 			}
 		}
-	}
-
-	private void enviaAlertaPossivel() {
-		System.out.println("POSSIVEL INCENDIO");
-		
-	}
-
-	private void enviaAlerta() {
-		System.out.println("INCENDIO");
-		
 	}
 
 }

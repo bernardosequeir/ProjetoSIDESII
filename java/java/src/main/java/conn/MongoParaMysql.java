@@ -42,7 +42,6 @@ public class MongoParaMysql {
     private AvaliaAnomalias avaliaAnomaliasHumidade;
     private  Document ultimaMedicao;
     private final Bson lastFilter = new Document("_id", -1);
-    private Double luminosidadeLuzEscuro = 10.0;
 
     public void connectMongo() {
         Properties p = new Properties();
@@ -84,8 +83,8 @@ public class MongoParaMysql {
         try {
             irBuscarDadosMysql();
             criaBuffersAnomalia();
-            Document ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
-            System.out.println(ultimaMedicao);
+            ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
+           
             while (true) {
                 verificaValoresNovos();
             }
@@ -100,7 +99,8 @@ public class MongoParaMysql {
         if (!ultimaMedicao.equals(novo)) {
             ultimaMedicao = novo;
             valoresASerConferidos = getValoresMedicao(ultimaMedicao);
-            verificarAssalto();
+            //tabela hash ja esta certa
+            verificarAssalto();       
             avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
             avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
@@ -112,7 +112,7 @@ public class MongoParaMysql {
     private void verificarAssalto() {
         Medicao movimento = valoresASerConferidos.get("mov");
         Medicao luminosidade = valoresASerConferidos.get("lum");
-        new AvaliaAlertaAssalto(movimento, luminosidade, luminosidadeLuzEscuro);
+        new AvaliaAlertaAssalto(movimento, luminosidade, valoresTabelaSistema.get("luminosidadeLuzesDesligadas"));
     }
 
     private void criaBuffersAnomalia() {
@@ -143,6 +143,7 @@ public class MongoParaMysql {
     private Document getUltimoValor() {
         List<Document> novosresultados = new ArrayList<Document>();
         mongocol.find().sort(lastFilter).limit(1).into(novosresultados);
+        
         return novosresultados.get(0);
     }
 
@@ -152,7 +153,7 @@ public class MongoParaMysql {
         Medicao medicaoTemperatura = new Medicao(doc.getString("tmp"), "tmp", date_fixed);
         Medicao medicaoHumidade = new Medicao(doc.getString("hum"), "hum", date_fixed);
         Medicao medicaoLuminosidade = new Medicao(doc.getString("cell"), "lum", date_fixed);
-        Medicao medicaoMovimento = new Medicao(doc.getString("sens\""), "mov", date_fixed);
+        Medicao medicaoMovimento = new Medicao(doc.getString("mov\""), "mov", date_fixed);
         HashMap<String,Medicao> medicoes = new HashMap<String, Medicao>();
         medicoes.put("tmp",medicaoTemperatura);
         medicoes.put("hum",medicaoHumidade);

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import Anomalias.InsereMedicoesNoMySql;
@@ -46,11 +47,14 @@ public class AvaliaAlertaAssalto {
 	private String valorAlarmeAInserir;
 	private String tipoAlerta;
 
+	
+
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
+		
 		this.movimento = movimento;
 		this.luminosidade = luminosidade;
 		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
-		timestampUsedInRonda = movimento.getDataHoraMedicao();
+		timestampUsedInRonda = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
 
 		connectMysqlAssalto();
 		if (existeAlerta())
@@ -87,30 +91,30 @@ public class AvaliaAlertaAssalto {
 
 	public boolean valorEAlerta() {
 		if (movimento.isAnomalo() && luminosidade.isAnomalo()) {
-			new InsereMedicoesNoMySql(movimento,true);
-			new InsereMedicoesNoMySql(luminosidade,true);
+			new InsereMedicoesNoMySql(movimento);
+			new InsereMedicoesNoMySql(luminosidade);
 			return false;
 		}
 		else if (movimento.isAnomalo()) {
-			new InsereMedicoesNoMySql(movimento,true);
+			new InsereMedicoesNoMySql(movimento);
 			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 				tipoAlerta = "lum";
 				return true;
 			}
 		} else if (luminosidade.isAnomalo()) {
-			new InsereMedicoesNoMySql(luminosidade,true);
-			if (movimento.getValorMedicao() == 1) {
+			new InsereMedicoesNoMySql(luminosidade);
+			if (movimento.getValorMedicao() == 1.00) {
 				tipoAlerta = "mov";
 				return true;
 			}
-		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro && movimento.getValorMedicao() == 1) {
+		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro && movimento.getValorMedicao() == 1.00) {
 			tipoAlerta = "both";
 			return true;
 		}
 		if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 			tipoAlerta = "lum";
 			return true;
-		} else if (movimento.getValorMedicao() == 1) {
+		} else if (movimento.getValorMedicao() == 1.00) {
 			tipoAlerta = "mov";
 			return true;
 		}
@@ -125,17 +129,13 @@ public class AvaliaAlertaAssalto {
 			st = conn.createStatement();
 			String Sqlcommando = null;
 			if(tipoAlerta.equals("mov")) {
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", mov ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",movimento);
 			}
 			else if(tipoAlerta.equals("lum")) {
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", lum ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",luminosidade);
 			} else if(tipoAlerta.equals("both")){
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", mov ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
-				Sqlcommando = "CALL InserirAlerta(" + timestampUsedInRonda + ", lum ,"+ valorAlarmeAInserir + ", null, null,null)";
-				rs = st.executeQuery(Sqlcommando);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",movimento);
+				Alerta.enviaAlerta(conn, "Possivel Assalto",luminosidade);
 			}
 			
 			rs.next();
@@ -152,16 +152,13 @@ public class AvaliaAlertaAssalto {
 		Statement st;
 		try {
 			st = conn.createStatement();
-			String Sqlcommando = "CALL VerificaSeExisteRonda(" + timestampUsedInRonda + ")";
-
+			String Sqlcommando = "CALL VerificaSeExisteRonda('" + timestampUsedInRonda + "')";
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
 			int result = rs.getInt("existeronda");
 			if (result == 0) {
-				System.out.println("Nao existe ronda");
 				return false;
 			} else {
-				System.out.println("RONDA");
 				return true;
 			}
 		} catch (SQLException e) {
@@ -172,11 +169,6 @@ public class AvaliaAlertaAssalto {
 
 	}
 
-	public static void main(String[] args) {
-		Medicao medicaoLuz = new Medicao("1", "mov", "'2020.05.13 12:12:12'");
-		Medicao medicaoMov = new Medicao("1", "lum", "'2020.05.13 12:12:12'");
-		new AvaliaAlertaAssalto(medicaoMov, medicaoLuz, 0.0);
-
-	}
+	
 
 }

@@ -5,6 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class InsereMedicoesNoMySql {
 
@@ -14,12 +19,9 @@ public class InsereMedicoesNoMySql {
 	private String database_user;
 	private String database_connection;
 	private Statement s;
-	private ResultSet rs;
-	private Boolean anomalia;
 
-	public InsereMedicoesNoMySql(Medicao medicao, Boolean anomalia) {
+	public InsereMedicoesNoMySql(Medicao medicao) {
 		this.medicao = medicao;
-		this.anomalia = anomalia;
 		connect();
 		insereMedicoesNoMySql();
 	}
@@ -43,19 +45,29 @@ public class InsereMedicoesNoMySql {
 	}
 
 	public void insereMedicoesNoMySql() {
-		String nomeTabela;
-		if (anomalia = true)
-			nomeTabela = "medicao_sensores_anomalos";
-		else
-			nomeTabela = "medicao_sensores";
-		String Sqlcommando = "INSERT INTO `"+nomeTabela+"` (`NULL`, `ValorMedicao`, `TipoSensor`, `DataHoraMedicao`) VALUES ('NULL', '"
-				+ medicao.getValorMedicao() + "', '" + medicao.getTipoMedicao() + "', '" + medicao.getDataHoraMedicao()
-				+ "');";
+		String Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"',"+medicao.getValorAnomalia()+");";
+		System.out.println(Sqlcommando);
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public String dataHoraParaFormatoCerto() {
+		// TODO Auto-generated method stub
+		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		try {
+			 Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
+			 Timestamp stamp =  new Timestamp(date.getTime());
+			 SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
+			 return timeFormatISO2.format(stamp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
