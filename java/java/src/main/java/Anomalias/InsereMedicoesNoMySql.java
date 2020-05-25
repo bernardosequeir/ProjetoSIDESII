@@ -19,12 +19,9 @@ public class InsereMedicoesNoMySql {
 	private String database_user;
 	private String database_connection;
 	private Statement s;
-	private ResultSet rs;
-	private Boolean anomalia;
 
 	public InsereMedicoesNoMySql(Medicao medicao) {
 		this.medicao = medicao;
-		this.anomalia = anomalia;
 		connect();
 		insereMedicoesNoMySql();
 	}
@@ -49,6 +46,7 @@ public class InsereMedicoesNoMySql {
 
 	public void insereMedicoesNoMySql() {
 		String Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"',"+medicao.getValorAnomalia()+");";
+		System.out.println(Sqlcommando);
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
 		} catch (SQLException e) {
@@ -59,7 +57,7 @@ public class InsereMedicoesNoMySql {
 	
 	public String dataHoraParaFormatoCerto() {
 		// TODO Auto-generated method stub
-		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			 Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
 			 Timestamp stamp =  new Timestamp(date.getTime());
