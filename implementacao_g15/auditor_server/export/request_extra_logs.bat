@@ -1,1 +1,0 @@
-ECHO "0";"EXTRA";"";"controlo.txt";"%1";"%2";"%numeroTeorico%" > controlo.txt
