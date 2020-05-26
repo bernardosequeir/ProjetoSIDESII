@@ -12,6 +12,7 @@ public class Medicao {
 	private String dataHoraMedicao;
 	private String dataHoraFormatado;
 	private boolean possivelAnomalia = false;
+	private String valorMedicaoAnomalo;
 
 	public String getDataHoraMedicao() {
 		return dataHoraMedicao;
@@ -46,8 +47,13 @@ public class Medicao {
 		try {
 				this.valorMedicao = Double.valueOf(valorMedicao);
 		} catch (Exception e) {
+			valorMedicaoAnomalo = valorMedicao;
 			possivelAnomalia = true;
 		}
+	}
+
+	public String getValorMedicaoAnomalo() {
+		return valorMedicaoAnomalo;
 	}
 
 	public double getValorMedicao() {

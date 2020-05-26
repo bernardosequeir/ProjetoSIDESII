@@ -81,7 +81,7 @@ public class AvaliaAlertaAssalto {
 					.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
 			s = conn.createStatement();
 		} catch (Exception e) {
-			System.out.println("Server down, unable to make the connection. ");
+			System.out.println("Avalia Alerta Assalto - Server down, unable to make the connection. ");
 		}
 	}
 
@@ -129,13 +129,13 @@ public class AvaliaAlertaAssalto {
 			st = conn.createStatement();
 			String Sqlcommando = null;
 			if(tipoAlerta.equals("mov")) {
-				Alerta.enviaAlerta(conn, "Possivel Assalto",movimento);
+				Alerta.enviaAlerta("Possivel Assalto",movimento);
 			}
 			else if(tipoAlerta.equals("lum")) {
-				Alerta.enviaAlerta(conn, "Possivel Assalto",luminosidade);
+				Alerta.enviaAlerta("Possivel Assalto",luminosidade);
 			} else if(tipoAlerta.equals("both")){
-				Alerta.enviaAlerta(conn, "Possivel Assalto",movimento);
-				Alerta.enviaAlerta(conn, "Possivel Assalto",luminosidade);
+				Alerta.enviaAlerta("Possivel Assalto",movimento);
+				Alerta.enviaAlerta("Possivel Assalto",luminosidade);
 			}
 			
 			rs.next();

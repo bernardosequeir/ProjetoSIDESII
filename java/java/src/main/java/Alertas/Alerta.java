@@ -35,7 +35,9 @@ public class Alerta {
 	}
 	public static void adicionaValor(Medicao m) {
 		if(primeiraMedicao){
+			System.out.println("Fui buscar valores");
 			buscarValoresTabelaSistema();
+			System.out.println(valoresTabelaSistema);
 			primeiraMedicao = false;
 		}
 		if (m.getTipoMedicao().equals("tmp")) {
@@ -142,12 +144,13 @@ public class Alerta {
 	}
 
 	public static void enviaAlerta(String descricao, Medicao medicao) {
+		//TODO acrescentar limite
 		try {
 			Connection conn = ConnectToMySql.connect();
 			Statement st = conn.createStatement();
-			String Sqlcommando = "CALL InserirAlerta(NULL, '"
+			String Sqlcommando = "CALL InserirAlerta( '"
 					+ new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() + "','" + medicao.getTipoMedicao()
-					+ "','" + medicao.getValorMedicao() + "',NULL,'" + descricao + "',0,NULL);";
+					+ "','" + medicao.getValorMedicao() + "',0,'" + descricao + "',0,'');";
 			ResultSet rs = st.executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
