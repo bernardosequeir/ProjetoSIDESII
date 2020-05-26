@@ -60,7 +60,7 @@ public class MongoParaMysql {
 
     public void connectMysql() {
 
-        database_password = "";
+        database_password = "teste123";
         database_user = "root";
         database_connection = "jdbc:mysql://localhost/g12_museum";
         try {
@@ -101,8 +101,8 @@ public class MongoParaMysql {
             valoresASerConferidos = getValoresMedicao(ultimaMedicao);
             //tabela hash ja esta certa
             verificarAssalto();       
-            avaliaAnomaliasTemperatura.addicionarValores(valoresASerConferidos.get("tmp"));
-            avaliaAnomaliasHumidade.addicionarValores(valoresASerConferidos.get("hum"));
+            avaliaAnomaliasTemperatura.adicionarValores(valoresASerConferidos.get("tmp"));
+            avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         } else {
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
