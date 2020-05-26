@@ -21,7 +21,7 @@ public class AvaliaAnomalias {
 
 	private void testaAnomalia(List<Medicao> lista) {
 		boolean anomalia = false;
-		//TODO primeiro valor da temperatura e humidade aparece a null
+		//TODO primeiro valor d temperatura e humidade aparece a null
 		// Caso seja o primeiro buffer em verificação, ele compara o primeiro valor com
 		// ele mesmo dado que não há um ultimo valor valido.
 		if (ultimaMedicaoValida == 0.0) {
@@ -69,6 +69,7 @@ public class AvaliaAnomalias {
 		}
 		if (medicoes.size() == tamanhoBuffer) {
 			testaAnomalia(medicoes);
+			
 			medicoes.clear();
 		}
 	}

@@ -36,7 +36,7 @@ public class MongoParaMysql {
     private String database_password;
     private String database_user;
     private String database_connection;
-    private HashMap<String, Double> valoresTabelaSistema;
+    private static HashMap<String, Double> valoresTabelaSistema;
     private HashMap<String,Medicao> valoresASerConferidos;
     private AvaliaAnomalias avaliaAnomaliasTemperatura;
     private AvaliaAnomalias avaliaAnomaliasHumidade;
@@ -72,7 +72,11 @@ public class MongoParaMysql {
         }
     }
 
-    public static void main(String[] args) {
+    public static HashMap<String, Double> getValoresTabelaSistema() {
+		return valoresTabelaSistema;
+	}
+
+	public static void main(String[] args) {
         MongoParaMysql mongoParaMysql = new MongoParaMysql();
         mongoParaMysql.run();
     }
@@ -138,6 +142,8 @@ public class MongoParaMysql {
         valoresTabelaSistema.put("luminosidadeLuzesDesligadas", rs.getDouble("luminosidadeLuzesDesligadas"));
         valoresTabelaSistema.put("limiteTemperatura", rs.getDouble("limiteTemperatura"));
         valoresTabelaSistema.put("limiteHumidade", rs.getDouble("limiteHumidade"));
+        
+        Alerta.
     }
 
     private Document getUltimoValor() {
