@@ -36,7 +36,6 @@ public class Medicao {
 	}
 
 	private void checkMovimento() {
-		System.out.println(valorMedicao);
 		if (Double.compare(valorMedicao, 0.0)!=0 && Double.compare(valorMedicao, 1.0)!=0) {
 			possivelAnomalia = true;
 		}

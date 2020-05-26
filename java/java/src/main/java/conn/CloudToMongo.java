@@ -70,7 +70,7 @@ public class CloudToMongo implements MqttCallback {
 			DBObject document_json;
 
 			document_json = (DBObject) JSON.parse(clean(c.toString()));
-			System.out.println(c.toString());
+			System.out.println(clean(c.toString()));
 			mongocol.insert(document_json);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -84,9 +84,9 @@ public class CloudToMongo implements MqttCallback {
 	}
 
 	public String clean(String message) {
-		message.replace("\"\"", "\"");
-		message = message.replace("\"s", "\",s");
-		return (message.replaceAll("\"\"", "\","));
+		//message.replace("\"\"", "\"");
+		//message = message.replace("\"s", "\",s");  //comentar até mais ou menos 6 da tarde
+		return message.replaceAll("\", " , ",\"");
 
 	}
 
