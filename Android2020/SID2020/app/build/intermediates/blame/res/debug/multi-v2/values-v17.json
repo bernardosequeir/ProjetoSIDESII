@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\joaof\\Downloads\\Android2020\\SID2020\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v17\\values-v17.xml",
+            "outputFile": "C:\\Users\\Bernardo\\Documents\\GitHub\\ProjetoSIDESII\\Android2020\\SID2020\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v17\\values-v17.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\joaof\\.gradle\\caches\\transforms-2\\files-2.1\\d202e6668baea3ba9319cee60149e90e\\res\\values-v17\\values-v17.xml",
+                    "source": "C:\\Users\\Bernardo\\.gradle\\caches\\transforms-2\\files-2.1\\06423baf5eb1dac1faa11614324a184f\\res\\values-v17\\values-v17.xml",
                     "from": {
                         "startLines": "2,5,9,12,15,18,22,25,29,33,37,40,43,46,50,53,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
