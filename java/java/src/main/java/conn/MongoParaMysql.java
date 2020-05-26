@@ -143,7 +143,7 @@ public class MongoParaMysql {
         valoresTabelaSistema.put("limiteTemperatura", rs.getDouble("limiteTemperatura"));
         valoresTabelaSistema.put("limiteHumidade", rs.getDouble("limiteHumidade"));
         
-        Alerta.
+    
     }
 
     private Document getUltimoValor() {
