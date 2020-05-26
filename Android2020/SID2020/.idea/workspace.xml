@@ -71,7 +71,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="05157df52b65eb3d" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_R" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -93,20 +93,6 @@
         </projects_view>
       </state>
     </system>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>med</find>
-      <find>medicoes</find>
-      <find>SID2019</find>
-      <find>sid2019</find>
-      <find>System.out.println(&quot;EEEE&quot;);</find>
-      <find>Log.d</find>
-      <find>AlertasGlobais</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>sid2020</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
