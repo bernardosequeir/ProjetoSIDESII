@@ -30,18 +30,20 @@ public class Medicao {
 	}
 
 	private void checkPositivo() {
-		if (valorMedicao < 0) {
+		if (valorMedicao < 0.0) {
 			possivelAnomalia = true;
 		}
 	}
 
 	private void checkMovimento() {
+		System.out.println(valorMedicao);
 		if (Double.compare(valorMedicao, 0.0)!=0 && Double.compare(valorMedicao, 1.0)!=0) {
 			possivelAnomalia = true;
 		}
 	}
 
 	private void checkTipo(String valorMedicao) {
+		System.out.println(valorMedicao);
 		try {
 				this.valorMedicao = Double.valueOf(valorMedicao);
 		} catch (Exception e) {

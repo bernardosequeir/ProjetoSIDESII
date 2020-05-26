@@ -4,14 +4,14 @@ import java.util.LinkedList;
 
 import Anomalias.Medicao;
 
-public class AvaliaAlertaTemperaturaHumidade {
+public class AvaliaAlertaVariacaoTemperaturaHumidade {
 
 	LinkedList<Medicao> lastValues = new LinkedList<Medicao>();
 	
 	private double d;
 	private Medicao medicao;
 	
-	public AvaliaAlertaTemperaturaHumidade(Medicao m) {
+	public AvaliaAlertaVariacaoTemperaturaHumidade(Medicao m) {
 		this.medicao = m;
 		
 		avaliaAlerta();

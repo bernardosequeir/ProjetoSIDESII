@@ -31,7 +31,7 @@ public class InsereMedicoesNoMySql {
 	 */
 	public void connect() {
 
-		database_password = "";
+		database_password = "teste123";
 		database_user = "root";
 		database_connection = "jdbc:mysql://localhost/g12_museum";
 		try {
