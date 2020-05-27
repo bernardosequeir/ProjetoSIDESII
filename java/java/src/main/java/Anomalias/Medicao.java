@@ -21,23 +21,25 @@ public class Medicao {
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
 		checkTipo(valorMedicao);
 		if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
-			checkPositivo();
+			checkPositivo(valorMedicao);
 		}
 		if (tipoMedicao.equals("mov") && !possivelAnomalia) {
-			checkMovimento();
+			checkMovimento(valorMedicao);
 		}
 		this.tipoMedicao = tipoMedicao;
 		this.dataHoraMedicao = dataHoraMedicao;
 	}
 
-	private void checkPositivo() {
-		if (valorMedicao < 0.0) {
+	private void checkPositivo(String valorMedicao) {
+		if (this.valorMedicao < 0.0) {
+			this.valorMedicaoAnomalo = valorMedicao;
 			possivelAnomalia = true;
 		}
 	}
 
-	private void checkMovimento() {
-		if (Double.compare(valorMedicao, 0.0)!=0 && Double.compare(valorMedicao, 1.0)!=0) {
+	private void checkMovimento(String valorMedicao) {
+		if (Double.compare(this.valorMedicao, 0.0)!=0 && Double.compare(this.valorMedicao, 1.0)!=0) {
+			this.valorMedicaoAnomalo = valorMedicao;
 			possivelAnomalia = true;
 		}
 	}
@@ -53,6 +55,7 @@ public class Medicao {
 	}
 
 	public String getValorMedicaoAnomalo() {
+		System.out.println(valorMedicaoAnomalo);
 		return valorMedicaoAnomalo;
 	}
 

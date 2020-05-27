@@ -5,7 +5,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,24 +51,19 @@ public class AvaliaAlertaAssalto {
 	private String movimentoOuLuminosidade;
 	private String valorAlarmeAInserir;
 	private String tipoAlerta;
-
-	
+	private Time fimRondaEmCurso = Time.valueOf("00:00:00");
 
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
-		
+
 		this.movimento = movimento;
 		this.luminosidade = luminosidade;
 		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
 		timestampUsedInRonda = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
 
 		connectMysqlAssalto();
-		if (existeAlerta())
-			enviaAlerta();
-	}
 
-	private void enviaAlerta() {
-		// TODO Auto-generated method stub
-		System.out.println("ENVIAR ALERTA");
+		if (existeAlerta())
+			insereTabelaAlerta();
 
 	}
 
@@ -80,30 +80,31 @@ public class AvaliaAlertaAssalto {
 			conn = DriverManager
 					.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
 			s = conn.createStatement();
-			System.out.println("nj");
 		} catch (Exception e) {
 			System.out.println("Avalia Alerta Assalto - Server down, unable to make the connection. ");
 		}
 	}
 
 	public boolean existeAlerta() {
-		return valorEAlerta() && !verificaRonda();
+		return valorEAlerta() && !existeRonda();
 	}
 
 	public boolean valorEAlerta() {
+		// nao sao anomalos
+		new InsereMedicoesNoMySql(movimento);
+		new InsereMedicoesNoMySql(luminosidade);
 		if (movimento.isAnomalo() && luminosidade.isAnomalo()) {
-			new InsereMedicoesNoMySql(movimento);
-			new InsereMedicoesNoMySql(luminosidade);
 			return false;
-		}
-		else if (movimento.isAnomalo()) {
-			new InsereMedicoesNoMySql(movimento);
+		} else 
+		// insere sabendo se sao anomalos ou nao
+		
+		if (movimento.isAnomalo()) {
 			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
+				System.out.println("luminosidade.getValorMedicao() > luminosidadeLuzEscuro");
 				tipoAlerta = "lum";
 				return true;
 			}
 		} else if (luminosidade.isAnomalo()) {
-			new InsereMedicoesNoMySql(luminosidade);
 			if (movimento.getValorMedicao() == 1.00) {
 				tipoAlerta = "mov";
 				return true;
@@ -111,7 +112,7 @@ public class AvaliaAlertaAssalto {
 		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro && movimento.getValorMedicao() == 1.00) {
 			tipoAlerta = "both";
 			return true;
-		}
+		} else 
 		if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 			tipoAlerta = "lum";
 			return true;
@@ -123,53 +124,76 @@ public class AvaliaAlertaAssalto {
 
 	}
 
-	public boolean insereTabelaAlerta() {
+	public void insereTabelaAlerta() {
 
 		Statement st;
 		try {
 			st = conn.createStatement();
 			String Sqlcommando = null;
-			if(tipoAlerta.equals("mov")) {
-				Alerta.enviaAlerta("Possivel Assalto",movimento);
+			if (tipoAlerta.equals("mov")) {
+				Alerta.enviaAlerta("Possivel Assalto", movimento);
+			} else if (tipoAlerta.equals("lum")) {
+				Alerta.enviaAlerta("Possivel Assalto", luminosidade);
+			} else if (tipoAlerta.equals("both")) {
+				Alerta.enviaAlerta("Possivel Assalto", movimento);
+				Alerta.enviaAlerta("Possivel Assalto", luminosidade);
 			}
-			else if(tipoAlerta.equals("lum")) {
-				Alerta.enviaAlerta("Possivel Assalto",luminosidade);
-			} else if(tipoAlerta.equals("both")){
-				Alerta.enviaAlerta("Possivel Assalto",movimento);
-				Alerta.enviaAlerta("Possivel Assalto",luminosidade);
-			}
-			
+
 			rs.next();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
 	}
 
-	public boolean verificaRonda() {
+	public boolean existeRonda()  {
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			Date parsedDate;
+			parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
+			Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+			if (fimRondaEmCurso.after(timestamp))
+				return true;
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
+		// isto vai ter um problema que eu não consigo pensar nele, mas se rondas
+		// tiverem mais de 24h rip(nao importante)
+		// e se o cliente quiser aceitar tudo no medicoes_sensores e se o sensor estiver
+		// avariado rip tambem, ou seja se sensor estiver a mandar data errada e valor
+		// certo e só assim por acaso é um incendio rip
+		// Rondas planeadas com mais de 24h vai ser um grande rip, espero que nunca
+		// aconteca
 		Statement st;
 		try {
+			System.out.println("comeca a verificar ronda");
 			st = conn.createStatement();
 			String Sqlcommando = "CALL VerificaSeExisteRonda('" + timestampUsedInRonda + "')";
+		    DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+		    Date date = sdf.parse("00:00:00");
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
-			int result = rs.getInt("existeronda");
-			if (result == 0) {
+			Time result = rs.getTime("result");
+			if (result.equals(date)) {
+				System.out.println("não está em ronda");
 				return false;
 			} else {
+				System.out.println("esta em ronda");
+				fimRondaEmCurso = result;
 				return true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return false;
 
 	}
-
-	
 
 }

@@ -35,24 +35,31 @@ public class Alerta {
 	}
 	public static void adicionaValor(Medicao m) {
 		if(primeiraMedicao){
+			System.out.println("Fui buscar valores");
 			buscarValoresTabelaSistema();
+			System.out.println(valoresTabelaSistema);
 			primeiraMedicao = false;
-		}
+		} 
 		if (m.getTipoMedicao().equals("tmp")) {
+			System.out.println("entrou tmp");
 			if (ultimosValoresTemperatura.size() == irBuscarBuffersAlerta()) {
+				System.out.println("entrou buffers cheios");
 				ultimosValoresTemperatura.poll();
 			}
-			ultimosValoresTemperatura.add(m);
+			else {
+				System.out.println("entrou buffers nao cheios");
+				ultimosValoresTemperatura.add(m);
+			}
 		} else if (m.getTipoMedicao().equals("hum")) {
 			if (ultimosValoresHumidade.size() == irBuscarBuffersAlerta()) {
 				ultimosValoresHumidade.poll();
 			}
-			ultimosValoresHumidade.add(m);
+			else ultimosValoresHumidade.add(m);
 		} else if (m.getTipoMedicao().equals("lum")) {
 			if (ultimosValoresLuminosidade.size() == irBuscarBuffersAlerta()) {
 				ultimosValoresLuminosidade.poll();
 			}
-			ultimosValoresLuminosidade.add(m);
+			else ultimosValoresLuminosidade.add(m);
 		}
 
 	}
@@ -81,41 +88,40 @@ public class Alerta {
 
 
 	public static Medicao getUltimoValor(String tipoMedicao) {
-		Medicao m;
 		if (tipoMedicao.equals("tmp")) {
 			if (ultimosValoresTemperatura.size() != 0) {
-				m = ultimosValoresTemperatura.getLast();
+				return ultimosValoresTemperatura.getLast();
 			}
 			return null;
 		} else if (tipoMedicao.equals("hum")) {
 			if (ultimosValoresHumidade.size() != 0) {
-				m = ultimosValoresHumidade.getLast();
+				return  ultimosValoresHumidade.getLast();
 			}
 			return null;
-		} else if (tipoMedicao.equals("cell")) {
+		} else if (tipoMedicao.equals("lum")) {
 			if (ultimosValoresHumidade.size() != 0) {
-				m = ultimosValoresHumidade.getLast();
+				return ultimosValoresHumidade.getLast();
 			}
 			return null;
 		}
 		return null;
 	}
 
+	//TODO tratar destes null's
 	public static Medicao getPrimeiroValor(String tipoMedicao) {
-		Medicao m;
 		if (tipoMedicao.equals("tmp")) {
 			if (ultimosValoresTemperatura.size() != 0) {
-				m = ultimosValoresTemperatura.getFirst();
+				return ultimosValoresTemperatura.getFirst();
 			}
 			return null;
 		} else if (tipoMedicao.equals("hum")) {
 			if (ultimosValoresHumidade.size() != 0) {
-				m = ultimosValoresHumidade.getFirst();
+				return ultimosValoresHumidade.getFirst();
 			}
 			return null;
-		} else if (tipoMedicao.equals("cell")) {
+		} else if (tipoMedicao.equals("lum")) {
 			if (ultimosValoresHumidade.size() != 0) {
-				m = ultimosValoresHumidade.getFirst();
+				return ultimosValoresHumidade.getFirst();
 			}
 			return null;
 		}
@@ -142,16 +148,14 @@ public class Alerta {
 	}
 
 	public static void enviaAlerta(String descricao, Medicao medicao) {
+		//TODO acrescentar limite
 		try {
 			Connection conn = ConnectToMySql.connect();
 			Statement st = conn.createStatement();
-			String Sqlcommando = "CALL InserirAlerta(NULL, '"
+			String Sqlcommando = "CALL InserirAlerta( '"
 					+ new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() + "','" + medicao.getTipoMedicao()
-<<<<<<< HEAD
-					+ "','" + medicao.getValorMedicao() + "',NULL,'" + descricao + "',0,NULL);";
-=======
 					+ "','" + medicao.getValorMedicao() + "',0,'" + descricao + "',0,'');";
->>>>>>> parent of b57f342... Somethings not right
+			
 			ResultSet rs = st.executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
