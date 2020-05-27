@@ -16,7 +16,10 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 		Alerta.adicionaValor(m);
 	}
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> parent of b57f342... Somethings not right
 	private void avaliaAlerta() {
 		if(medicao.getValorMedicao() >= Alerta.getLimite(medicao.getTipoMedicao())) {
 			Alerta.enviaAlerta("Incendio", medicao);

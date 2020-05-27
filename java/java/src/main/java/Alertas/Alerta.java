@@ -147,7 +147,11 @@ public class Alerta {
 			Statement st = conn.createStatement();
 			String Sqlcommando = "CALL InserirAlerta(NULL, '"
 					+ new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() + "','" + medicao.getTipoMedicao()
+<<<<<<< HEAD
 					+ "','" + medicao.getValorMedicao() + "',NULL,'" + descricao + "',0,NULL);";
+=======
+					+ "','" + medicao.getValorMedicao() + "',0,'" + descricao + "',0,'');";
+>>>>>>> parent of b57f342... Somethings not right
 			ResultSet rs = st.executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

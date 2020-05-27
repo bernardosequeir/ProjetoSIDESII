@@ -106,8 +106,18 @@ public class MongoParaMysql {
             //tabela hash ja esta certa
             verificarAssalto();       
             avaliaAnomaliasTemperatura.adicionarValores(valoresASerConferidos.get("tmp"));
+<<<<<<< HEAD
             avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
+=======
+            //avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
+            try {
+				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+>>>>>>> parent of b57f342... Somethings not right
         } else {
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         }

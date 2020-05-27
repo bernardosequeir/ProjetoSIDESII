@@ -45,13 +45,11 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 
-	//TODO medicao sensores inserir varchar tambem e transformar mov em int etc
 	public void insereMedicoesNoMySql() {
 		if(medicao.getValorAnomalia()==0) 
 			Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
-		else if(medicao.getValorAnomalia()==1)
-			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
-		//TODO tratar de sqlcommando == null
+		else if(medicao.getValorAnomalia()==0)
+			Sqlcommando = "CALL InserirMedicaoAnomalos('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
 		} catch (SQLException e) {
@@ -72,7 +70,7 @@ public class InsereMedicoesNoMySql {
 			 Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
 			 Timestamp stamp =  new Timestamp(date.getTime());
 			 SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
+			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
 			 return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
