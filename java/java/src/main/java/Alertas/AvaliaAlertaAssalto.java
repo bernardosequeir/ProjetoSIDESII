@@ -126,10 +126,7 @@ public class AvaliaAlertaAssalto {
 
 	public void insereTabelaAlerta() {
 
-		Statement st;
 		try {
-			st = conn.createStatement();
-			String Sqlcommando = null;
 			if (tipoAlerta.equals("mov")) {
 				Alerta.enviaAlerta("Possivel Assalto", movimento);
 			} else if (tipoAlerta.equals("lum")) {
@@ -139,9 +136,7 @@ public class AvaliaAlertaAssalto {
 				Alerta.enviaAlerta("Possivel Assalto", luminosidade);
 			}
 
-			rs.next();
-
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -176,7 +171,7 @@ public class AvaliaAlertaAssalto {
 		    Date date = sdf.parse("00:00:00");
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
-			Time result = rs.getTime("result");
+			Time result = rs.getTime("existeronda");
 			if (result.equals(date)) {
 				System.out.println("não está em ronda");
 				return false;
