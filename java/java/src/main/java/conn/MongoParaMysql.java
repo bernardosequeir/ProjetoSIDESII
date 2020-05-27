@@ -68,7 +68,7 @@ public class MongoParaMysql {
             conn = DriverManager.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
             s = conn.createStatement();
         } catch (Exception e) {
-            System.out.println("MongoParaMySQL - Server down, unable to make the connection. ");
+            System.out.println("Server down, unable to make the connection. ");
         }
     }
 
@@ -84,6 +84,7 @@ public class MongoParaMysql {
     private void run() {
         connectMysql();
         connectMongo();
+        try {
             irBuscarDadosMysql();
             criaBuffersAnomalia();
             ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
@@ -91,10 +92,13 @@ public class MongoParaMysql {
             while (true) {
                 verificaValoresNovos();
             }
+        } catch (Exception e) {
+            System.out.println("Error querying  the database . " + e);
+        }
 
     }
 
-    private void verificaValoresNovos()  {
+    private void verificaValoresNovos() throws Exception {
         Document novo = getUltimoValor();
         if (!ultimaMedicao.equals(novo)) {
             ultimaMedicao = novo;
@@ -103,19 +107,9 @@ public class MongoParaMysql {
             verificarAssalto();       
             avaliaAnomaliasTemperatura.adicionarValores(valoresASerConferidos.get("tmp"));
             avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
-            try {
-				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         } else {
-            try {
-				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
         }
     }
 
@@ -130,31 +124,25 @@ public class MongoParaMysql {
         avaliaAnomaliasHumidade = new AvaliaAnomalias(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),valoresTabelaSistema.get("variacaoAnomalaHumidade"));
     }
 
-    private void irBuscarDadosMysql() {
+    private void irBuscarDadosMysql() throws SQLException {
         valoresTabelaSistema = new HashMap<String, Double>();
         SqlCommando = "SELECT * from sistema;";
-        try {
-			rs = s.executeQuery(SqlCommando);
-			rs.next();
-			  valoresTabelaSistema.put("IntervaloImportacaoMongo", rs.getDouble("IntervaloImportacaoMongo"));
-		        valoresTabelaSistema.put("TempoLimiteMedicao", rs.getDouble("TempoLimiteMedicao"));
-		        valoresTabelaSistema.put("tamanhoDosBuffersAnomalia", rs.getDouble("tamanhoDosBuffersAnomalia"));
-		        valoresTabelaSistema.put("tamanhoDosBuffersAlerta", rs.getDouble("tamanhoDosBuffersAlerta"));
-		        valoresTabelaSistema.put("variacaoAnomalaTemperatura", rs.getDouble("variacaoAnomalaTemperatura"));
-		        valoresTabelaSistema.put("variacaoAnomalaHumidade", rs.getDouble("variacaoAnomalaHumidade"));
-		        valoresTabelaSistema.put("crescimentoInstantaneoTemperatura", rs.getDouble("crescimentoInstantaneoTemperatura"));
-		        valoresTabelaSistema.put("crescimentoGradualTemperatura", rs.getDouble("crescimentoGradualTemperatura"));
-		        valoresTabelaSistema.put("crescimentoInstantaneoHumidade", rs.getDouble("crescimentoInstantaneoHumidade"));
-		        valoresTabelaSistema.put("crescimentoGradualHumidade", rs.getDouble("crescimentoGradualHumidade"));
-		        valoresTabelaSistema.put("luminosidadeLuzesDesligadas", rs.getDouble("luminosidadeLuzesDesligadas"));
-		        valoresTabelaSistema.put("limiteTemperatura", rs.getDouble("limiteTemperatura"));
-		        valoresTabelaSistema.put("limiteHumidade", rs.getDouble("limiteHumidade"));
-		        
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-      
+        rs = s.executeQuery(SqlCommando);
+        rs.next();
+        valoresTabelaSistema.put("IntervaloImportacaoMongo", rs.getDouble("IntervaloImportacaoMongo"));
+        valoresTabelaSistema.put("TempoLimiteMedicao", rs.getDouble("TempoLimiteMedicao"));
+        valoresTabelaSistema.put("tamanhoDosBuffersAnomalia", rs.getDouble("tamanhoDosBuffersAnomalia"));
+        valoresTabelaSistema.put("tamanhoDosBuffersAlerta", rs.getDouble("tamanhoDosBuffersAlerta"));
+        valoresTabelaSistema.put("variacaoAnomalaTemperatura", rs.getDouble("variacaoAnomalaTemperatura"));
+        valoresTabelaSistema.put("variacaoAnomalaHumidade", rs.getDouble("variacaoAnomalaHumidade"));
+        valoresTabelaSistema.put("crescimentoInstantaneoTemperatura", rs.getDouble("crescimentoInstantaneoTemperatura"));
+        valoresTabelaSistema.put("crescimentoGradualTemperatura", rs.getDouble("crescimentoGradualTemperatura"));
+        valoresTabelaSistema.put("crescimentoInstantaneoHumidade", rs.getDouble("crescimentoInstantaneoHumidade"));
+        valoresTabelaSistema.put("crescimentoGradualHumidade", rs.getDouble("crescimentoGradualHumidade"));
+        valoresTabelaSistema.put("luminosidadeLuzesDesligadas", rs.getDouble("luminosidadeLuzesDesligadas"));
+        valoresTabelaSistema.put("limiteTemperatura", rs.getDouble("limiteTemperatura"));
+        valoresTabelaSistema.put("limiteHumidade", rs.getDouble("limiteHumidade"));
+        
 
     }
 

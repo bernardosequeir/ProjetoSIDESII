@@ -3,11 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25-Maio-2020 às 23:16
+-- Tempo de geração: 27-Maio-2020 às 19:01
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -145,18 +144,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ConsultarUtilizador` (`Email` VARCH
 	END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirAlerta` (IN `ID` INT, IN `DataHoraMedicao` TIMESTAMP, IN `TipoSensor` VARCHAR(3), IN `ValorMedicao` DECIMAL(6,2), IN `Limite` DECIMAL(6,2), IN `Descricao` VARCHAR(1000), IN `Controlo` TINYINT, IN `Extra` VARCHAR(50))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirAlerta` (IN `DataHoraMedicao` TIMESTAMP, IN `TipoSensor` VARCHAR(3), IN `ValorMedicao` DECIMAL(6,2), IN `Limite` DECIMAL(6,2), IN `Descricao` VARCHAR(1000), IN `Controlo` TINYINT, IN `Extra` VARCHAR(50))  BEGIN
 
-INSERT INTO alerta VALUES (ID,DataHoraMedicao,TipoSensor,ValorMedicao,Limite,Descricao,Controlo,Extra);
+INSERT INTO alerta VALUES (NULL,DataHoraMedicao,TipoSensor,ValorMedicao,Limite,Descricao,Controlo,Extra);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicao` (IN `ValorMedicao` DECIMAL(6,2), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP, IN `Anomala` TINYINT)  BEGIN
-
-IF Anomala = 1
-	THEN INSERT INTO medicao_sensores_anomalos VALUES (DEFAULT,ValorMedicao,TipoSensor,DataHoraMedicao);
-ELSE 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicao` (IN `ValorMedicao` DECIMAL(6,2), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP)  BEGIN
 	INSERT INTO medicao_sensores VALUES (DEFAULT,ValorMedicao,TipoSensor,DataHoraMedicao);
-END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicaoAnomala` (IN `ValorMedicao` VARCHAR(10), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP)  BEGIN
+	INSERT INTO medicao_sensores_anomalos VALUES (DEFAULT,ValorMedicao,TipoSensor,DataHoraMedicao);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirUtilizador` (`Email` VARCHAR(100), `Nome` VARCHAR(200), `Tipo` VARCHAR(3), `Pass` VARCHAR(10), `Morada` VARCHAR(200))  BEGIN
@@ -293,19 +291,29 @@ PREPARE stmt FROM @sql;
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `VerificaSeExisteRonda` (IN `tempodata` DATETIME)  BEGIN DECLARE diasemana VARCHAR(45); DECLARE existeronda TINYINT(1); DECLARE tempo TIME; SET diasemana = DAYNAME(DATE(tempodata)); SET tempo = TIME(tempodata); SET existeronda = 0;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `VerificaSeExisteRonda` (IN `tempodata` DATETIME)  BEGIN 
+DECLARE diasemana VARCHAR(45);
+DECLARE existeronda TIME; 
+DECLARE tempo TIME; 
+DECLARE fimRondaActual TIME; 
+
+SET diasemana = DAYNAME(DATE(tempodata)); 
+SET tempo = TIME(tempodata); 
+SET existeronda = '00:00:00';
+ SET fimRondaActual = '00:00:00';
 
 
 IF (
 SELECT COUNT(*)
 FROM ronda_planeada
-WHERE (diasemana LIKE ronda_planeada.DiaSemana AND ronda_planeada.HoraRondaInicio <= tempo AND ronda_planeada.HoraRondaSaida >= tempo)) > 0 THEN SET existeronda = 1; END IF;
+WHERE (diasemana LIKE ronda_planeada.DiaSemana AND ronda_planeada.HoraRondaInicio <= tempo AND ronda_planeada.HoraRondaSaida >= tempo AND ronda_planeada.HoraRondaSaida > fimRondaActual)) > 0  
+THEN SET existeronda = ronda_planeada.HoraRondaSaida;  END IF;
 
 
 IF (
 SELECT COUNT(*)
 FROM ronda_extra
-WHERE (ronda_extra.dataHoraEntrada <= tempodata AND ronda_extra.dataHoraSaida >= tempodata)) >0 THEN SET existeronda = 1; END IF;
+WHERE (ronda_extra.dataHoraEntrada <= tempodata AND ronda_extra.datahoraSaida >= tempodata AND TIME(ronda_extra.datahoraSaida) > fimRondaActual)) >0 THEN SET existeronda = TIME(ronda_extra.datahoraSaida); END IF;
 SELECT existeronda; END$$
 
 DELIMITER ;
@@ -423,8 +431,8 @@ CREATE TABLE `g12_logmedicao_sensores_anomalos` (
   `Time` time NOT NULL,
   `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
   `IDMedicalNovo` bigint(20) DEFAULT NULL,
-  `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
-  `ValorMedicaoNovo` decimal(6,2) DEFAULT NULL,
+  `ValorMedicaoAnterior` varchar(10) DEFAULT NULL,
+  `ValorMedicaoNovo` varchar(10) DEFAULT NULL,
   `TipoDeSensorAnterior` varchar(3) DEFAULT NULL,
   `TipoDeSensorNovo` varchar(3) DEFAULT NULL,
   `DataHoraMedicaoAnterior` timestamp NULL DEFAULT current_timestamp(),
@@ -567,7 +575,7 @@ DELIMITER ;
 
 CREATE TABLE `medicao_sensores_anomalos` (
   `idMedicao` bigint(20) NOT NULL,
-  `ValorMedicao` decimal(6,2) NOT NULL,
+  `ValorMedicao` varchar(10) NOT NULL,
   `TipoSensor` varchar(3) NOT NULL,
   `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -835,6 +843,7 @@ ALTER TABLE `ronda_extra`
 -- Índices para tabela `ronda_planeada`
 --
 ALTER TABLE `ronda_planeada`
+  ADD PRIMARY KEY (`EmailUtilizador`,`HoraRondaInicio`),
   ADD KEY `DiaSemana` (`DiaSemana`),
   ADD KEY `EmailUtilizador` (`EmailUtilizador`),
   ADD KEY `HoraRondaInicio` (`HoraRondaInicio`);
@@ -855,6 +864,12 @@ ALTER TABLE `utilizador`
 --
 -- AUTO_INCREMENT de tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `alerta`
+--
+ALTER TABLE `alerta`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `g12_logalerta`
@@ -918,10 +933,7 @@ ALTER TABLE `sistema`
 -- Limitadores para a tabela `ronda_planeada`
 --
 ALTER TABLE `ronda_planeada`
-  ADD CONSTRAINT `ronda_planeada_ibfk_1` FOREIGN KEY (`DiaSemana`) REFERENCES `dia_semana` (`DiaSemana`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ronda_planeada_ibfk_2` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`) ON DELETE CASCADE,
-  ADD CONSTRAINT `ronda_planeada_ibfk_3` FOREIGN KEY (`HoraRondaInicio`) REFERENCES `dia_semana` (`HoraRondaInicio`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
+  ADD CONSTRAINT `ronda_planeada_ibfk_2` FOREIGN KEY (`EmailUtilizador`) REFERENCES `utilizador` (`EmailUtilizador`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

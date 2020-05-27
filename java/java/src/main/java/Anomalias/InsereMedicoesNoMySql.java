@@ -19,7 +19,6 @@ public class InsereMedicoesNoMySql {
 	private String database_user;
 	private String database_connection;
 	private Statement s;
-	private String Sqlcommando;
 
 	public InsereMedicoesNoMySql(Medicao medicao) {
 		this.medicao = medicao;
@@ -41,17 +40,13 @@ public class InsereMedicoesNoMySql {
 					.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
 			s = conn.createStatement();
 		} catch (Exception e) {
-			System.out.println("Insere Medicoes No MySQL - Server down, unable to make the connection. ");
+			System.out.println("Server down, unable to make the connection. ");
 		}
 	}
 
-	//TODO medicao sensores inserir varchar tambem e transformar mov em int etc
 	public void insereMedicoesNoMySql() {
-		if(medicao.getValorAnomalia()==0) 
-			Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
-		else if(medicao.getValorAnomalia()==1)
-			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
-		//TODO tratar de sqlcommando == null
+		String Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"',"+medicao.getValorAnomalia()+");";
+		System.out.println(Sqlcommando);
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
 		} catch (SQLException e) {
@@ -72,7 +67,7 @@ public class InsereMedicoesNoMySql {
 			 Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
 			 Timestamp stamp =  new Timestamp(date.getTime());
 			 SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
+			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
 			 return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

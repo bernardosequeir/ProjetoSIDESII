@@ -23,7 +23,7 @@ public class ConnectToMySql {
 			Statement s = conn.createStatement();
 			return conn;
 		} catch (Exception e) {
-			System.out.println("ConnectToMySQL - Server down, unable to make the connection. ");
+			System.out.println("Server down, unable to make the connection. ");
 		}
 		return null;
 	}
