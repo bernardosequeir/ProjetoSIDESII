@@ -102,7 +102,7 @@ public class MongoParaMysql {
             //tabela hash ja esta certa
             verificarAssalto();       
             avaliaAnomaliasTemperatura.adicionarValores(valoresASerConferidos.get("tmp"));
-            //avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
+            avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
             try {
 				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
 			} catch (InterruptedException e) {

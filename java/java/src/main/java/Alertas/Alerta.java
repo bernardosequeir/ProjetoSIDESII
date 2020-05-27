@@ -98,7 +98,7 @@ public class Alerta {
 				return  ultimosValoresHumidade.getLast();
 			}
 			return null;
-		} else if (tipoMedicao.equals("cell")) {
+		} else if (tipoMedicao.equals("lum")) {
 			if (ultimosValoresHumidade.size() != 0) {
 				return ultimosValoresHumidade.getLast();
 			}
@@ -119,7 +119,7 @@ public class Alerta {
 				return ultimosValoresHumidade.getFirst();
 			}
 			return null;
-		} else if (tipoMedicao.equals("cell")) {
+		} else if (tipoMedicao.equals("lum")) {
 			if (ultimosValoresHumidade.size() != 0) {
 				return ultimosValoresHumidade.getFirst();
 			}
@@ -155,6 +155,7 @@ public class Alerta {
 			String Sqlcommando = "CALL InserirAlerta( '"
 					+ new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() + "','" + medicao.getTipoMedicao()
 					+ "','" + medicao.getValorMedicao() + "',0,'" + descricao + "',0,'');";
+			
 			ResultSet rs = st.executeQuery(Sqlcommando);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

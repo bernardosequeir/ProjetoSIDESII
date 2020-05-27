@@ -14,6 +14,7 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 		avaliaAlerta();
 	}
 
+	//TODO tratar do null
 	private void avaliaAlerta() {
 		if (medicao.getValorMedicao() >= Alerta.getLimite(medicao.getTipoMedicao())) {
 			Alerta.enviaAlerta("Incendio", medicao);
