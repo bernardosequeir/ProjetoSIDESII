@@ -107,10 +107,14 @@ public class MongoParaMysql {
             verificarAssalto();       
             avaliaAnomaliasTemperatura.adicionarValores(valoresASerConferidos.get("tmp"));
 <<<<<<< HEAD
+<<<<<<< HEAD
             avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
             Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
 =======
             //avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
+=======
+            avaliaAnomaliasHumidade.adicionarValores(valoresASerConferidos.get("hum"));
+>>>>>>> parent of 4c4473f... AvaliaAlertaTemperaturaHumidade now works for Humidade
             try {
 				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
 			} catch (InterruptedException e) {
