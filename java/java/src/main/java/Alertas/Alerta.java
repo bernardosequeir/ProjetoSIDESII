@@ -9,6 +9,7 @@ import java.util.LinkedList;
 
 import Anomalias.InsereMedicoesNoMySql;
 import Anomalias.Medicao;
+import conn.ConnectToMySql;
 import conn.MongoParaMysql;
 
 import com.sun.java.swing.plaf.motif.MotifEditorPaneUI;
@@ -17,6 +18,7 @@ public class Alerta {
 
 	private Medicao medicao;
 	private static HashMap<String, Double> valoresTabelaSistema;
+	private static boolean primeiraMedicao = true;
 
 	public Alerta(HashMap valoresTabelaSistema, Medicao medicao) {
 		this.medicao = medicao;
@@ -32,7 +34,10 @@ public class Alerta {
 		
 	}
 	public static void adicionaValor(Medicao m) {
-		
+		if(primeiraMedicao){
+			buscarValoresTabelaSistema();
+			primeiraMedicao = false;
+		}
 		if (m.getTipoMedicao().equals("tmp")) {
 			if (ultimosValoresTemperatura.size() == irBuscarBuffersAlerta()) {
 				ultimosValoresTemperatura.poll();
@@ -54,8 +59,8 @@ public class Alerta {
 
 
 
-	public void buscarValoresTabelaSistema() {
-		this.valoresTabelaSistema = MongoParaMysql.getValoresTabelaSistema();
+	public static void buscarValoresTabelaSistema() {
+		valoresTabelaSistema = MongoParaMysql.getValoresTabelaSistema();
 	}
 
 	public static double getLimite(String tipoMedicao) {
@@ -71,18 +76,7 @@ public class Alerta {
 	
 
 	
-	public static void defineValoresTemperatura(double limiteTemperatura, double crescimentoInstantaneo,
-			double crescimentoGradual) {
-		limiteTemperatura = limiteTemperatura;
-		crescimentoInstantaneo = crescimentoInstantaneo;
-		crescimentoGradual = crescimentoGradual;
-	}
 
-	public double irBuscarValorTabelaSistema(String chaveHashTabelaSistema) {
-
-		return valoresTabelaSistema.get(chaveHashTabelaSistema);
-
-	}
 
 
 
@@ -147,8 +141,9 @@ public class Alerta {
 		return 0.0;
 	}
 
-	public static void enviaAlerta(Connection conn, String descricao, Medicao medicao) {
+	public static void enviaAlerta(String descricao, Medicao medicao) {
 		try {
+			Connection conn = ConnectToMySql.connect();
 			Statement st = conn.createStatement();
 			String Sqlcommando = "CALL InserirAlerta(NULL, '"
 					+ new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() + "','" + medicao.getTipoMedicao()
