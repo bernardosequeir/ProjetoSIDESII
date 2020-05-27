@@ -6,6 +6,9 @@ import Anomalias.Medicao;
 
 public class AvaliaAlertaVariacaoTemperaturaHumidade {
 
+	LinkedList<Medicao> lastValues = new LinkedList<Medicao>();
+	
+	private double d;
 	private Medicao medicao;
 	
 	public AvaliaAlertaVariacaoTemperaturaHumidade(Medicao m) {
@@ -18,15 +21,15 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 
 	
 	private void avaliaAlerta() {
-		if(medicao.getValorMedicao() >= Alerta.getLimite(medicao.getTipoMedicao())) {
-			Alerta.enviaAlerta("Incendio", medicao);
+		if(d >= Alerta.getLimite(medicao.getTipoMedicao())) {
+			//Alerta.enviaAlerta();
 		} else {
-			boolean crescimentoInstantaneo = (medicao.getValorMedicao() / Alerta.getUltimoValor("tmp").getValorMedicao() - 1 > Alerta.getCrescimentoInstantaneo("tmp"));
-			boolean crescimentoGradual = (medicao.getValorMedicao() / Alerta.getPrimeiroValor("tmp").getValorMedicao() - 1 > Alerta.getCrescimentoGradual("tmp"));
+			boolean crescimentoInstantaneo = (d / Alerta.getUltimoValor("tmp").getValorMedicao() - 1 > Alerta.getCrescimentoInstantaneo("tmp"));
+			boolean crescimentoGradual = (d / Alerta.getPrimeiroValor("tmp").getValorMedicao() - 1 > Alerta.getCrescimentoGradual("tmp"));
 			
 			if(crescimentoInstantaneo || crescimentoGradual) {
 				System.out.println(crescimentoInstantaneo+" "+crescimentoGradual);
-				Alerta.enviaAlerta("Aumento Temperatura", medicao);
+				//Alerta.enviaAlerta();
 			}
 		}
 	}
