@@ -185,6 +185,7 @@ public class AvaliaAlertaAssalto {
 				fimRondaEmCurso = result;
 				return true;
 			}
+			System.out.println("ola");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
