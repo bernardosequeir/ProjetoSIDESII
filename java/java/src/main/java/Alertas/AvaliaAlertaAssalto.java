@@ -80,6 +80,7 @@ public class AvaliaAlertaAssalto {
 			conn = DriverManager
 					.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
 			s = conn.createStatement();
+			System.out.println("nj");
 		} catch (Exception e) {
 			System.out.println("Avalia Alerta Assalto - Server down, unable to make the connection. ");
 		}
@@ -185,7 +186,6 @@ public class AvaliaAlertaAssalto {
 				fimRondaEmCurso = result;
 				return true;
 			}
-			System.out.println("ola");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
