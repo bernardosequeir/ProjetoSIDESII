@@ -1,197 +1,197 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\06423baf5eb1dac1faa11614324a184f\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4ba14449faf91043f0c357aac01a784d\AndroidManifest.xml:2:1-11:12
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\eb75a7f442f8b91ffef650247f24c76b\AndroidManifest.xml:2:1-14:12
-MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\18c0670b1c49707f606a5dfc8bcf5db4\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\1f7db6f29c4a341235f1c6b5fef01713\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\932efc78f525cd115c8a159e4a2b34c7\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\8973211259a0b61a9ffd0a7e730c248a\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f596634ebaa312a1ecdf79118181cf1c\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f288bab3fbcb58cf8ae9d2cdd45acc5e\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\c24916e8a80297825d86f8cbbb11b72b\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:loader:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\9b761f4dc572698fcf57b9c5fa38354d\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f0dc7758309be17e28d33b3c346d3170\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\dfe89a9a24745007990c5d46d45376a2\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\0de71c469f2f43608ca65caa480edb52\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\6afcab707e1c942b80618238e0458651\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:customview:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\18da4680d4f3bbe6db1af2fd205d47cc\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\11a4cc0532814e0899f1de21d8a2c03a\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\cce131be26dc85317cccacf0a1d73b88\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f7c74772c8a655e335d900a7dde1a5d7\AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\7f26164a739ffc65170d64246c605ef8\AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\994c3844f0c7c9f74001ca1f26abab9f\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\77b8a39ee5300854b55cd6012c1c4e28\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\5e8624c13532a509387543e53b1aadeb\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\e4ccae8c90d6c4fb6828a33b50035a20\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:print:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\af0f44c1b6f322d8ae7226b7a9f938f8\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4e8c8650615ca668248d17c5c3fffd61\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\dc04021f91e8fd77dcf3d0140263e42d\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\e1e12f0149e7edb2e23ebdcf0ef34eed\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\54abb09333c2abc8f0057adef5468ecd\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\cdfdd571a5f7593bdfa4217653d5159e\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\d202e6668baea3ba9319cee60149e90e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e9099bfe197b034464c68063d3f26213\AndroidManifest.xml:2:1-11:12
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9acd1e4a5697d2cc84de344455781825\AndroidManifest.xml:2:1-14:12
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\558974fe87e1b0de880fb020d7033e95\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\d7d0977c7c76dcb4a549bb823dae9217\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\830e29bd879ca58f69d173bfd9b41d70\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9bd4f22aab1e8e811a1c3fb4e5e2c6ea\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\cc9e3d487e0e92c633b40114cdff4436\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\293d12066a4bde1fca22d3058610aad0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\6e1b9257a3372c41e8e90c8c915f4687\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e8cd7ab3679b9fc0a7c7746d392ceb37\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\6c841b53095f9557bf7c8528825993ae\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\22e2ee1f89651f6bd575f177c5c49ff2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\4704c95708d2152cf44e1d82d26d41b3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\891728d3544f62559e3fa99e4b338910\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\fa05f7666d7d9e24792aedb7a38990f7\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e7effefed1f1581fbb84debe2d630996\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\2a652048a43466992f6c45dc7b7d341f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7850cbd3de92f9dab1ec5847c36806f0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\5dded41819a310a57fc1a8efbf12f6a1\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\ef6dcb77db2ce25bbd8b92fafcbaae01\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\2ccf7577f552d10cb77f267b5253fcfb\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\120a3fefac011b3cdbd6a591b0a409ce\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\3e4b9933bd6722646b1b3c621497e12f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\43851334c4d8aa90a3e777996184e0ae\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\ddde871419aa140500b7d057bc08a57f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\a8f2d7df2ff05a65050c1adbb58979cc\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\1dffdc9563fcf00ee8d94c323eb36d5e\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\74781440adb7bba695e68c8732ca7369\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7d7687d26970e48b5db5a2c1bf5393e1\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
 	package
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:4:5-34
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:4:5-34
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
 	xmlns:tools
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:3:5-51
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:1-30:12
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:6:5-67
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:6:5-67
 	android:name
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:6:22-64
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:6:22-64
 application
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:8:5-28:19
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4ba14449faf91043f0c357aac01a784d\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4ba14449faf91043f0c357aac01a784d\AndroidManifest.xml:9:5-20
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\eb75a7f442f8b91ffef650247f24c76b\AndroidManifest.xml:11:5-12:19
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\eb75a7f442f8b91ffef650247f24c76b\AndroidManifest.xml:11:5-12:19
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f7c74772c8a655e335d900a7dde1a5d7\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f7c74772c8a655e335d900a7dde1a5d7\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\7f26164a739ffc65170d64246c605ef8\AndroidManifest.xml:22:5-23:19
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\7f26164a739ffc65170d64246c605ef8\AndroidManifest.xml:22:5-23:19
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:8:5-28:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e9099bfe197b034464c68063d3f26213\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e9099bfe197b034464c68063d3f26213\AndroidManifest.xml:9:5-20
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9acd1e4a5697d2cc84de344455781825\AndroidManifest.xml:11:5-12:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9acd1e4a5697d2cc84de344455781825\AndroidManifest.xml:11:5-12:19
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7850cbd3de92f9dab1ec5847c36806f0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7850cbd3de92f9dab1ec5847c36806f0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\5dded41819a310a57fc1a8efbf12f6a1\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\5dded41819a310a57fc1a8efbf12f6a1\AndroidManifest.xml:22:5-23:19
 	android:appComponentFactory
-		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f7c74772c8a655e335d900a7dde1a5d7\AndroidManifest.xml:22:18-91
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7850cbd3de92f9dab1ec5847c36806f0\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:13:9-35
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:13:9-35
 	android:label
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:11:9-41
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:11:9-41
 	android:debuggable
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:16:9-34
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:16:9-34
 	tools:ignore
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:17:9-42
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:17:9-42
 	android:roundIcon
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:12:9-54
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:12:9-54
 	android:icon
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:10:9-43
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:10:9-43
 	android:allowBackup
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:9:9-35
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:9:9-35
 	android:theme
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:14:9-40
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:14:9-40
 	android:usesCleartextTraffic
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:15:9-44
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:15:9-44
 activity#com.example.sid2020.APP.DatePickerActivity
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:18:9-97
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:18:9-97
 	android:screenOrientation
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:18:58-94
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:18:58-94
 	android:name
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:18:19-57
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:18:19-57
 activity#com.example.sid2020.APP.AlertasGlobaisActivity
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:19:9-101
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:19:9-101
 	android:screenOrientation
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:19:62-98
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:19:62-98
 	android:name
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:19:19-61
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:19:19-61
 activity#com.example.sid2020.APP.MedicoesTemperaturaActivity
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:20:9-106
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:20:9-106
 	android:screenOrientation
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:20:67-103
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:20:67-103
 	android:name
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:20:19-66
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:20:19-66
 activity#com.example.sid2020.APP.LoginActivity
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:21:9-27:20
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:21:9-27:20
 	android:screenOrientation
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:21:53-89
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:21:53-89
 	android:name
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:21:19-52
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:21:19-52
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:22:13-26:29
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:22:13-26:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:23:17-69
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:23:25-66
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:25:17-77
+ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml:25:27-74
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml:25:27-74
 uses-sdk
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\06423baf5eb1dac1faa11614324a184f\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\06423baf5eb1dac1faa11614324a184f\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4ba14449faf91043f0c357aac01a784d\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4ba14449faf91043f0c357aac01a784d\AndroidManifest.xml:5:5-7:41
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\eb75a7f442f8b91ffef650247f24c76b\AndroidManifest.xml:7:5-9:41
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\eb75a7f442f8b91ffef650247f24c76b\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\18c0670b1c49707f606a5dfc8bcf5db4\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\18c0670b1c49707f606a5dfc8bcf5db4\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\1f7db6f29c4a341235f1c6b5fef01713\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\1f7db6f29c4a341235f1c6b5fef01713\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\932efc78f525cd115c8a159e4a2b34c7\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\932efc78f525cd115c8a159e4a2b34c7\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\8973211259a0b61a9ffd0a7e730c248a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\8973211259a0b61a9ffd0a7e730c248a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f596634ebaa312a1ecdf79118181cf1c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f596634ebaa312a1ecdf79118181cf1c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f288bab3fbcb58cf8ae9d2cdd45acc5e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f288bab3fbcb58cf8ae9d2cdd45acc5e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\c24916e8a80297825d86f8cbbb11b72b\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\c24916e8a80297825d86f8cbbb11b72b\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\9b761f4dc572698fcf57b9c5fa38354d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\9b761f4dc572698fcf57b9c5fa38354d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f0dc7758309be17e28d33b3c346d3170\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f0dc7758309be17e28d33b3c346d3170\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\dfe89a9a24745007990c5d46d45376a2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\dfe89a9a24745007990c5d46d45376a2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\0de71c469f2f43608ca65caa480edb52\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\0de71c469f2f43608ca65caa480edb52\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\6afcab707e1c942b80618238e0458651\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\6afcab707e1c942b80618238e0458651\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\18da4680d4f3bbe6db1af2fd205d47cc\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\18da4680d4f3bbe6db1af2fd205d47cc\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\11a4cc0532814e0899f1de21d8a2c03a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\11a4cc0532814e0899f1de21d8a2c03a\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\cce131be26dc85317cccacf0a1d73b88\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\cce131be26dc85317cccacf0a1d73b88\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f7c74772c8a655e335d900a7dde1a5d7\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\f7c74772c8a655e335d900a7dde1a5d7\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\7f26164a739ffc65170d64246c605ef8\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\7f26164a739ffc65170d64246c605ef8\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\994c3844f0c7c9f74001ca1f26abab9f\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\994c3844f0c7c9f74001ca1f26abab9f\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\77b8a39ee5300854b55cd6012c1c4e28\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\77b8a39ee5300854b55cd6012c1c4e28\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\5e8624c13532a509387543e53b1aadeb\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\5e8624c13532a509387543e53b1aadeb\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\e4ccae8c90d6c4fb6828a33b50035a20\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\e4ccae8c90d6c4fb6828a33b50035a20\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\af0f44c1b6f322d8ae7226b7a9f938f8\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\af0f44c1b6f322d8ae7226b7a9f938f8\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4e8c8650615ca668248d17c5c3fffd61\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\4e8c8650615ca668248d17c5c3fffd61\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\dc04021f91e8fd77dcf3d0140263e42d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\dc04021f91e8fd77dcf3d0140263e42d\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\e1e12f0149e7edb2e23ebdcf0ef34eed\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\e1e12f0149e7edb2e23ebdcf0ef34eed\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\54abb09333c2abc8f0057adef5468ecd\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\54abb09333c2abc8f0057adef5468ecd\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\cdfdd571a5f7593bdfa4217653d5159e\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Bernardo\.gradle\caches\transforms-2\files-2.1\cdfdd571a5f7593bdfa4217653d5159e\AndroidManifest.xml:20:5-44
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\d202e6668baea3ba9319cee60149e90e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\d202e6668baea3ba9319cee60149e90e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e9099bfe197b034464c68063d3f26213\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e9099bfe197b034464c68063d3f26213\AndroidManifest.xml:5:5-7:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9acd1e4a5697d2cc84de344455781825\AndroidManifest.xml:7:5-9:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9acd1e4a5697d2cc84de344455781825\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\558974fe87e1b0de880fb020d7033e95\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\558974fe87e1b0de880fb020d7033e95\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\d7d0977c7c76dcb4a549bb823dae9217\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\d7d0977c7c76dcb4a549bb823dae9217\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\830e29bd879ca58f69d173bfd9b41d70\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\830e29bd879ca58f69d173bfd9b41d70\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9bd4f22aab1e8e811a1c3fb4e5e2c6ea\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\9bd4f22aab1e8e811a1c3fb4e5e2c6ea\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\cc9e3d487e0e92c633b40114cdff4436\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\cc9e3d487e0e92c633b40114cdff4436\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\293d12066a4bde1fca22d3058610aad0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\293d12066a4bde1fca22d3058610aad0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\6e1b9257a3372c41e8e90c8c915f4687\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\6e1b9257a3372c41e8e90c8c915f4687\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e8cd7ab3679b9fc0a7c7746d392ceb37\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e8cd7ab3679b9fc0a7c7746d392ceb37\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\6c841b53095f9557bf7c8528825993ae\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\6c841b53095f9557bf7c8528825993ae\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\22e2ee1f89651f6bd575f177c5c49ff2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\22e2ee1f89651f6bd575f177c5c49ff2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\4704c95708d2152cf44e1d82d26d41b3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\4704c95708d2152cf44e1d82d26d41b3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\891728d3544f62559e3fa99e4b338910\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\891728d3544f62559e3fa99e4b338910\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\fa05f7666d7d9e24792aedb7a38990f7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\fa05f7666d7d9e24792aedb7a38990f7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e7effefed1f1581fbb84debe2d630996\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\e7effefed1f1581fbb84debe2d630996\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\2a652048a43466992f6c45dc7b7d341f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\2a652048a43466992f6c45dc7b7d341f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7850cbd3de92f9dab1ec5847c36806f0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7850cbd3de92f9dab1ec5847c36806f0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\5dded41819a310a57fc1a8efbf12f6a1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\5dded41819a310a57fc1a8efbf12f6a1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\ef6dcb77db2ce25bbd8b92fafcbaae01\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\ef6dcb77db2ce25bbd8b92fafcbaae01\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\2ccf7577f552d10cb77f267b5253fcfb\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\2ccf7577f552d10cb77f267b5253fcfb\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\120a3fefac011b3cdbd6a591b0a409ce\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\120a3fefac011b3cdbd6a591b0a409ce\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\3e4b9933bd6722646b1b3c621497e12f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\3e4b9933bd6722646b1b3c621497e12f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\43851334c4d8aa90a3e777996184e0ae\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\43851334c4d8aa90a3e777996184e0ae\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\ddde871419aa140500b7d057bc08a57f\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\ddde871419aa140500b7d057bc08a57f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\a8f2d7df2ff05a65050c1adbb58979cc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\a8f2d7df2ff05a65050c1adbb58979cc\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\1dffdc9563fcf00ee8d94c323eb36d5e\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\1dffdc9563fcf00ee8d94c323eb36d5e\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\74781440adb7bba695e68c8732ca7369\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\74781440adb7bba695e68c8732ca7369\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7d7687d26970e48b5db5a2c1bf5393e1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\joaof\.gradle\caches\transforms-2\files-2.1\7d7687d26970e48b5db5a2c1bf5393e1\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Bernardo\Documents\GitHub\ProjetoSIDESII\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\joaof\Downloads\Android2020\SID2020\app\src\main\AndroidManifest.xml

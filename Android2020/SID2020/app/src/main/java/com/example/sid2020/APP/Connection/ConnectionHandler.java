@@ -30,7 +30,6 @@ public class ConnectionHandler {
             }
             URL urlObj = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
-            Log.d("a",conn.toString());
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             conn.connect();
