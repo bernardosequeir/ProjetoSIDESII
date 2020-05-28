@@ -48,10 +48,11 @@ public class InsereMedicoesNoMySql {
 		}else if(medicao.getValorAnomalia()==1){
 			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		}
-		//TODO tratar de sqlcommando == null
 		System.out.println(Sqlcommando);
 		try {
-			conn.createStatement().executeQuery(Sqlcommando);
+			if(Sqlcommando!= null) {
+				conn.createStatement().executeQuery(Sqlcommando);
+			} else System.err.println("SQL command is null");
 			conn.close();
 		} catch (SQLException e) {
 			System.err.println("could not connect do the SP InserirMedicao OR InserirMedicaoAnomala " + e);

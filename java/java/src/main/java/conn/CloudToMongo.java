@@ -28,6 +28,7 @@ public class CloudToMongo implements MqttCallback {
 
 	public static void main(String[] args) {
 
+		//TODO set up das réplicas
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream("cloudToMongo.ini"));

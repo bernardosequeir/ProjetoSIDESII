@@ -24,11 +24,10 @@ public class Medicao {
 		return dataHoraMedicao;
 	}
 
-	//TODO verificar datas
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) throws Exception {
 		if (tipoMedicao.equals("tmp") || tipoMedicao.equals("hum") || tipoMedicao.equals("lum")
 				|| tipoMedicao.equals("mov")) {
-			//TODO isto pode ser tudo reescrito
+			//TODO isto pode ser tudo reescrito return do checkTipo 
 			checkTipo(valorMedicao);
 			checkData(dataHoraMedicao, valorMedicao);
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
@@ -109,9 +108,15 @@ public class Medicao {
 		return possivelAnomalia;
 	}
 
+	public void setPossivelAnomalia(boolean possivelAnomalia) {
+		this.possivelAnomalia = possivelAnomalia;
+	}
+
 	public int getValorAnomalia() {
-		if (isAnomalo())
+		if (isAnomalo()) {
+			this.valorMedicaoAnomalo = String.valueOf(valorMedicao);
 			return 1;
+		}
 		return 0;
 	}
 
