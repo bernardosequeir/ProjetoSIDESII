@@ -26,7 +26,7 @@ public class Medicao {
 				|| tipoMedicao.equals("mov")) {
 			//TODO isto pode ser tudo reescrito
 			checkTipo(valorMedicao);
-			checkData();
+			checkData(dataHoraMedicao);
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
 				checkPositivo(valorMedicao);
 			} 
@@ -68,10 +68,10 @@ public class Medicao {
 			marcarComoAnomalia();
 		}
 	}
-	private void checkData(){
+	private void checkData(String dataHoraMedicao){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
-			Date parsedDate = dateFormat.parse(dataHoraFormatado);
+			Date parsedDate = dateFormat.parse(dataHoraMedicao);
 			Date dataUltimaMedicao = dateFormat.parse(MongoParaMysql.getDataUltimaMedicao());
 			if(dataUltimaMedicao.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
 			 	marcarComoAnomalia();
