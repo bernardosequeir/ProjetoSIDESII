@@ -181,10 +181,5 @@ public class MongoParaMysql {
         return medicoes;
     }
 
-    private void insereMedicoesFase2() {
-
-        //TODO falta fazer isto
-        SqlCommando = "call InserirMedicao";
-
-    }
+   
 }

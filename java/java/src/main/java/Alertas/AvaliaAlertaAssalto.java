@@ -51,7 +51,7 @@ public class AvaliaAlertaAssalto {
 	private String movimentoOuLuminosidade;
 	private String valorAlarmeAInserir;
 	private String tipoAlerta;
-	private Time fimRondaEmCurso = Time.valueOf("00:00:00");
+	private Time fimRondaEmCurso = null;
 
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
 
@@ -95,9 +95,9 @@ public class AvaliaAlertaAssalto {
 		new InsereMedicoesNoMySql(luminosidade);
 		if (movimento.isAnomalo() && luminosidade.isAnomalo()) {
 			return false;
-		} else 
+		} else
 		// insere sabendo se sao anomalos ou nao
-		
+
 		if (movimento.isAnomalo()) {
 			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 				System.out.println("luminosidade.getValorMedicao() > luminosidadeLuzEscuro");
@@ -112,8 +112,7 @@ public class AvaliaAlertaAssalto {
 		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro && movimento.getValorMedicao() == 1.00) {
 			tipoAlerta = "both";
 			return true;
-		} else 
-		if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
+		} else if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 			tipoAlerta = "lum";
 			return true;
 		} else if (movimento.getValorMedicao() == 1.00) {
@@ -126,10 +125,7 @@ public class AvaliaAlertaAssalto {
 
 	public void insereTabelaAlerta() {
 
-		Statement st;
 		try {
-			st = conn.createStatement();
-			String Sqlcommando = null;
 			if (tipoAlerta.equals("mov")) {
 				Alerta.enviaAlerta("Possivel Assalto", movimento);
 			} else if (tipoAlerta.equals("lum")) {
@@ -139,22 +135,20 @@ public class AvaliaAlertaAssalto {
 				Alerta.enviaAlerta("Possivel Assalto", luminosidade);
 			}
 
-			rs.next();
-
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public boolean existeRonda()  {
+	public boolean existeRonda() {
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-			Date parsedDate;
-			parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
-			Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-			if (fimRondaEmCurso.after(timestamp))
+			Date parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
+			Time time = new Time(parsedDate.getTime());
+			if (fimRondaEmCurso!= null && fimRondaEmCurso.after(time)) {
 				return true;
+			}
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -171,24 +165,21 @@ public class AvaliaAlertaAssalto {
 		try {
 			System.out.println("comeca a verificar ronda");
 			st = conn.createStatement();
+			System.out.println("timestampUsedInRonda" + timestampUsedInRonda);
 			String Sqlcommando = "CALL VerificaSeExisteRonda('" + timestampUsedInRonda + "')";
-		    DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-		    Date date = sdf.parse("00:00:00");
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
-			Time result = rs.getTime("result");
-			if (result.equals(date)) {
-				System.out.println("não está em ronda");
+			Time result = rs.getTime("MAX(horaSaida)");
+			if (result != null) {
+				System.out.println("não está em ronda " + fimRondaEmCurso);
 				return false;
 			} else {
-				System.out.println("esta em ronda");
+				System.out.println("esta em ronda - acaba :" + fimRondaEmCurso);
 				fimRondaEmCurso = result;
+				System.out.println("Novo fim de ronda : " + fimRondaEmCurso);
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
