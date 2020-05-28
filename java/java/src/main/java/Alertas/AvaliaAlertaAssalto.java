@@ -16,6 +16,8 @@ import java.util.List;
 
 import Anomalias.InsereMedicoesNoMySql;
 import Anomalias.Medicao;
+import conn.ConnectToMySql;
+
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
@@ -60,7 +62,7 @@ public class AvaliaAlertaAssalto {
 		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
 		timestampUsedInRonda = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
 
-		connectMysqlAssalto();
+		
 
 		if (existeAlerta())
 			insereTabelaAlerta();
@@ -70,7 +72,7 @@ public class AvaliaAlertaAssalto {
 	/**
 	 * Connects to the MySQL database
 	 */
-	public void connectMysqlAssalto() {
+	/*public void connectMysqlAssalto() {
 
 		database_password = "teste123";
 		database_user = "root";
@@ -83,6 +85,9 @@ public class AvaliaAlertaAssalto {
 		} catch (Exception e) {
 			System.out.println("Avalia Alerta Assalto - Server down, unable to make the connection. ");
 		}
+	*/
+	public void connectMysqlAssalto() {
+		conn = ConnectToMySql.connect();
 	}
 
 	public boolean existeAlerta() {
@@ -91,8 +96,8 @@ public class AvaliaAlertaAssalto {
 
 	public boolean valorEAlerta() {
 		// nao sao anomalos
-		new InsereMedicoesNoMySql(movimento);
-		new InsereMedicoesNoMySql(luminosidade);
+		new InsereMedicoesNoMySql(movimento).insereMedicoesNoMySql();
+		new InsereMedicoesNoMySql(luminosidade).insereMedicoesNoMySql();
 		if (movimento.isAnomalo() && luminosidade.isAnomalo()) {
 			return false;
 		} else
@@ -127,12 +132,12 @@ public class AvaliaAlertaAssalto {
 
 		try {
 			if (tipoAlerta.equals("mov")) {
-				Alerta.enviaAlerta("Possivel Assalto", movimento);
+				Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 			} else if (tipoAlerta.equals("lum")) {
-				Alerta.enviaAlerta("Possivel Assalto", luminosidade);
+				Alerta.enviaAlerta("Possivel Assalto", luminosidade,Double.toString(luminosidadeLuzEscuro));
 			} else if (tipoAlerta.equals("both")) {
-				Alerta.enviaAlerta("Possivel Assalto", movimento);
-				Alerta.enviaAlerta("Possivel Assalto", luminosidade);
+				Alerta.enviaAlerta("Possivel Assalto", movimento,"1");
+				Alerta.enviaAlerta("Possivel Assalto", luminosidade,Double.toString(luminosidadeLuzEscuro));
 			}
 
 		} catch (Exception e) {
@@ -163,6 +168,7 @@ public class AvaliaAlertaAssalto {
 		// aconteca
 		Statement st;
 		try {
+			connectMysqlAssalto();
 			System.out.println("comeca a verificar ronda");
 			st = conn.createStatement();
 			System.out.println("timestampUsedInRonda" + timestampUsedInRonda);
@@ -170,6 +176,7 @@ public class AvaliaAlertaAssalto {
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
 			Time result = rs.getTime("MAX(horaSaida)");
+			conn.close();
 			if (result != null) {
 				System.out.println("não está em ronda " + fimRondaEmCurso);
 				return false;

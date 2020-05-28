@@ -147,16 +147,16 @@ public class Alerta {
 		return 0.0;
 	}
 
-	public static void enviaAlerta(String descricao, Medicao medicao) {
-		//TODO acrescentar limite
+	public static void enviaAlerta(String descricao, Medicao medicao, String limite) {
 		try {
 			Connection conn = ConnectToMySql.connect();
 			Statement st = conn.createStatement();
 			String Sqlcommando = "CALL InserirAlerta( '"
 					+ new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() + "','" + medicao.getTipoMedicao()
-					+ "','" + medicao.getValorMedicao() + "',0,'" + descricao + "',0,'');";
+					+ "','" + medicao.getValorMedicao() + "','"+limite +"','" + descricao + "',0,'');";
 			
 			ResultSet rs = st.executeQuery(Sqlcommando);
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

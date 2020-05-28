@@ -16,8 +16,9 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 
 	//TODO tratar do null
 	private void avaliaAlerta() {
-		if (medicao.getValorMedicao() >= Alerta.getLimite(medicao.getTipoMedicao())) {
-			Alerta.enviaAlerta("Incendio", medicao);
+		Double limiteMaximo = Alerta.getLimite(medicao.getTipoMedicao());
+		if (medicao.getValorMedicao() >= limiteMaximo) {
+			Alerta.enviaAlerta("Incendio", medicao,Double.toString(limiteMaximo)); 
 		} else {
 			String tipoMedicaousada = null;
 			if (medicao.getTipoMedicao().equals("tmp"))
@@ -34,14 +35,25 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 						/ Alerta.getPrimeiroValor(tipoMedicaousada).getValorMedicao()
 						- 1 > Alerta.getCrescimentoGradual(tipoMedicaousada));
 
-				if (crescimentoInstantaneo || crescimentoGradual) {
-					System.out.println(crescimentoInstantaneo + " " + crescimentoGradual);
+				if (crescimentoInstantaneo) {
 					if (tipoMedicaousada.equals("hum"))
-						Alerta.enviaAlerta("Aumento Humidade", medicao);
+						Alerta.enviaAlerta("Aumento Humidade (Instantaneo)", medicao,limiteEmPercentagem(Alerta.getCrescimentoInstantaneo(tipoMedicaousada)));
 					else if (tipoMedicaousada.equals("tmp"))
-						Alerta.enviaAlerta("Aumento Temperatura", medicao);
+						Alerta.enviaAlerta("Aumento Temperatura (Instantaneo)", medicao,limiteEmPercentagem(Alerta.getCrescimentoInstantaneo(tipoMedicaousada)));
+				}else if (crescimentoGradual) {
+					if (tipoMedicaousada.equals("hum"))
+						Alerta.enviaAlerta("Aumento Humidade (Gradual)", medicao,limiteEmPercentagem(Alerta.getCrescimentoGradual(tipoMedicaousada)));
+					else if (tipoMedicaousada.equals("tmp"))
+						Alerta.enviaAlerta("Aumento Temperatura  (Gradual)", medicao,limiteEmPercentagem(Alerta.getCrescimentoGradual(tipoMedicaousada)));
 				}
 			}
 		}
+	}
+	
+	public String limiteEmPercentagem(double limite) {
+		System.out.println(Double.toString(limite * 100) + "%");
+		return Double.toString(limite * 100) + "%";
+		
+		
 	}
 }
