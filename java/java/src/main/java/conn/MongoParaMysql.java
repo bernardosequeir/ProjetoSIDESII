@@ -64,13 +64,7 @@ public class MongoParaMysql {
 	}
 
 
-	public static String getDataUltimaMedicao(){
-		return ultimaDataVálida;
-	}
 
-	public static void setDataUltimaMedicao(String data){
-		ultimaDataVálida = data;
-	}
 
 	public static double getTempoLimiteMedicao(){
 		return valoresTabelaSistema.get("TempoLimiteMedicao");
@@ -90,7 +84,6 @@ public class MongoParaMysql {
 		irBuscarDadosMysql();
 		criaBuffersAnomalia();
 		System.out.println(LocalDateTime.now().toString());
-		setDataUltimaMedicao(LocalDateTime.now().toString());
 		ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
 
 		while (true) {

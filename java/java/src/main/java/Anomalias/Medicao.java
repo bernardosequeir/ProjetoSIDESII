@@ -2,9 +2,12 @@ package Anomalias;
 
 import conn.MongoParaMysql;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -72,9 +75,12 @@ public class Medicao {
 	private void checkData(String dataHoraMedicao){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
+			LocalDateTime now = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			String formatDateTime = now.format(formatter);
+			Date dataAgora = dateFormat.parse(formatDateTime);
 			Date parsedDate = dateFormat.parse(dataHoraParaFormatoCerto(dataHoraMedicao));
-			Date dataUltimaMedicao = dateFormat.parse(MongoParaMysql.getDataUltimaMedicao());
-			if(dataUltimaMedicao.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
+			if(dataAgora.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
 			 	marcarComoAnomalia();
 			 }
 		} catch (ParseException e) {

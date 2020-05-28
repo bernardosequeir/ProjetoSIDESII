@@ -45,7 +45,6 @@ public class InsereMedicoesNoMySql {
 		connect();
 		if(medicao.getValorAnomalia()==0) {
 			Sqlcommando = "CALL InserirMedicao('" + medicao.getValorMedicao() + "','" + medicao.getTipoMedicao() + "','" + dataHoraParaFormatoCerto() + "');";
-			MongoParaMysql.setDataUltimaMedicao(dataHoraParaFormatoCerto());
 		}else if(medicao.getValorAnomalia()==1){
 			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		}
