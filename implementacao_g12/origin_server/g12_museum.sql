@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Maio-2020 às 11:23
+-- Tempo de geração: 28-Maio-2020 às 14:54
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -85,7 +85,7 @@ SET Morada = nMorada WHERE EmailUtilizador = Mail;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ConsultarSistema` ()  BEGIN
-	SELECT IntervaloImportacaoMongo,TempoLimiteMedicao,tamanhoDosBuffersAnomalia,tamanhoDosBuffersAlerta,variacaoAnomalaTemperatura,variacaoAnomalaHumidade,crescimentoInstantaneoTemperatura,crescimentoGradualTemperatura,crescimentoInstantaneoHumidade,crescimentoGradualHumidade,luminosidadeLuzesDesligadas,limiteTemperatura,limiteHumidade FROM sistema;
+	SELECT IntervaloImportacaoMongo,TempoLimiteMedicao,tamanhoDosBuffersAnomalia,tamanhoDosBuffersAlerta,variacaoAnomalaTemperatura,variacaoAnomalaHumidade,crescimentoInstantaneoTemperatura,crescimentoGradualTemperatura,crescimentoInstantaneoHumidade,crescimentoGradualHumidade,luminosidadeLuzesDesligadas,limiteTemperatura,limiteHumidade FROM sistema LIMIT 1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ConsultarUtilizador` (`Email` VARCHAR(100))  BEGIN
@@ -144,7 +144,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ConsultarUtilizador` (`Email` VARCH
 	END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirAlerta` (IN `DataHoraMedicao` TIMESTAMP, IN `TipoSensor` VARCHAR(3), IN `ValorMedicao` DECIMAL(6,2), IN `Limite` DECIMAL(6,2), IN `Descricao` VARCHAR(1000), IN `Controlo` TINYINT, IN `Extra` VARCHAR(50))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsereTabelaSistemaValoresDefault` ()  BEGIN
+
+INSERT INTO sistema VALUES (DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirAlerta` (IN `DataHoraMedicao` TIMESTAMP, IN `TipoSensor` VARCHAR(3), IN `ValorMedicao` DECIMAL(6,2), IN `Limite` VARCHAR(7), IN `Descricao` VARCHAR(1000), IN `Controlo` TINYINT, IN `Extra` VARCHAR(50))  BEGIN
 
 INSERT INTO alerta VALUES (NULL,DataHoraMedicao,TipoSensor,ValorMedicao,Limite,Descricao,Controlo,Extra);
 END$$
@@ -329,7 +335,7 @@ CREATE TABLE `alerta` (
   `DataHoraMedicao` timestamp NULL DEFAULT NULL,
   `TipoSensor` varchar(3) NOT NULL,
   `ValorMedicao` decimal(6,2) NOT NULL,
-  `Limite` decimal(6,2) NOT NULL,
+  `Limite` varchar(7) NOT NULL,
   `Descricao` varchar(1000) NOT NULL,
   `Controlo` tinyint(1) NOT NULL,
   `Extra` varchar(50) NOT NULL
@@ -679,20 +685,20 @@ CREATE TABLE `ronda_planeada` (
 
 CREATE TABLE `sistema` (
   `IDSistema` int(11) NOT NULL,
-  `IntervaloImportacaoMongo` decimal(6,2) DEFAULT 5.00,
-  `TempoLimiteMedicao` int(11) DEFAULT 4,
-  `tamanhoDosBuffersAnomalia` int(11) DEFAULT 5,
-  `tamanhoDosBuffersAlerta` int(11) DEFAULT 5,
-  `variacaoAnomalaTemperatura` decimal(3,2) DEFAULT 0.20,
-  `variacaoAnomalaHumidade` decimal(3,2) DEFAULT 0.20,
-  `crescimentoInstantaneoTemperatura` decimal(3,2) DEFAULT 0.15,
-  `crescimentoGradualTemperatura` decimal(3,2) DEFAULT 0.15,
-  `crescimentoInstantaneoHumidade` decimal(3,2) DEFAULT 0.15,
-  `crescimentoGradualHumidade` decimal(3,2) DEFAULT 0.15,
-  `luminosidadeLuzesDesligadas` int(11) DEFAULT 1000,
-  `limiteTemperatura` int(11) DEFAULT 50,
-  `limiteHumidade` int(11) DEFAULT 50,
-  `periocidadeImportacaoExportacaoAuditor` int(11) DEFAULT 5
+  `IntervaloImportacaoMongo` decimal(6,2) NOT NULL DEFAULT 2.00,
+  `TempoLimiteMedicao` int(11) NOT NULL DEFAULT 4,
+  `tamanhoDosBuffersAnomalia` int(11) NOT NULL DEFAULT 5,
+  `tamanhoDosBuffersAlerta` int(11) NOT NULL DEFAULT 5,
+  `variacaoAnomalaTemperatura` decimal(3,2) NOT NULL DEFAULT 0.20,
+  `variacaoAnomalaHumidade` decimal(3,2) NOT NULL DEFAULT 0.20,
+  `crescimentoInstantaneoTemperatura` decimal(3,2) NOT NULL DEFAULT 0.15,
+  `crescimentoGradualTemperatura` decimal(3,2) NOT NULL DEFAULT 0.15,
+  `crescimentoInstantaneoHumidade` decimal(3,2) NOT NULL DEFAULT 0.15,
+  `crescimentoGradualHumidade` decimal(3,2) NOT NULL DEFAULT 0.15,
+  `luminosidadeLuzesDesligadas` int(11) NOT NULL DEFAULT 1000,
+  `limiteTemperatura` int(11) NOT NULL DEFAULT 50,
+  `limiteHumidade` int(11) NOT NULL DEFAULT 50,
+  `periocidadeImportacaoExportacaoAuditor` int(11) NOT NULL DEFAULT 5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -722,7 +728,51 @@ CREATE TRIGGER `sistema_AFTER_INSERT` AFTER INSERT ON `sistema` FOR EACH ROW BEG
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logsistema VALUES (DEFAULT, @UserMail, 'INSERT', now(), NULL, new.IDSistema, NULL, new.IntervaloImportacaoMongo, NULL, new.TempoLimiteMedicao, NULL, new.tamanhoDosBuffersAnomalia, NULL, new.tamanhoDosBuffersAlerta, NULL, new.variacaoAnomalaTemperatura, NULL, new.variacaoAnomalaHumidade, NULL, new.crescimentoInstantaneoTemperatura, NULL, new.crescimentoGradualTemperatura, NULL, new.crescimentoInstantaneoHumidade, NULL, new.crescimentoGradualHumidade, NULL, new.luminosidadeLuzesDesligadas, NULL, new.limiteTemperatura, NULL, new.limiteHumidade, NULL, new.periocidadeImportacaoExportacaoAuditor);
+	INSERT INTO g12_logsistema VALUES (NULL, @UserMail, 'INSERT', now(), NULL, new.IDSistema, NULL, new.IntervaloImportacaoMongo, NULL, new.TempoLimiteMedicao, NULL, new.tamanhoDosBuffersAnomalia, NULL, new.tamanhoDosBuffersAlerta, NULL, new.variacaoAnomalaTemperatura, NULL, new.variacaoAnomalaHumidade, NULL, new.crescimentoInstantaneoTemperatura, NULL, new.crescimentoGradualTemperatura, NULL, new.crescimentoInstantaneoHumidade, NULL, new.crescimentoGradualHumidade, NULL, new.luminosidadeLuzesDesligadas, NULL, new.limiteTemperatura, NULL, new.limiteHumidade, NULL, new.periocidadeImportacaoExportacaoAuditor);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `sistema_before_insert` BEFORE INSERT ON `sistema` FOR EACH ROW BEGIN
+    if(new.IntervaloImportacaoMongo < 0 ) THEN
+        set new.IntervaloImportacaoMongo = Default;
+    end if;
+    if(new.TempoLimiteMedicao < 0 ) THEN
+        set new.TempoLimiteMedicao = Default;
+    end if;
+    if(new.tamanhoDosBuffersAnomalia < 0 ) THEN
+        set new.tamanhoDosBuffersAnomalia = Default;
+    end if;
+    if(new.tamanhoDosBuffersAlerta < 0 ) THEN
+        set new.tamanhoDosBuffersAlerta = Default;
+    end if;
+    if(new.variacaoAnomalaTemperatura < 0 ) THEN
+        set new.variacaoAnomalaTemperatura = Default;
+    end if;
+    if(new.variacaoAnomalaHumidade < 0 ) THEN
+        set new.variacaoAnomalaHumidade = Default;
+    end if;
+    if(new.crescimentoInstantaneoTemperatura < 0 ) THEN
+        set new.crescimentoInstantaneoTemperatura = Default;
+    end if;
+    if(new.crescimentoGradualTemperatura < 0 ) THEN
+        set new.crescimentoGradualTemperatura = Default;
+    end if;
+    if(new.crescimentoInstantaneoHumidade < 0 ) THEN
+        set new.crescimentoInstantaneoHumidade = Default;
+    end if;
+    if(new.crescimentoGradualHumidade < 0 ) THEN
+        set new.crescimentoGradualHumidade = Default;
+    end if;
+    if(new.luminosidadeLuzesDesligadas < 0 ) THEN
+        set new.luminosidadeLuzesDesligadas = Default;
+    end if;
+    if(new.limiteHumidade < 0 ) THEN
+        set new.limiteHumidade = Default;
+    end if;
+    if(new.periocidadeImportacaoExportacaoAuditor < 0 ) THEN
+        set new.periocidadeImportacaoExportacaoAuditor = Default;
+    end if;
 END
 $$
 DELIMITER ;
