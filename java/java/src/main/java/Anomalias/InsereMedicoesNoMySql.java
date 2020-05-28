@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import conn.ConnectToMySql;
+
 public class InsereMedicoesNoMySql {
 
 	private Medicao medicao;
@@ -23,37 +25,33 @@ public class InsereMedicoesNoMySql {
 
 	public InsereMedicoesNoMySql(Medicao medicao) {
 		this.medicao = medicao;
-		connect();
-		insereMedicoesNoMySql();
+		
 	}
 
 	/**
 	 * Connects to the MySQL database
 	 */
 	public void connect() {
-
-		database_password = "teste123";
-		database_user = "root";
-		database_connection = "jdbc:mysql://localhost/g12_museum";
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager
-					.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
+			conn = ConnectToMySql.connect();
 			s = conn.createStatement();
 		} catch (Exception e) {
-			System.out.println("Insere Medicoes No MySQL - Server down, unable to make the connection. ");
+			System.err.println("Insere Medicoes No MySQL - Server down, unable to make the connection. ");
 		}
 	}
 
 	//TODO medicao sensores inserir varchar tambem e transformar mov em int etc
 	public void insereMedicoesNoMySql() {
+		connect();
 		if(medicao.getValorAnomalia()==0) 
 			Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		else if(medicao.getValorAnomalia()==1)
 			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		//TODO tratar de sqlcommando == null
+		System.out.println(Sqlcommando);
 		try {
 			conn.createStatement().executeQuery(Sqlcommando);
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,6 +76,7 @@ public class InsereMedicoesNoMySql {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 }

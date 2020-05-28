@@ -18,6 +18,7 @@ public class Medicao {
 		return dataHoraMedicao;
 	}
 
+	//TODO verificar datas
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) throws Exception {
 		if (tipoMedicao.equals("tmp") || tipoMedicao.equals("hum") || tipoMedicao.equals("lum")
 				|| tipoMedicao.equals("mov")) {

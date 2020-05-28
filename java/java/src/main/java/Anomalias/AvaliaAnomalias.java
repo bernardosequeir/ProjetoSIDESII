@@ -43,7 +43,7 @@ public class AvaliaAnomalias {
 					if (Math.abs((lista.get(j - 1).getValorMedicao() / lista.get(j).getValorMedicao())
 							- 1.00) >= variacaoMaxima) {
 						anomalia = true;
-						new InsereMedicoesNoMySql(lista.get(i));
+						new InsereMedicoesNoMySql(lista.get(i)).insereMedicoesNoMySql();
 						break;
 					}
 
@@ -75,7 +75,7 @@ public class AvaliaAnomalias {
 	}
 
 	private void avaliaPossivelAlertaEInsereMedicaoNoMysql(Medicao m) {
-		new InsereMedicoesNoMySql(m);
+		new InsereMedicoesNoMySql(m).insereMedicoesNoMySql();
 		new AvaliaAlertaVariacaoTemperaturaHumidade(m);
 	}
 

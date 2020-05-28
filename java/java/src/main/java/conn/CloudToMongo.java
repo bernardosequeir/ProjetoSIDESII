@@ -38,9 +38,7 @@ public class CloudToMongo implements MqttCallback {
 			mongo_collection = p.getProperty("mongo_collection");
 		} catch (Exception e) {
 
-			System.out.println("Error reading CloudToMongo.ini file " + e);
-			JOptionPane.showMessageDialog(null, "The CloudToMongo.inifile wasn't found.", "CloudToMongo",
-					JOptionPane.ERROR_MESSAGE);
+			System.err.println("Error reading CloudToMongo.ini file " + e);
 		}
 		
 		new CloudToMongo().connectMQTTBroker();
@@ -56,8 +54,7 @@ public class CloudToMongo implements MqttCallback {
 			mqttclient.setCallback(this);
 			mqttclient.subscribe(cloud_topic);
 		} catch (MqttException e) {
-			JOptionPane.showMessageDialog(null, "Could not connect to MQTT brocker. Cloud topic is: " + cloud_topic, "MQTT Broker",
-					JOptionPane.ERROR_MESSAGE);
+			System.err.println("Could not connect to MQTT brocker. Cloud topic is: " + cloud_topic + e);
 		}
 	}
 
@@ -67,8 +64,7 @@ public class CloudToMongo implements MqttCallback {
 		db = mongoClient.getDB(mongo_database);
 		mongocol = db.getCollection(mongo_collection);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Failed to start MongoClient with Mongo host " + mongo_host, "Create Mongo Client",
-					JOptionPane.ERROR_MESSAGE);
+			System.err.println("Failed to start MongoClient with Mongo host " + mongo_host + e);
 		}
 	}
 
@@ -80,8 +76,7 @@ public class CloudToMongo implements MqttCallback {
 			System.out.println(clean(c.toString()));
 			mongocol.insert(document_json);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Failed to get a Mongo Document ", "Receive Mongo Document",
-					JOptionPane.ERROR_MESSAGE);
+			System.err.println("Failed to get a Mongo Document " + e);
 		}
 	}
 
@@ -97,8 +92,7 @@ public class CloudToMongo implements MqttCallback {
 		try {
 			return message.replaceAll("\", " , ",\"");
 		} catch (NullPointerException e){
-			JOptionPane.showMessageDialog(null, "Mongo got a null Document", "Cleaning a Mongo Document ",
-					JOptionPane.ERROR_MESSAGE);
+			System.err.println("Mongo got a null Document " + e);
 		}
 		return null;
 
