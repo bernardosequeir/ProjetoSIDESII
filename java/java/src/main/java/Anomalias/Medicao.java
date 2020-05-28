@@ -65,7 +65,18 @@ public class Medicao {
 			marcarComoAnomalia();
 		}
 	}
-
+	private void checkData(String dataHoraMedicao){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		try {
+			Date parsedDate = dateFormat.parse(dataHoraFormatado);
+			// Date dataUltimaMedicao = dateFormat.parse(); preciso de uma função que puxa a última data certa
+			//if(dataUltimaMedicao.getTime - parsedDate.getTime() > aquele valor de tempo * 60 * 1000){
+			// 	marcarComoAnomalia();
+			// }
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
 	public void marcarComoAnomalia() {
 		possivelAnomalia = true;
 	}

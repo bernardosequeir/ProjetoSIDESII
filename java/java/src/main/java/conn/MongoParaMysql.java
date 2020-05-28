@@ -33,9 +33,6 @@ public class MongoParaMysql {
 	private String mongo_database;
 	private String mongo_collection;
 	private String SqlCommando;
-	private String database_password;
-	private String database_user;
-	private String database_connection;
 	private static HashMap<String, Double> valoresTabelaSistema;
 	private HashMap<String, Medicao> valoresASerConferidos;
 	private AvaliaAnomalias avaliaAnomaliasTemperatura;
