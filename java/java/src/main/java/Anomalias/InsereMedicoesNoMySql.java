@@ -46,7 +46,7 @@ public class InsereMedicoesNoMySql {
 		if(medicao.getValorAnomalia()==0) {
 			Sqlcommando = "CALL InserirMedicao('" + medicao.getValorMedicao() + "','" + medicao.getTipoMedicao() + "','" + dataHoraParaFormatoCerto() + "');";
 		}else if(medicao.getValorAnomalia()==1){
-			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
+			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		}
 		//TODO tratar de sqlcommando == null
 		System.out.println(Sqlcommando);
