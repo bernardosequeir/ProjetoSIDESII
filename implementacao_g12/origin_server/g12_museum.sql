@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Maio-2020 às 19:01
+-- Tempo de geração: 28-Maio-2020 às 11:23
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -150,11 +150,11 @@ INSERT INTO alerta VALUES (NULL,DataHoraMedicao,TipoSensor,ValorMedicao,Limite,D
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicao` (IN `ValorMedicao` DECIMAL(6,2), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP)  BEGIN
-	INSERT INTO medicao_sensores VALUES (DEFAULT,ValorMedicao,TipoSensor,DataHoraMedicao);
+	INSERT INTO medicao_sensores VALUES (NULL,ValorMedicao,TipoSensor,DataHoraMedicao);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicaoAnomala` (IN `ValorMedicao` VARCHAR(10), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP)  BEGIN
-	INSERT INTO medicao_sensores_anomalos VALUES (DEFAULT,ValorMedicao,TipoSensor,DataHoraMedicao);
+	INSERT INTO medicao_sensores_anomalos VALUES (NULL,ValorMedicao,TipoSensor,DataHoraMedicao);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirUtilizador` (`Email` VARCHAR(100), `Nome` VARCHAR(200), `Tipo` VARCHAR(3), `Pass` VARCHAR(10), `Morada` VARCHAR(200))  BEGIN
@@ -291,30 +291,30 @@ PREPARE stmt FROM @sql;
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `VerificaSeExisteRonda` (IN `tempodata` DATETIME)  BEGIN 
-DECLARE diasemana VARCHAR(45);
-DECLARE existeronda TIME; 
-DECLARE tempo TIME; 
-DECLARE fimRondaActual TIME; 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `VerificaSeExisteRonda` (IN `tempodata` DATETIME)  BEGIN DECLARE diasemana VARCHAR(45);
+ DECLARE existeronda TIME;
+  DECLARE tempo TIME; 
+  DECLARE fimRondaActual TIME; 
+  SET diasemana = DAYNAME(DATE(tempodata)); 
+  SET tempo = TIME(tempodata); SET existeronda = NULL; 
+  SET fimRondaActual = '00:00:00';
+  
+CREATE TEMPORARY TABLE armazenafimRondas(horaSaida TIME);
 
-SET diasemana = DAYNAME(DATE(tempodata)); 
-SET tempo = TIME(tempodata); 
-SET existeronda = '00:00:00';
- SET fimRondaActual = '00:00:00';
+INSERT INTO armazenafimRondas SELECT TIME(ronda_planeada.HoraRondaSaida) FROM ronda_planeada WHERE diasemana LIKE ronda_planeada.DiaSemana 
+AND ronda_planeada.HoraRondaInicio <= tempo AND ronda_planeada.HoraRondaSaida >= tempo 
+AND ronda_planeada.HoraRondaSaida > fimRondaActual 
+UNION ALL
+SELECT TIME(ronda_extra.datahoraSaida)FROM ronda_extra WHERE ronda_extra.dataHoraEntrada <= tempodata AND ronda_extra.datahoraSaida >= tempodata 
+AND TIME(ronda_extra.datahoraSaida) > fimRondaActual ;
 
 
-IF (
-SELECT COUNT(*)
-FROM ronda_planeada
-WHERE (diasemana LIKE ronda_planeada.DiaSemana AND ronda_planeada.HoraRondaInicio <= tempo AND ronda_planeada.HoraRondaSaida >= tempo AND ronda_planeada.HoraRondaSaida > fimRondaActual)) > 0  
-THEN SET existeronda = ronda_planeada.HoraRondaSaida;  END IF;
+	SELECT MAX(horaSaida) FROM armazenafimRondas AS fimRondaActual;
 
 
-IF (
-SELECT COUNT(*)
-FROM ronda_extra
-WHERE (ronda_extra.dataHoraEntrada <= tempodata AND ronda_extra.datahoraSaida >= tempodata AND TIME(ronda_extra.datahoraSaida) > fimRondaActual)) >0 THEN SET existeronda = TIME(ronda_extra.datahoraSaida); END IF;
-SELECT existeronda; END$$
+DROP TABLE armazenafimRondas;
+
+END$$
 
 DELIMITER ;
 
@@ -633,7 +633,7 @@ CREATE TRIGGER `Atualizar_RondaExtra` AFTER UPDATE ON `ronda_extra` FOR EACH ROW
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logronda_extra VALUES (DEFAULT, @UserMail, 'UPDATE', now(), old.dataHoraEntrada, new.dataHoraEntrada, old.datahoraSaida, new.datahoraSaida, old.EmailUtilizador, new.EmailUtilizador);
+	INSERT INTO g12_logronda_extra VALUES (NULL, @UserMail, 'UPDATE', now(), old.dataHoraEntrada, new.dataHoraEntrada, old.datahoraSaida, new.datahoraSaida, old.EmailUtilizador, new.EmailUtilizador);
 END
 $$
 DELIMITER ;
@@ -643,7 +643,7 @@ CREATE TRIGGER `Eliminar_RondaExtra` AFTER DELETE ON `ronda_extra` FOR EACH ROW 
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logronda_extra VALUES (DEFAULT, @UserMail, 'DELETE', now(), old.dataHoraEntrada, NULL, old.datahoraSaida, NULL, old.EmailUtilizador, NULL);
+	INSERT INTO g12_logronda_extra VALUES (NULL, @UserMail, 'DELETE', now(), old.dataHoraEntrada, NULL, old.datahoraSaida, NULL, old.EmailUtilizador, NULL);
 END
 $$
 DELIMITER ;
@@ -653,7 +653,7 @@ CREATE TRIGGER `Inserir_RondaExtra` AFTER INSERT ON `ronda_extra` FOR EACH ROW B
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_logronda_extra VALUES (DEFAULT, @UserMail, 'INSERT', now(), NULL, new.dataHoraEntrada, NULL, new.datahoraSaida, NULL, new.EmailUtilizador);
+	INSERT INTO g12_logronda_extra VALUES (NULL, @UserMail, 'INSERT', now(), NULL, new.dataHoraEntrada, NULL, new.datahoraSaida, NULL, new.EmailUtilizador);
 END
 $$
 DELIMITER ;
@@ -679,20 +679,20 @@ CREATE TABLE `ronda_planeada` (
 
 CREATE TABLE `sistema` (
   `IDSistema` int(11) NOT NULL,
-  `IntervaloImportacaoMongo` decimal(6,2) DEFAULT NULL,
-  `TempoLimiteMedicao` int(11) DEFAULT NULL,
-  `tamanhoDosBuffersAnomalia` int(11) DEFAULT NULL,
-  `tamanhoDosBuffersAlerta` int(11) DEFAULT NULL,
-  `variacaoAnomalaTemperatura` decimal(3,2) DEFAULT NULL,
-  `variacaoAnomalaHumidade` decimal(3,2) DEFAULT NULL,
-  `crescimentoInstantaneoTemperatura` decimal(3,2) DEFAULT NULL,
-  `crescimentoGradualTemperatura` decimal(3,2) DEFAULT NULL,
-  `crescimentoInstantaneoHumidade` decimal(3,2) DEFAULT NULL,
-  `crescimentoGradualHumidade` decimal(3,2) DEFAULT NULL,
-  `luminosidadeLuzesDesligadas` int(11) DEFAULT NULL,
-  `limiteTemperatura` int(11) DEFAULT NULL,
-  `limiteHumidade` int(11) DEFAULT NULL,
-  `periocidadeImportacaoExportacaoAuditor` int(11) DEFAULT NULL
+  `IntervaloImportacaoMongo` decimal(6,2) DEFAULT 5.00,
+  `TempoLimiteMedicao` int(11) DEFAULT 4,
+  `tamanhoDosBuffersAnomalia` int(11) DEFAULT 5,
+  `tamanhoDosBuffersAlerta` int(11) DEFAULT 5,
+  `variacaoAnomalaTemperatura` decimal(3,2) DEFAULT 0.20,
+  `variacaoAnomalaHumidade` decimal(3,2) DEFAULT 0.20,
+  `crescimentoInstantaneoTemperatura` decimal(3,2) DEFAULT 0.15,
+  `crescimentoGradualTemperatura` decimal(3,2) DEFAULT 0.15,
+  `crescimentoInstantaneoHumidade` decimal(3,2) DEFAULT 0.15,
+  `crescimentoGradualHumidade` decimal(3,2) DEFAULT 0.15,
+  `luminosidadeLuzesDesligadas` int(11) DEFAULT 1000,
+  `limiteTemperatura` int(11) DEFAULT 50,
+  `limiteHumidade` int(11) DEFAULT 50,
+  `periocidadeImportacaoExportacaoAuditor` int(11) DEFAULT 5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
