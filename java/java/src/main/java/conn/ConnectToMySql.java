@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 public class ConnectToMySql {
 
 	
@@ -23,8 +25,11 @@ public class ConnectToMySql {
 			Statement s = conn.createStatement();
 			return conn;
 		} catch (Exception e) {
-			System.out.println("ConnectToMySQL - Server down, unable to make the connection. ");
+			JOptionPane.showMessageDialog(null, "Could not connect to MySQL", "Connecting to MySQL ",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
+	
+	
 }

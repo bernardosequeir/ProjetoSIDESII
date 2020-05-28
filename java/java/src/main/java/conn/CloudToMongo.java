@@ -42,11 +42,12 @@ public class CloudToMongo implements MqttCallback {
 			JOptionPane.showMessageDialog(null, "The CloudToMongo.inifile wasn't found.", "CloudToMongo",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		new CloudToMongo().connecCloud();
+		
+		new CloudToMongo().connectMQTTBroker();
 		new CloudToMongo().connectMongo();
 	}
 
-	public void connecCloud() {
+	public void connectMQTTBroker() {
 		int i;
 		try {
 			i = new Random().nextInt(100000);
@@ -55,14 +56,20 @@ public class CloudToMongo implements MqttCallback {
 			mqttclient.setCallback(this);
 			mqttclient.subscribe(cloud_topic);
 		} catch (MqttException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Could not connect to MQTT brocker. Cloud topic is: " + cloud_topic, "MQTT Broker",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	public void connectMongo() {
+		try {
 		mongoClient = new MongoClient(new MongoClientURI(mongo_host));
 		db = mongoClient.getDB(mongo_database);
 		mongocol = db.getCollection(mongo_collection);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Failed to start MongoClient with Mongo host " + mongo_host, "Create Mongo Client",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	public void messageArrived(String topic, MqttMessage c) throws Exception {
@@ -73,7 +80,8 @@ public class CloudToMongo implements MqttCallback {
 			System.out.println(clean(c.toString()));
 			mongocol.insert(document_json);
 		} catch (Exception e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "Failed to get a Mongo Document ", "Receive Mongo Document",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -86,7 +94,13 @@ public class CloudToMongo implements MqttCallback {
 	public String clean(String message) {
 		//message.replace("\"\"", "\"");
 		//message = message.replace("\"s", "\",s");  //comentar até mais ou menos 6 da tarde
-		return message.replaceAll("\", " , ",\"");
+		try {
+			return message.replaceAll("\", " , ",\"");
+		} catch (NullPointerException e){
+			JOptionPane.showMessageDialog(null, "Mongo got a null Document", "Cleaning a Mongo Document ",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
 
 	}
 

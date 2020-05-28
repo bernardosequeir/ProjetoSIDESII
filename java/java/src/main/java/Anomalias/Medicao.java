@@ -18,42 +18,56 @@ public class Medicao {
 		return dataHoraMedicao;
 	}
 
-	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
-		checkTipo(valorMedicao);
-		if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
-			checkPositivo(valorMedicao);
+	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) throws Exception {
+		if (tipoMedicao.equals("tmp") || tipoMedicao.equals("hum") || tipoMedicao.equals("lum")
+				|| tipoMedicao.equals("mov")) {
+			//TODO isto pode ser tudo reescrito
+			checkTipo(valorMedicao);
+			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
+				checkPositivo(valorMedicao);
+			} 
+			if (tipoMedicao.equals("mov") && !possivelAnomalia) {
+				checkMovimento(valorMedicao);
+			}
+			this.tipoMedicao = tipoMedicao;
+			this.dataHoraMedicao = dataHoraMedicao;
+		} else {
+			throw new Exception("TipoMedicao is invalid - only tmp, hum, lum and mov are allowed");
 		}
-		if (tipoMedicao.equals("mov") && !possivelAnomalia) {
-			checkMovimento(valorMedicao);
-		}
-		this.tipoMedicao = tipoMedicao;
-		this.dataHoraMedicao = dataHoraMedicao;
 	}
 
+	/**
+	 * Checks whether the valorMedicao already in double form(which is confirmed previously to be a double) is not negative. 
+	 * @param valorMedicao
+	 */
 	private void checkPositivo(String valorMedicao) {
 		if (this.valorMedicao < 0.0) {
 			this.valorMedicaoAnomalo = valorMedicao;
-			possivelAnomalia = true;
+			marcarComoAnomalia();
 		}
 	}
 
 	private void checkMovimento(String valorMedicao) {
-		if (Double.compare(this.valorMedicao, 0.0)!=0 && Double.compare(this.valorMedicao, 1.0)!=0) {
+		if (Double.compare(this.valorMedicao, 0.0) != 0 && Double.compare(this.valorMedicao, 1.0) != 0) {
 			this.valorMedicaoAnomalo = valorMedicao;
-			possivelAnomalia = true;
+			marcarComoAnomalia();
 		}
 	}
 
+	//TODO reescrever metodo
 	private void checkTipo(String valorMedicao) {
 		System.out.println(valorMedicao);
 		try {
-				this.valorMedicao = Double.valueOf(valorMedicao);
+			this.valorMedicao = Double.valueOf(valorMedicao);
 		} catch (Exception e) {
 			valorMedicaoAnomalo = valorMedicao;
-			possivelAnomalia = true;
+			marcarComoAnomalia();
 		}
 	}
 
+	public void marcarComoAnomalia() {
+		possivelAnomalia = true;
+	}
 	public String getValorMedicaoAnomalo() {
 		System.out.println(valorMedicaoAnomalo);
 		return valorMedicaoAnomalo;

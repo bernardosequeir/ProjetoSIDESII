@@ -66,7 +66,7 @@ public class InsereMedicoesNoMySql {
 	 * @return
 	 */
 	public String dataHoraParaFormatoCerto() {
-		// TODO Auto-generated method stub
+		
 		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			 Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());

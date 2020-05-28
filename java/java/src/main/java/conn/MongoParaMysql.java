@@ -58,20 +58,6 @@ public class MongoParaMysql {
         mongocol = db.getCollection(mongo_collection);
     }
 
-    public void connectMysql() {
-
-        database_password = "teste123";
-        database_user = "root";
-        database_connection = "jdbc:mysql://localhost/g12_museum";
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
-            s = conn.createStatement();
-        } catch (Exception e) {
-            System.out.println("MongoParaMySQL - Server down, unable to make the connection. ");
-        }
-    }
-
     public static HashMap<String, Double> getValoresTabelaSistema() {
 		return valoresTabelaSistema;
 	}
@@ -82,7 +68,16 @@ public class MongoParaMysql {
     }
 
     private void run() {
-        connectMysql();
+       // connectMysql();
+    	
+
+    	try {
+    		conn = ConnectToMySql.connect();
+			s = conn.createStatement();
+		} catch (SQLException e) {	
+			JOptionPane.showMessageDialog(null, "Could not connect to MySQL", "Connecting to MySQL ",
+					JOptionPane.ERROR_MESSAGE);
+		}
         connectMongo();
             irBuscarDadosMysql();
             criaBuffersAnomalia();
@@ -113,8 +108,7 @@ public class MongoParaMysql {
             try {
 				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("Thread sleep was interrupted - outside of our control");
 			}
         }
     }
@@ -133,6 +127,8 @@ public class MongoParaMysql {
     private void irBuscarDadosMysql() {
         valoresTabelaSistema = new HashMap<String, Double>();
         SqlCommando = "SELECT * from sistema;";
+      //TODO tratar tabela sistema vazia de uma forma melhor?
+      //TODO verificar se tabela sistema nao tem valores estupidos, possivelmente no mysql
         try {
 			rs = s.executeQuery(SqlCommando);
 			rs.next();
@@ -149,10 +145,14 @@ public class MongoParaMysql {
 		        valoresTabelaSistema.put("luminosidadeLuzesDesligadas", rs.getDouble("luminosidadeLuzesDesligadas"));
 		        valoresTabelaSistema.put("limiteTemperatura", rs.getDouble("limiteTemperatura"));
 		        valoresTabelaSistema.put("limiteHumidade", rs.getDouble("limiteHumidade"));
-		        
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				rs = s.executeQuery("CALL InsereTabelaSistemaValoresDefault()");
+				irBuscarDadosMysql();
+			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(null, "Could not call the SP InsereTabelaSistemaValoresDefault - maybe it is deleted or it is modified", "SP InsereTabelaSistemaValoresDefault",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
       
 
@@ -168,17 +168,23 @@ public class MongoParaMysql {
     private HashMap<String,Medicao> getValoresMedicao(Document doc) {
         String[] date_split = doc.getString("dat").split("/");
         String date_fixed = date_split[2] + "-" + date_split[1] + "-" + date_split[0] + " " + doc.getString("tim");
-        Medicao medicaoTemperatura = new Medicao(doc.getString("tmp"), "tmp", date_fixed);
-        Medicao medicaoHumidade = new Medicao(doc.getString("hum"), "hum", date_fixed);
-        Medicao medicaoLuminosidade = new Medicao(doc.getString("cell"), "lum", date_fixed);
-        Medicao medicaoMovimento = new Medicao(doc.getString("mov"), "mov", date_fixed);
-        HashMap<String,Medicao> medicoes = new HashMap<String, Medicao>();
-        medicoes.put("tmp",medicaoTemperatura);
-        medicoes.put("hum",medicaoHumidade);
-        medicoes.put("lum",medicaoLuminosidade);
-        medicoes.put("mov",medicaoMovimento);
-        
-        return medicoes;
+		try {
+			Medicao medicaoTemperatura = new Medicao(doc.getString("tmp"), "tmp", date_fixed);
+			Medicao medicaoHumidade = new Medicao(doc.getString("hum"), "hum", date_fixed);
+	        Medicao medicaoLuminosidade = new Medicao(doc.getString("cell"), "lum", date_fixed);
+	        Medicao medicaoMovimento = new Medicao(doc.getString("mov"), "mov", date_fixed);
+	        HashMap<String,Medicao> medicoes = new HashMap<String, Medicao>();
+	        medicoes.put("tmp",medicaoTemperatura);
+	        medicoes.put("hum",medicaoHumidade);
+	        medicoes.put("lum",medicaoLuminosidade);
+	        medicoes.put("mov",medicaoMovimento);
+	        return medicoes;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "String parsing fail (\"tmp\" did not get converted correctly as \"tmp\")", "Creating Medicao",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+     
     }
 
    
