@@ -1,6 +1,9 @@
 package conn;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import javax.swing.*;
 
@@ -86,6 +89,8 @@ public class MongoParaMysql {
 		connectMongo();
 		irBuscarDadosMysql();
 		criaBuffersAnomalia();
+		System.out.println(LocalDateTime.now().toString());
+		setDataUltimaMedicao(LocalDateTime.now().toString());
 		ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
 
 		while (true) {

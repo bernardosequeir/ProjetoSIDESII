@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Medicao {
 
@@ -71,7 +72,7 @@ public class Medicao {
 	private void checkData(String dataHoraMedicao){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
-			Date parsedDate = dateFormat.parse(dataHoraMedicao);
+			Date parsedDate = dateFormat.parse(dataHoraParaFormatoCerto(dataHoraMedicao));
 			Date dataUltimaMedicao = dateFormat.parse(MongoParaMysql.getDataUltimaMedicao());
 			if(dataUltimaMedicao.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
 			 	marcarComoAnomalia();
@@ -104,5 +105,22 @@ public class Medicao {
 		if (isAnomalo())
 			return 1;
 		return 0;
+	}
+
+	public String dataHoraParaFormatoCerto(String dataHoraMedicao) {
+
+		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		try {
+			Date date = timeFormatISO.parse(dataHoraMedicao);
+			Timestamp stamp =  new Timestamp(date.getTime());
+			SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
+			return timeFormatISO2.format(stamp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }
