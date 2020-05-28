@@ -158,8 +158,7 @@ public class Alerta {
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("SP inserir alerta falhou " + e);
 		}
 	}
 }

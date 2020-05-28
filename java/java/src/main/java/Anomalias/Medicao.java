@@ -30,7 +30,7 @@ public class Medicao {
 				|| tipoMedicao.equals("mov")) {
 			//TODO isto pode ser tudo reescrito
 			checkTipo(valorMedicao);
-			checkData(dataHoraMedicao);
+			checkData(dataHoraMedicao, valorMedicao);
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
 				checkPositivo(valorMedicao);
 			} 
@@ -72,7 +72,7 @@ public class Medicao {
 			marcarComoAnomalia();
 		}
 	}
-	private void checkData(String dataHoraMedicao){
+	private void checkData(String dataHoraMedicao, String valorMedicao){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			LocalDateTime now = LocalDateTime.now();
@@ -81,6 +81,8 @@ public class Medicao {
 			Date dataAgora = dateFormat.parse(formatDateTime);
 			Date parsedDate = dateFormat.parse(dataHoraParaFormatoCerto(dataHoraMedicao));
 			if(dataAgora.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
+				System.out.println("antiga " + parsedDate.getTime() + dataAgora.getTime());
+				this.valorMedicaoAnomalo = valorMedicao;
 			 	marcarComoAnomalia();
 			 }
 		} catch (ParseException e) {
@@ -123,8 +125,7 @@ public class Medicao {
 			timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
 			return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Unable to parse/find the date: " + dataHoraMedicao + " " + e);
 		}
 
 		return null;

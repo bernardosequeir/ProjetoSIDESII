@@ -46,7 +46,7 @@ public class InsereMedicoesNoMySql {
 		if(medicao.getValorAnomalia()==0) {
 			Sqlcommando = "CALL InserirMedicao('" + medicao.getValorMedicao() + "','" + medicao.getTipoMedicao() + "','" + dataHoraParaFormatoCerto() + "');";
 		}else if(medicao.getValorAnomalia()==1){
-			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
+			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		}
 		//TODO tratar de sqlcommando == null
 		System.out.println(Sqlcommando);
@@ -54,8 +54,7 @@ public class InsereMedicoesNoMySql {
 			conn.createStatement().executeQuery(Sqlcommando);
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("could not connect do the SP InserirMedicao OR InserirMedicaoAnomala " + e);
 		}
 	}
 	
@@ -74,8 +73,7 @@ public class InsereMedicoesNoMySql {
 			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
 			 return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Could not parse the correct date. Original Date: " + medicao.getDataHoraMedicao());
 		}
 		
 		return null;

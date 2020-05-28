@@ -64,7 +64,13 @@ public class MongoParaMysql {
 	}
 
 
+	public static String getDataUltimaMedicao(){
+		return ultimaDataVálida;
+	}
 
+	public static void setDataUltimaMedicao(String data){
+		ultimaDataVálida = data;
+	}
 
 	public static double getTempoLimiteMedicao(){
 		return valoresTabelaSistema.get("TempoLimiteMedicao");
@@ -83,7 +89,7 @@ public class MongoParaMysql {
 		connectMongo();
 		irBuscarDadosMysql();
 		criaBuffersAnomalia();
-		System.out.println(LocalDateTime.now().toString());
+		setDataUltimaMedicao(LocalDateTime.now().toString());
 		ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
 
 		while (true) {
@@ -104,8 +110,7 @@ public class MongoParaMysql {
 			try {
 				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("Failed to sleep. " + e);
 			}
 		} else {
 			try {
@@ -136,8 +141,7 @@ public class MongoParaMysql {
 		try {
 			s = conn.createStatement();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			System.err.println("Failed to connect to MySql. " + e2);
 		}
 		valoresTabelaSistema = new HashMap<String, Double>();
 		SqlCommando = "SELECT * from sistema;";
@@ -173,8 +177,7 @@ public class MongoParaMysql {
 		try {
 			conn.close();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.err.println("Failed to close MySql connection. " + e1);
 		}
 
 	}

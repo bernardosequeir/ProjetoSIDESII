@@ -26,24 +26,10 @@ public class ConnectToMySql {
 			Connection conn = DriverManager
 					.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
 			return conn;
-		} catch (SQLException e) {
-			System.err.println("Could not connect to MySQL " + e);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+        }
+		catch(Exception e) {
+			System.err.println("Could not load cloudtoMongo.ini " + e);
+		}
 		return null;
 	}
 	
