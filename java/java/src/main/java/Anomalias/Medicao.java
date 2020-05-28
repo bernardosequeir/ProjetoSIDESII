@@ -1,5 +1,7 @@
 package Anomalias;
 
+import conn.MongoParaMysql;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,7 @@ public class Medicao {
 				|| tipoMedicao.equals("mov")) {
 			//TODO isto pode ser tudo reescrito
 			checkTipo(valorMedicao);
+			checkData();
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
 				checkPositivo(valorMedicao);
 			} 
@@ -65,14 +68,14 @@ public class Medicao {
 			marcarComoAnomalia();
 		}
 	}
-	private void checkData(String dataHoraMedicao){
+	private void checkData(){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			Date parsedDate = dateFormat.parse(dataHoraFormatado);
-			// Date dataUltimaMedicao = dateFormat.parse(); preciso de uma função que puxa a última data certa
-			//if(dataUltimaMedicao.getTime - parsedDate.getTime() > aquele valor de tempo * 60 * 1000){
-			// 	marcarComoAnomalia();
-			// }
+			Date dataUltimaMedicao = dateFormat.parse(MongoParaMysql.getDataUltimaMedicao());
+			if(dataUltimaMedicao.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
+			 	marcarComoAnomalia();
+			 }
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

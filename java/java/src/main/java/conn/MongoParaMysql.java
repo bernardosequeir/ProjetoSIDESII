@@ -34,6 +34,7 @@ public class MongoParaMysql {
 	private String mongo_collection;
 	private String SqlCommando;
 	private static HashMap<String, Double> valoresTabelaSistema;
+	private static String ultimaDataVálida;
 	private HashMap<String, Medicao> valoresASerConferidos;
 	private AvaliaAnomalias avaliaAnomaliasTemperatura;
 	private AvaliaAnomalias avaliaAnomaliasHumidade;
@@ -59,10 +60,25 @@ public class MongoParaMysql {
 		return valoresTabelaSistema;
 	}
 
+
+	public static String getDataUltimaMedicao(){
+		return ultimaDataVálida;
+	}
+
+	public static void setDataUltimaMedicao(String data){
+		ultimaDataVálida = data;
+	}
+
+	public static double getTempoLimiteMedicao(){
+		return valoresTabelaSistema.get("TempoLimiteMedicao");
+	}
+
+
 	public static void main(String[] args) {
 		MongoParaMysql mongoParaMysql = new MongoParaMysql();
 		mongoParaMysql.run();
 	}
+
 
 	private void run() {
 		// connectMysql();

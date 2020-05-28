@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import conn.ConnectToMySql;
+import conn.MongoParaMysql;
 
 public class InsereMedicoesNoMySql {
 
@@ -40,13 +41,14 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 
-	//TODO medicao sensores inserir varchar tambem e transformar mov em int etc
 	public void insereMedicoesNoMySql() {
 		connect();
-		if(medicao.getValorAnomalia()==0) 
-			Sqlcommando = "CALL InserirMedicao('"+medicao.getValorMedicao()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
-		else if(medicao.getValorAnomalia()==1)
+		if(medicao.getValorAnomalia()==0) {
+			Sqlcommando = "CALL InserirMedicao('" + medicao.getValorMedicao() + "','" + medicao.getTipoMedicao() + "','" + dataHoraParaFormatoCerto() + "');";
+			MongoParaMysql.setDataUltimaMedicao(dataHoraParaFormatoCerto());
+		}else if(medicao.getValorAnomalia()==1){
 			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
+		}
 		//TODO tratar de sqlcommando == null
 		System.out.println(Sqlcommando);
 		try {
