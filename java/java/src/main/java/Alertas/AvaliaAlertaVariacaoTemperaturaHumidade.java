@@ -70,7 +70,9 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 							Alerta.setUltimoAlarmeCrescimentoTemperatura(medicao.getDataHoraMedicao());
 							System.out.println("entrada em " + medicao.getDataHoraMedicao());
 						}
-					} else if (crescimentoGradual) {
+					}
+				}
+					else if (crescimentoGradual) {
 						if (tipoMedicaousada.equals("hum")) {
 							if (Alerta.verificarSeMandaAlerta(Alerta.getUltimoAlarmeCrescimentoHumidade(),
 									medicao.getDataHoraMedicao())
@@ -79,7 +81,9 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 								Alerta.enviaAlerta("Aumento Humidade (Gradual)", medicao,
 										limiteEmPercentagem(Alerta.getCrescimentoGradual(tipoMedicaousada)));
 								Alerta.setUltimoAlarmeCrescimentoHumidade(medicao.getDataHoraMedicao());
-							} else if (tipoMedicaousada.equals("tmp")) {
+							}
+						}
+						else if (tipoMedicaousada.equals("tmp")) {
 								if (Alerta.verificarSeMandaAlerta(Alerta.getUltimoAlarmeCrescimentoTemperatura(),
 										medicao.getDataHoraMedicao())
 										&& Alerta.verificarSeMandaAlerta(Alerta.getUltimoAlarmeLimiteTemperatura(),
@@ -93,8 +97,8 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 					}
 				}
 			}
-		}
-	}
+
+
 
 	public String limiteEmPercentagem(double limite) {
 		System.out.println(Double.toString(limite * 100) + "%");
