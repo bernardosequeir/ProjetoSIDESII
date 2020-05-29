@@ -56,7 +56,7 @@ public class SimulateSensor implements MqttCallback
             double d = 18.0;
           while (d < 50.0) {
         	  
-                final String string = "{\"tmp\":\"" + d + "\",\"hum\":\"" + 35.0 + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 20 + "\",\"mov\":\"" + 1 + "\",\"sens\":\"eth\"}";
+                final String string = "{\"tmp\":\"" + d + "\",\"hum\":\"" + d + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 20 + "\",\"mov\":\"" + 1 + "\",\"sens\":\"eth\"}";
                 d += 0.5;
                 try {
                     Thread.sleep(2000L);

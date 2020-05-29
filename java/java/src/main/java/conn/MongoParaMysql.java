@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.*;
 import javax.swing.*;
 
+import Alertas.Alerta;
 import Alertas.AvaliaAlertaAssalto;
 import Anomalias.AvaliaAnomalias;
 import Anomalias.Medicao;
@@ -88,6 +89,7 @@ public class MongoParaMysql {
 
 		connectMongo();
 		irBuscarDadosMysql();
+		Alerta.buscarValoresTabelaSistema();
 		criaBuffersAnomalia();
 		setDataUltimaMedicao(LocalDateTime.now().toString());
 		ultimaMedicao = getUltimoValor(); // Primeira medição do mongo

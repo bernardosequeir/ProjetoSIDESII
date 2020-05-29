@@ -109,8 +109,8 @@ public class AvaliaAlertaAssalto {
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(),
 						movimento.getDataHoraMedicao())) {
 					System.out.println("data é mais");
-					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 					Alerta.setUltimaDataMovimento(movimento.getDataHoraMedicao());
+					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 				}
 			} else if (tipoAlerta.equals("lum")) {
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataLuminosidade(),
@@ -134,7 +134,8 @@ public class AvaliaAlertaAssalto {
 
 		} catch (Exception e) {
 			System.err.println(
-					"Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: " + tipoAlerta + " " + e);
+					"Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: " + tipoAlerta );
+			e.printStackTrace();
 		}
 	}
 

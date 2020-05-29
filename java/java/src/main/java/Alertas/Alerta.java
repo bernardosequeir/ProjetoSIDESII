@@ -27,9 +27,13 @@ public class Alerta {
 	private static LinkedList<Medicao> ultimosValoresTemperatura = new LinkedList<Medicao>();
 	private static LinkedList<Medicao> ultimosValoresHumidade = new LinkedList<Medicao>();
 	private static LinkedList<Medicao> ultimosValoresLuminosidade = new LinkedList<Medicao>();
-	private static String ultimaDataMovimento = null;
-	private static String ultimaDataLuminosidade = null;
+	private static String ultimaAlertaMovimento = null;
+	private static String ultimaAlertaLuminosidade = null;
 	private static Date fimRondaEmCurso = null;
+	private static String ultimoAlarmeLimiteTemperatura = null;
+	private static String ultimoAlarmeCrescimentoTemperatura = null;
+	private static String ultimoAlarmeLimiteHumidade = null;
+	private static String ultimoAlarmeCrescimentoHumidade= null;
 	
 	
 	public static int irBuscarBuffersAlerta() {
@@ -92,7 +96,6 @@ public static Double buscarIntervaloEntreAlertas() {
 	public static boolean  verificarSeMandaAlerta(String dataAntiga, String dataNova) {
 		try {
 			if(dataAntiga==null){
-				System.out.println("data esta null lol");
 				return true;
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss");
@@ -186,23 +189,48 @@ public static Double buscarIntervaloEntreAlertas() {
 			System.err.println("SP inserir alerta falhou " + e);
 		}
 	}
+	//TODO substituir e por e.print...
 
 	public static String getUltimaDataMovimento() {
-		return ultimaDataMovimento;
+		return ultimaAlertaMovimento;
 	}
 	public static String getUltimaDataLuminosidade() {
-		return ultimaDataLuminosidade;
+		return ultimaAlertaLuminosidade;
 	}
 	public static void setUltimaDataMovimento(String ultimaData) {
-		ultimaDataMovimento = ultimaData;
+		ultimaAlertaMovimento = ultimaData;
 	}
 	public static void setUltimaDataLuminosidade(String ultimaData) {
-		ultimaDataLuminosidade = ultimaData;
+		ultimaAlertaLuminosidade = ultimaData;
 	}
 	public static Date getFimRondaEmCurso() {
 		return fimRondaEmCurso;
 	}
 	public static void setFimRondaEmCurso(Date ultimaData) {
 		fimRondaEmCurso = ultimaData;
+	}
+	public static String getUltimoAlarmeLimiteTemperatura() {
+		return ultimoAlarmeLimiteTemperatura;
+	}
+	public static void setUltimoAlarmeLimiteTemperatura(String ultimoAlarmeLimiteTemperatura) {
+		Alerta.ultimoAlarmeLimiteTemperatura = ultimoAlarmeLimiteTemperatura;
+	}
+	public static String getUltimoAlarmeCrescimentoTemperatura() {
+		return ultimoAlarmeCrescimentoTemperatura;
+	}
+	public static void setUltimoAlarmeCrescimentoTemperatura(String ultimoAlarmeCrescimentoTemperatura) {
+		Alerta.ultimoAlarmeCrescimentoTemperatura = ultimoAlarmeCrescimentoTemperatura;
+	}
+	public static String getUltimoAlarmeLimiteHumidade() {
+		return ultimoAlarmeLimiteHumidade;
+	}
+	public static void setUltimoAlarmeLimiteHumidade(String ultimoAlarmeLimiteHumidade) {
+		Alerta.ultimoAlarmeLimiteHumidade = ultimoAlarmeLimiteHumidade;
+	}
+	public static String getUltimoAlarmeCrescimentoHumidade() {
+		return ultimoAlarmeCrescimentoHumidade;
+	}
+	public static void setUltimoAlarmeCrescimentoHumidade(String ultimoAlarmeCrescimentoHumidade) {
+		Alerta.ultimoAlarmeCrescimentoHumidade = ultimoAlarmeCrescimentoHumidade;
 	}
 }
