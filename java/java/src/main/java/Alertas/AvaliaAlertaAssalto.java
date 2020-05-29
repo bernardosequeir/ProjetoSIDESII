@@ -146,9 +146,9 @@ public class AvaliaAlertaAssalto {
 			Time fimRondaEmCurso = Alerta.getFimRondaEmCurso();
 			System.out.println(fimRondaEmCurso);
 			if(fimRondaEmCurso != null){
-				System.out.println("entra no check do time");
 				System.out.println(time);
 				if (fimRondaEmCurso.after(time)) {
+					System.out.println("A ronda ainda não acabou");
 					return true;
 				}
 			}
@@ -177,7 +177,6 @@ public class AvaliaAlertaAssalto {
 			Time result = rs.getTime("fimRondaActual");
 			conn.close();
 			if (result != null) {
-				System.out.println("tá a haver uma ronda actual ");
 				Alerta.setFimRondaEmCurso(result);
 				return true;
 			} else {
