@@ -1,5 +1,8 @@
 package Anomalias;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,6 +12,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.TimeZone;
 
 import conn.ConnectToMySql;
@@ -59,7 +63,6 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 	
-	//TODO please put gmt in .ini
 	/**
 	 * The data comes in as xx-xx-xx xx:xx:xx but without leading zeros. For example 1990-5-3 12:4:20 gets converted to 1990-05-03 12:04:20
 	 * Due to the sensor's hour being an hour behind, it also add it to the correct date(GMT +1 +1 again).
@@ -67,8 +70,12 @@ public class InsereMedicoesNoMySql {
 	 */
 	public String dataHoraParaFormatoCerto() {
 		
+		
 		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream("cloudToMongo.ini"));
+			String timezone = p.getProperty("timezone");
 			 Date date = timeFormatISO.parse(medicao.getDataHoraMedicao());
 			 Timestamp stamp =  new Timestamp(date.getTime());
 			 SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
@@ -76,6 +83,10 @@ public class InsereMedicoesNoMySql {
 			 return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
 			System.err.println("Could not parse the correct date. Original Date: " + medicao.getDataHoraMedicao() + "  " + e);
+		} catch (FileNotFoundException e) {
+			System.err.println("Unable to find cloudToMongo.ini " + e);
+		} catch (IOException e) {
+			System.err.println("I/O exception when reading cloudToMongo.ini " +e);
 		}
 		
 		return null;

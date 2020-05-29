@@ -2,6 +2,9 @@ package Anomalias;
 
 import conn.MongoParaMysql;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -9,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Properties;
 import java.util.TimeZone;
 
 public class Medicao {
@@ -57,7 +61,7 @@ public class Medicao {
 		}
 	}
 
-	//TODO reescrever metodo
+
 	private void verificaSeEDouble(String valorMedicao) {
 		System.out.println(valorMedicao);
 		try {
@@ -118,18 +122,28 @@ public class Medicao {
 		return 0;
 	}
 
-	//TODO por GMT no .ini?
+	//TODO este codigo esta repetido
+
+	
 	public String dataHoraParaFormatoCerto(String dataHoraMedicao) {
 
+		String timezone;
 		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream("cloudToMongo.ini"));
+			timezone = p.getProperty("timezone");
 			Date date = timeFormatISO.parse(dataHoraMedicao);
 			Timestamp stamp =  new Timestamp(date.getTime());
 			SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-			timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
+			timeFormatISO2.setTimeZone(TimeZone.getTimeZone(timezone));
 			return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
 			System.err.println("Unable to parse/find the date: " + dataHoraMedicao + " " + e);
+		} catch (FileNotFoundException e) {
+			System.err.println("Unable to find cloudToMongo.ini " + e);
+		} catch (IOException e) {
+			System.err.println("I/O exception when reading cloudToMongo.ini " +e);
 		}
 
 		return null;
