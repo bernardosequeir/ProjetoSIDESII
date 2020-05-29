@@ -37,7 +37,7 @@ public class InsereMedicoesNoMySql {
 			conn = ConnectToMySql.connect();
 			s = conn.createStatement();
 		} catch (Exception e) {
-			System.err.println("Insere Medicoes No MySQL - Server down, unable to make the connection. ");
+			System.err.println("Insere Medicoes No MySQL - Server down, unable to make the connection. " +e);
 		}
 	}
 
@@ -59,6 +59,7 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 	
+	//TODO please put gmt in .ini
 	/**
 	 * The data comes in as xx-xx-xx xx:xx:xx but without leading zeros. For example 1990-5-3 12:4:20 gets converted to 1990-05-03 12:04:20
 	 * Due to the sensor's hour being an hour behind, it also add it to the correct date(GMT +1 +1 again).
@@ -74,7 +75,7 @@ public class InsereMedicoesNoMySql {
 			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
 			 return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
-			System.err.println("Could not parse the correct date. Original Date: " + medicao.getDataHoraMedicao());
+			System.err.println("Could not parse the correct date. Original Date: " + medicao.getDataHoraMedicao() + "  " + e);
 		}
 		
 		return null;

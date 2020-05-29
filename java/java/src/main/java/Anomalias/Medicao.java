@@ -16,7 +16,6 @@ public class Medicao {
 	private double valorMedicao;
 	private String tipoMedicao;
 	private String dataHoraMedicao;
-	private String dataHoraFormatado;
 	private boolean possivelAnomalia = false;
 	private String valorMedicaoAnomalo;
 
@@ -24,54 +23,51 @@ public class Medicao {
 		return dataHoraMedicao;
 	}
 
-	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) throws Exception {
+	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao)  {
 		if (tipoMedicao.equals("tmp") || tipoMedicao.equals("hum") || tipoMedicao.equals("lum")
 				|| tipoMedicao.equals("mov")) {
-			//TODO isto pode ser tudo reescrito return do checkTipo 
-			checkTipo(valorMedicao);
-			checkData(dataHoraMedicao, valorMedicao);
+			verificaSeEDouble(valorMedicao);
+			verificaSeDataEValida(dataHoraMedicao, valorMedicao);
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
-				checkPositivo(valorMedicao);
+				verificaSeEPositivo(valorMedicao);
 			} 
 			if (tipoMedicao.equals("mov") && !possivelAnomalia) {
-				checkMovimento(valorMedicao);
+				verificaSeMovimentoEAnomalia(valorMedicao);
 			}
 			this.tipoMedicao = tipoMedicao;
 			this.dataHoraMedicao = dataHoraMedicao;
 		} else {
-			throw new Exception("TipoMedicao is invalid - only tmp, hum, lum and mov are allowed");
+			System.err.println("TipoMedicao is invalid - only tmp, hum, lum and mov are allowed");
 		}
 	}
-
 	/**
 	 * Checks whether the valorMedicao already in double form(which is confirmed previously to be a double) is not negative. 
 	 * @param valorMedicao
 	 */
-	private void checkPositivo(String valorMedicao) {
+	private void verificaSeEPositivo(String valorMedicao) {
 		if (this.valorMedicao < 0.0) {
 			this.valorMedicaoAnomalo = valorMedicao;
-			marcarComoAnomalia();
+			marcarComoAnomalia(valorMedicao);
 		}
 	}
 
-	private void checkMovimento(String valorMedicao) {
+	private void verificaSeMovimentoEAnomalia(String valorMedicao) {
 		if (Double.compare(this.valorMedicao, 0.0) != 0 && Double.compare(this.valorMedicao, 1.0) != 0) {
-			this.valorMedicaoAnomalo = valorMedicao;
-			marcarComoAnomalia();
+			marcarComoAnomalia(valorMedicao);
 		}
 	}
 
 	//TODO reescrever metodo
-	private void checkTipo(String valorMedicao) {
+	private void verificaSeEDouble(String valorMedicao) {
 		System.out.println(valorMedicao);
 		try {
 			this.valorMedicao = Double.valueOf(valorMedicao);
 		} catch (Exception e) {
-			valorMedicaoAnomalo = valorMedicao;
-			marcarComoAnomalia();
+			marcarComoAnomalia(valorMedicao);
 		}
 	}
-	private void checkData(String dataHoraMedicao, String valorMedicao){
+	
+	private void verificaSeDataEValida(String dataHoraMedicao, String valorMedicao){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			LocalDateTime now = LocalDateTime.now();
@@ -81,16 +77,18 @@ public class Medicao {
 			Date parsedDate = dateFormat.parse(dataHoraParaFormatoCerto(dataHoraMedicao));
 			if(dataAgora.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
 				System.out.println("antiga " + parsedDate.getTime() + dataAgora.getTime());
-				this.valorMedicaoAnomalo = valorMedicao;
-			 	marcarComoAnomalia();
+			 	marcarComoAnomalia(valorMedicao);
 			 }
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
-	public void marcarComoAnomalia() {
+	
+	public void marcarComoAnomalia(String valorMedicao) {
+		this.valorMedicaoAnomalo = valorMedicao;
 		possivelAnomalia = true;
 	}
+	
 	public String getValorMedicaoAnomalo() {
 		System.out.println(valorMedicaoAnomalo);
 		return valorMedicaoAnomalo;
@@ -120,6 +118,7 @@ public class Medicao {
 		return 0;
 	}
 
+	//TODO por GMT no .ini?
 	public String dataHoraParaFormatoCerto(String dataHoraMedicao) {
 
 		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
