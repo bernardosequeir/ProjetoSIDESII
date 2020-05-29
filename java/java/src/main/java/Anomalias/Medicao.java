@@ -30,8 +30,9 @@ public class Medicao {
 	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
 		if (tipoMedicao.equals("tmp") || tipoMedicao.equals("hum") || tipoMedicao.equals("lum")
 				|| tipoMedicao.equals("mov")) {
+			this.dataHoraMedicao = this.dataHoraParaFormatoCerto(dataHoraMedicao);
 			verificaSeEDouble(valorMedicao);
-			verificaSeDataEValida(dataHoraMedicao, valorMedicao);
+			verificaSeDataEValida(valorMedicao);
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
 				verificaSeEPositivo(valorMedicao);
 			}
@@ -39,11 +40,11 @@ public class Medicao {
 				verificaSeMovimentoEAnomalia(valorMedicao);
 			}
 			this.tipoMedicao = tipoMedicao;
-			this.dataHoraMedicao = dataHoraMedicao;
 		} else {
 			System.err.println("TipoMedicao is invalid - only tmp, hum, lum and mov are allowed");
 		}
 	}
+
 
 	/**
 	 * Checks whether the valorMedicao already in double form(which is confirmed
@@ -73,14 +74,14 @@ public class Medicao {
 		}
 	}
 
-	private void verificaSeDataEValida(String dataHoraMedicao, String valorMedicao) {
+	private void verificaSeDataEValida( String valorMedicao) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			LocalDateTime now = LocalDateTime.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			String formatDateTime = now.format(formatter);
 			Date dataAgora = dateFormat.parse(formatDateTime);
-			Date parsedDate = dateFormat.parse(dataHoraParaFormatoCerto(dataHoraMedicao));
+			Date parsedDate = dateFormat.parse(this.dataHoraMedicao);
 			if (dataAgora.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000) {
 				System.out.println("antiga " + parsedDate.getTime() + dataAgora.getTime());
 				marcarComoAnomalia(valorMedicao);
@@ -124,8 +125,12 @@ public class Medicao {
 		return 0;
 	}
 
-	// TODO este codigo esta repetido
-
+	/**
+	 * The data comes in as xx-xx-xx xx:xx:xx but without leading zeros. For example 1990-5-3 12:4:20 gets converted to 1990-05-03 12:04:20
+	 * Due to the sensor's hour being an hour behind, it also add it to the correct date(GMT +1 +1 again).
+	 * @return
+	 */
+	
 	public String dataHoraParaFormatoCerto(String dataHoraMedicao) {
 
 		String timezone = null;

@@ -177,7 +177,7 @@ public static Double buscarIntervaloEntreAlertas() {
 			Connection conn = ConnectToMySql.connect();
 			Statement st = conn.createStatement();
 			String Sqlcommando = "CALL InserirAlerta( '"
-					+ new InsereMedicoesNoMySql(medicao).dataHoraParaFormatoCerto() + "','" + medicao.getTipoMedicao()
+					+ medicao.getDataHoraMedicao() + "','" + medicao.getTipoMedicao()
 					+ "','" + medicao.getValorMedicao() + "','"+limite +"','" + descricao + "',0,'');";
 			
 			ResultSet rs = st.executeQuery(Sqlcommando);

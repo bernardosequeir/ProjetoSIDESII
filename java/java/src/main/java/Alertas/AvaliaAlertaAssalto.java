@@ -46,14 +46,13 @@ public class AvaliaAlertaAssalto {
 	private String timestampUsedInRonda;
 	private Double luminosidadeLuzEscuro;
 	private String tipoAlerta;
-
+	
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
 
 		this.movimento = movimento;
 		this.luminosidade = luminosidade;
 		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
-		timestampUsedInRonda = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
-
+		timestampUsedInRonda = movimento.getDataHoraMedicao();
 		if (existeAlerta())
 			insereTabelaAlerta();
 
@@ -108,26 +107,26 @@ public class AvaliaAlertaAssalto {
 
 			if (tipoAlerta.equals("mov")) {
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(),
-						new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto())) {
+						movimento.getDataHoraMedicao())) {
 					System.out.println("data é mais");
 					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
-					Alerta.setUltimaDataMovimento(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
+					Alerta.setUltimaDataMovimento(movimento.getDataHoraMedicao());
 				}
 			} else if (tipoAlerta.equals("lum")) {
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataLuminosidade(),
-						new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto())) {
-					Alerta.setUltimaDataLuminosidade(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
+						luminosidade.getDataHoraMedicao())) {
+					Alerta.setUltimaDataLuminosidade(luminosidade.getDataHoraMedicao());
 					Alerta.enviaAlerta("Possivel Assalto", luminosidade, Double.toString(luminosidadeLuzEscuro));
 				}
 			} else if (tipoAlerta.equals("both")) {
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataLuminosidade(),
-						new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto())) {
-					Alerta.setUltimaDataLuminosidade(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
+						luminosidade.getDataHoraMedicao())) {
+					Alerta.setUltimaDataLuminosidade(luminosidade.getDataHoraMedicao());
 					Alerta.enviaAlerta("Possivel Assalto", luminosidade, Double.toString(luminosidadeLuzEscuro));
 				}
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(),
-						new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto())) {
-					Alerta.setUltimaDataMovimento(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
+						movimento.getDataHoraMedicao())) {
+					Alerta.setUltimaDataMovimento(movimento.getDataHoraMedicao());
 					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 				}
 
@@ -142,7 +141,7 @@ public class AvaliaAlertaAssalto {
 	public boolean existeRonda() {
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-			Date parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
+			Date parsedDate = dateFormat.parse(movimento.getDataHoraMedicao());
 			Time time = new Time(parsedDate.getTime());
 			Time fimRondaEmCurso = Alerta.getFimRondaEmCurso();
 			System.out.println(fimRondaEmCurso);
