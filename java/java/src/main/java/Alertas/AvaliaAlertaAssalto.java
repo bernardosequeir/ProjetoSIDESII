@@ -188,9 +188,11 @@ public class AvaliaAlertaAssalto {
 			Time result = rs.getTime("MAX(horaSaida)");
 			conn.close();
 			if (result != null) {
+				System.out.println("a ronda actual acabou");
 				fimRondaEmCurso = result;
 				return true;
 			} else {
+				System.out.println("nao ha nenhuma ronda a acontecer ");
 				return false;
 			}
 		} catch (SQLException e) {
