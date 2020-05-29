@@ -27,14 +27,14 @@ public class Medicao {
 		return dataHoraMedicao;
 	}
 
-	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao)  {
+	public Medicao(String valorMedicao, String tipoMedicao, String dataHoraMedicao) {
 		if (tipoMedicao.equals("tmp") || tipoMedicao.equals("hum") || tipoMedicao.equals("lum")
 				|| tipoMedicao.equals("mov")) {
 			verificaSeEDouble(valorMedicao);
 			verificaSeDataEValida(dataHoraMedicao, valorMedicao);
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
 				verificaSeEPositivo(valorMedicao);
-			} 
+			}
 			if (tipoMedicao.equals("mov") && !possivelAnomalia) {
 				verificaSeMovimentoEAnomalia(valorMedicao);
 			}
@@ -44,8 +44,11 @@ public class Medicao {
 			System.err.println("TipoMedicao is invalid - only tmp, hum, lum and mov are allowed");
 		}
 	}
+
 	/**
-	 * Checks whether the valorMedicao already in double form(which is confirmed previously to be a double) is not negative. 
+	 * Checks whether the valorMedicao already in double form(which is confirmed
+	 * previously to be a double) is not negative.
+	 * 
 	 * @param valorMedicao
 	 */
 	private void verificaSeEPositivo(String valorMedicao) {
@@ -61,7 +64,6 @@ public class Medicao {
 		}
 	}
 
-
 	private void verificaSeEDouble(String valorMedicao) {
 		System.out.println(valorMedicao);
 		try {
@@ -70,8 +72,8 @@ public class Medicao {
 			marcarComoAnomalia(valorMedicao);
 		}
 	}
-	
-	private void verificaSeDataEValida(String dataHoraMedicao, String valorMedicao){
+
+	private void verificaSeDataEValida(String dataHoraMedicao, String valorMedicao) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			LocalDateTime now = LocalDateTime.now();
@@ -79,20 +81,20 @@ public class Medicao {
 			String formatDateTime = now.format(formatter);
 			Date dataAgora = dateFormat.parse(formatDateTime);
 			Date parsedDate = dateFormat.parse(dataHoraParaFormatoCerto(dataHoraMedicao));
-			if(dataAgora.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000){
+			if (dataAgora.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000) {
 				System.out.println("antiga " + parsedDate.getTime() + dataAgora.getTime());
-			 	marcarComoAnomalia(valorMedicao);
-			 }
+				marcarComoAnomalia(valorMedicao);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void marcarComoAnomalia(String valorMedicao) {
 		this.valorMedicaoAnomalo = valorMedicao;
 		possivelAnomalia = true;
 	}
-	
+
 	public String getValorMedicaoAnomalo() {
 		System.out.println(valorMedicaoAnomalo);
 		return valorMedicaoAnomalo;
@@ -122,20 +124,24 @@ public class Medicao {
 		return 0;
 	}
 
-	//TODO este codigo esta repetido
+	// TODO este codigo esta repetido
 
-	
 	public String dataHoraParaFormatoCerto(String dataHoraMedicao) {
 
-		String timezone;
+		String timezone = null;
 		SimpleDateFormat timeFormatISO = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream("cloudToMongo.ini"));
-			timezone = p.getProperty("timezone");
+			String sensor = p.getProperty("cloud_topic");
 			Date date = timeFormatISO.parse(dataHoraMedicao);
-			Timestamp stamp =  new Timestamp(date.getTime());
+			Timestamp stamp = new Timestamp(date.getTime());
 			SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			if (sensor.equals("/sid_lab_2019_2") || sensor.equals("sid_lab_2020"))
+				timezone = "GMT+2";
+			else if (sensor.equals("grupo12"))
+				timezone = "GMT+1";
+			else System.err.println("Tipo de Sensor não definido - não é nem /sid_lab_2020 nem /sid_lab_2019_2 nem grupo12. Mudar código no dataHoraParaFormatoCerto na classe Medicao ");
 			timeFormatISO2.setTimeZone(TimeZone.getTimeZone(timezone));
 			return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
@@ -143,7 +149,7 @@ public class Medicao {
 		} catch (FileNotFoundException e) {
 			System.err.println("Unable to find cloudToMongo.ini " + e);
 		} catch (IOException e) {
-			System.err.println("I/O exception when reading cloudToMongo.ini " +e);
+			System.err.println("I/O exception when reading cloudToMongo.ini ");
 		}
 
 		return null;
