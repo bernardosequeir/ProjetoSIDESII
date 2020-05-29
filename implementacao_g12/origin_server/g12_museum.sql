@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Maio-2020 às 14:54
+-- Tempo de geração: 29-Maio-2020 às 09:51
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -735,44 +735,45 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `sistema_before_insert` BEFORE INSERT ON `sistema` FOR EACH ROW BEGIN
     if(new.IntervaloImportacaoMongo < 0 ) THEN
-        set new.IntervaloImportacaoMongo = Default;
+        set new.IntervaloImportacaoMongo = NULL;
     end if;
     if(new.TempoLimiteMedicao < 0 ) THEN
-        set new.TempoLimiteMedicao = Default;
+        set new.TempoLimiteMedicao = NULL;
     end if;
     if(new.tamanhoDosBuffersAnomalia < 0 ) THEN
-        set new.tamanhoDosBuffersAnomalia = Default;
+        set new.tamanhoDosBuffersAnomalia = NULL;
     end if;
     if(new.tamanhoDosBuffersAlerta < 0 ) THEN
-        set new.tamanhoDosBuffersAlerta = Default;
+        set new.tamanhoDosBuffersAlerta = NULL;
     end if;
     if(new.variacaoAnomalaTemperatura < 0 ) THEN
-        set new.variacaoAnomalaTemperatura = Default;
+        set new.variacaoAnomalaTemperatura = NULL;
     end if;
     if(new.variacaoAnomalaHumidade < 0 ) THEN
-        set new.variacaoAnomalaHumidade = Default;
+        set new.variacaoAnomalaHumidade = NULL;
     end if;
     if(new.crescimentoInstantaneoTemperatura < 0 ) THEN
-        set new.crescimentoInstantaneoTemperatura = Default;
+        set new.crescimentoInstantaneoTemperatura = NULL;
     end if;
     if(new.crescimentoGradualTemperatura < 0 ) THEN
-        set new.crescimentoGradualTemperatura = Default;
+        set new.crescimentoGradualTemperatura = NULL;
     end if;
     if(new.crescimentoInstantaneoHumidade < 0 ) THEN
-        set new.crescimentoInstantaneoHumidade = Default;
+        set new.crescimentoInstantaneoHumidade =  NULL;
     end if;
     if(new.crescimentoGradualHumidade < 0 ) THEN
-        set new.crescimentoGradualHumidade = Default;
+        set new.crescimentoGradualHumidade = NULL;
     end if;
     if(new.luminosidadeLuzesDesligadas < 0 ) THEN
-        set new.luminosidadeLuzesDesligadas = Default;
+        set new.luminosidadeLuzesDesligadas = NULL;
     end if;
     if(new.limiteHumidade < 0 ) THEN
-        set new.limiteHumidade = Default;
+        set new.limiteHumidade = NULL;
     end if;
     if(new.periocidadeImportacaoExportacaoAuditor < 0 ) THEN
-        set new.periocidadeImportacaoExportacaoAuditor = Default;
+        set new.periocidadeImportacaoExportacaoAuditor = NULL;
     end if;
+    
 END
 $$
 DELIMITER ;
@@ -819,7 +820,7 @@ CREATE TRIGGER `Inserir_Utilizador` AFTER INSERT ON `utilizador` FOR EACH ROW BE
 	SELECT user INTO @UserMail FROM (
         SELECT user, CONCAT(user, '@', host) as userhost FROM mysql.user) base
     WHERE userhost = USER();
-	INSERT INTO g12_loguser VALUES (DEFAULT, @UserMail , 'INSERT',now(), "NULL", new.EmailUtilizador, NULL, new.NomeUtilizador, NULL, new.TipoUtilizador, NULL, new.Morada);
+	INSERT INTO g12_loguser VALUES (NULL, @UserMail , 'INSERT',now(), "NULL", new.EmailUtilizador, NULL, new.NomeUtilizador, NULL, new.TipoUtilizador, NULL, new.Morada);
 END
 $$
 DELIMITER ;
