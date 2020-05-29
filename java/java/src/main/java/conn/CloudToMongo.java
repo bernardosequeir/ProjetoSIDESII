@@ -11,7 +11,6 @@ import com.mongodb.util.JSON;
 
 import java.util.*;
 import java.util.Vector;
-import java.io.File;
 import java.io.*;
 import javax.swing.*;
 
@@ -89,9 +88,22 @@ public class CloudToMongo implements MqttCallback {
 		//message.replace("\"\"", "\"");
 		//message = message.replace("\"s", "\",s");  //comentar até mais ou menos 6 da tarde
 		try {
-			return message.replaceAll("\", " , ",\"");
+			Properties p = new Properties();
+			p.load(new FileInputStream("cloudToMongo.ini"));
+			String sensor = p.getProperty("cloud_topic");
+			if(cloud_topic.equals("grupo12")) 
+					return message.replaceAll("\", " , ",\""); 
+			else if(cloud_topic.equals("/sid_lab_2019_2"))
+				return message.replace("\"\"s", "\",s");
+			else if(cloud_topic.equals("/sid_lab_2020"))
+				return message.replace("\"\"", "\"");
 		} catch (NullPointerException e){
 			System.err.println("Mongo got a null Document " + e);
+		} catch (FileNotFoundException e) {
+			System.err.println("Cloud To Mongo was not found " + e);
+		
+		} catch (IOException e) {
+			System.err.println("Cloud To Mongo gave an I/O error " + e);
 		}
 		return null;
 
