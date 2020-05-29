@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2020 at 05:51 PM
+-- Generation Time: May 29, 2020 at 07:37 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -304,6 +304,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `VerificaSeExisteRonda` (IN `tempoda
   DECLARE tempo TIME; 
   DECLARE fimRondaActual TIME; 
   DECLARE dataRonda DATE;
+  DECLARE numeroRondas INT;
   SET dataRonda = Date(tempoData);
   SET diasemana = DAYNAME(dataRonda); 
   SET tempo = TIME(tempodata); SET existeronda = NULL; 
@@ -318,13 +319,19 @@ AND ronda_planeada.HoraRondaSaida > fimRondaActual
 UNION ALL
 SELECT TIME(ronda_extra.datahoraSaida)FROM ronda_extra WHERE ronda_extra.dataHoraEntrada <= tempodata AND ronda_extra.datahoraSaida >= tempodata 
 AND TIME(ronda_extra.datahoraSaida) > fimRondaActual ;
+SET numeroRondas = (SELECT COUNT(*) from armazenafimRondas);
+IF numeroRondas > 0 THEN
 SET fimRondaActual = (SELECT MAX(HoraSaida) from armazenafimRondas);
+END IF;
 IF fimRondaActual < tempo THEN
 	SET dataRonda = dataRonda + INTERVAL 1 DAY;
 END IF;
 
+IF numeroRondas > 0 THEN
 SELECT Cast(CONCAT(dataRonda,' ',fimRondaActual)as datetime) AS fimRondaActual FROM armazenafimRondas;
-
+ELSE
+SELECT NULL AS fimRondaActual;
+END IF;
 
 DROP TABLE armazenafimRondas;
 
