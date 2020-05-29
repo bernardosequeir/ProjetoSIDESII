@@ -142,12 +142,11 @@ public class AvaliaAlertaAssalto {
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			Date parsedDate = dateFormat.parse(movimento.getDataHoraMedicao());
-			Time time = new Time(parsedDate.getTime());
-			Time fimRondaEmCurso = Alerta.getFimRondaEmCurso();
-			System.out.println(fimRondaEmCurso);
-			if(fimRondaEmCurso != null){
-				System.out.println(time);
-				if (fimRondaEmCurso.before(time)) {
+			if(Alerta.getFimRondaEmCurso() != null){
+				Date fimRondaEmCurso = dateFormat.parse(Alerta.getFimRondaEmCurso().toString());
+				System.out.println(fimRondaEmCurso);
+				System.out.println(parsedDate);
+				if (fimRondaEmCurso.after(parsedDate)) {
 					System.out.println("A ronda ainda não acabou");
 					return true;
 				}
@@ -174,7 +173,7 @@ public class AvaliaAlertaAssalto {
 			String Sqlcommando = "CALL VerificaSeExisteRonda('" + timestampUsedInRonda + "')";
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
-			Time result = rs.getTime("fimRondaActual");
+			Date result = rs.getTimestamp("fimRondaActual");
 			conn.close();
 			if (result != null) {
 				Alerta.setFimRondaEmCurso(result);
