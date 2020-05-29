@@ -1,9 +1,6 @@
 package Alertas;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +29,7 @@ public class Alerta {
 	private static LinkedList<Medicao> ultimosValoresLuminosidade = new LinkedList<Medicao>();
 	private static String ultimaDataMovimento = null;
 	private static String ultimaDataLuminosidade = null;
-	private static String fimRondaEmCurso = null;
+	private static Time fimRondaEmCurso = null;
 	
 	
 	public static int irBuscarBuffersAlerta() {
@@ -202,10 +199,10 @@ public static Double buscarIntervaloEntreAlertas() {
 	public static void setUltimaDataLuminosidade(String ultimaData) {
 		ultimaDataLuminosidade = ultimaData;
 	}
-	public static String getFimRondaEmCurso() {
+	public static Time getFimRondaEmCurso() {
 		return fimRondaEmCurso;
 	}
-	public static void setFimRondaEmCurso(String ultimaData) {
+	public static void setFimRondaEmCurso(Time ultimaData) {
 		fimRondaEmCurso = ultimaData;
 	}
 }

@@ -26,7 +26,7 @@ import com.mongodb.client.MongoDatabase;
 
 /**
  * 
- * @author joaof, grupo12 Opens a new sql connection
+ * @author joaof, bernardosequeir grupo12 Opens a new sql connection
  *
  */
 public class AvaliaAlertaAssalto {
@@ -46,9 +46,6 @@ public class AvaliaAlertaAssalto {
 	private String timestampUsedInRonda;
 	private Double luminosidadeLuzEscuro;
 	private String tipoAlerta;
-	private Time fimRondaEmCurso = null;
-	private String ultimaDataMovimento = null;
-	private String ultimaDataLuminosidade = null;
 
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
 
@@ -147,11 +144,12 @@ public class AvaliaAlertaAssalto {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			Date parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 			Time time = new Time(parsedDate.getTime());
-			String fimRondaEmCurso = Alerta.getFimRondaEmCurso();
+			Time fimRondaEmCurso = Alerta.getFimRondaEmCurso();
 			System.out.println(fimRondaEmCurso);
 			if(fimRondaEmCurso != null){
-				Time fimRondaEmCursoTime = new Time(dateFormat.parse(fimRondaEmCurso).getTime());
-				if (fimRondaEmCursoTime.after(time)) {
+				System.out.println("entra no check do time");
+				System.out.println(time);
+				if (fimRondaEmCurso.after(time)) {
 					return true;
 				}
 			}
@@ -180,8 +178,8 @@ public class AvaliaAlertaAssalto {
 			Time result = rs.getTime("fimRondaActual");
 			conn.close();
 			if (result != null) {
-				System.out.println("a ronda actual acabou");
-				fimRondaEmCurso = result;
+				System.out.println("tá a haver uma ronda actual ");
+				Alerta.setFimRondaEmCurso(result);
 				return true;
 			} else {
 				System.out.println("nao ha nenhuma ronda a acontecer ");
