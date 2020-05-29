@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -64,7 +67,9 @@ public class Alerta {
 
 	}
 
-
+public static Double buscarIntervaloEntreAlertas() {
+	return valoresTabelaSistema.get("TempoEntreAlertas");
+}
 
 	public static void buscarValoresTabelaSistema() {
 		valoresTabelaSistema = MongoParaMysql.getValoresTabelaSistema();
@@ -84,7 +89,22 @@ public class Alerta {
 	
 
 
+	public static boolean  verificarSeMandaAlerta(String dataAntiga, String dataNova) {
+		try {
+			if(dataAntiga==null) return true;
+			SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
+			Date dataAntigaFormatada = sdf.parse(dataAntiga);
+			Date dataNovaFormatada = sdf.parse(dataNova);
+			if( dataNovaFormatada.getTime() - dataAntigaFormatada.getTime() > buscarIntervaloEntreAlertas() * 60 *1000) {
+				return true;
+			}
 
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	public static Medicao getUltimoValor(String tipoMedicao) {
 		if (tipoMedicao.equals("tmp")) {

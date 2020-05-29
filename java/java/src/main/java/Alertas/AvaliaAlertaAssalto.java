@@ -54,6 +54,8 @@ public class AvaliaAlertaAssalto {
 	private String valorAlarmeAInserir;
 	private String tipoAlerta;
 	private Time fimRondaEmCurso = null;
+	private String ultimaDataMovimento = null;
+	private String ultimaDataLuminosidade = null;
 
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
 
@@ -61,8 +63,6 @@ public class AvaliaAlertaAssalto {
 		this.luminosidade = luminosidade;
 		this.luminosidadeLuzEscuro = luminosidadeLuzEscuro;
 		timestampUsedInRonda = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
-
-		
 
 		if (existeAlerta())
 			insereTabelaAlerta();
@@ -72,20 +72,18 @@ public class AvaliaAlertaAssalto {
 	/**
 	 * Connects to the MySQL database
 	 */
-	/*public void connectMysqlAssalto() {
-
-		database_password = "teste123";
-		database_user = "root";
-		database_connection = "jdbc:mysql://localhost/g12_museum";
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager
-					.getConnection(database_connection + "?user=" + database_user + "&password=" + database_password);
-			s = conn.createStatement();
-		} catch (Exception e) {
-			System.out.println("Avalia Alerta Assalto - Server down, unable to make the connection. ");
-		}
-	*/
+	/*
+	 * public void connectMysqlAssalto() {
+	 * 
+	 * database_password = "teste123"; database_user = "root"; database_connection =
+	 * "jdbc:mysql://localhost/g12_museum"; try {
+	 * Class.forName("com.mysql.jdbc.Driver").newInstance(); conn = DriverManager
+	 * .getConnection(database_connection + "?user=" + database_user + "&password="
+	 * + database_password); s = conn.createStatement(); } catch (Exception e) {
+	 * System.out.
+	 * println("Avalia Alerta Assalto - Server down, unable to make the connection. "
+	 * ); }
+	 */
 	public void connectMysqlAssalto() {
 		conn = ConnectToMySql.connect();
 	}
@@ -131,17 +129,36 @@ public class AvaliaAlertaAssalto {
 	public void insereTabelaAlerta() {
 
 		try {
+
 			if (tipoAlerta.equals("mov")) {
-				Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
+				if (Alerta.verificarSeMandaAlerta(ultimaDataMovimento,
+						new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto())) {
+					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
+					ultimaDataMovimento = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
+				}
 			} else if (tipoAlerta.equals("lum")) {
-				Alerta.enviaAlerta("Possivel Assalto", luminosidade,Double.toString(luminosidadeLuzEscuro));
+				if (Alerta.verificarSeMandaAlerta(ultimaDataLuminosidade,
+						new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto())) {
+					ultimaDataLuminosidade = new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto();
+					Alerta.enviaAlerta("Possivel Assalto", luminosidade, Double.toString(luminosidadeLuzEscuro));
+				}
 			} else if (tipoAlerta.equals("both")) {
-				Alerta.enviaAlerta("Possivel Assalto", movimento,"1");
-				Alerta.enviaAlerta("Possivel Assalto", luminosidade,Double.toString(luminosidadeLuzEscuro));
+				if (Alerta.verificarSeMandaAlerta(ultimaDataLuminosidade,
+						new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto())) {
+					ultimaDataLuminosidade = new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto();
+					Alerta.enviaAlerta("Possivel Assalto", luminosidade, Double.toString(luminosidadeLuzEscuro));
+				}
+				if (Alerta.verificarSeMandaAlerta(ultimaDataMovimento,
+						new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto())) {
+					ultimaDataMovimento = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
+					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
+				}
+
 			}
 
 		} catch (Exception e) {
-			System.err.println("Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: "+ tipoAlerta + " " + "e");
+			System.err.println(
+					"Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: " + tipoAlerta + " " + "e");
 		}
 	}
 
@@ -150,11 +167,12 @@ public class AvaliaAlertaAssalto {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			Date parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 			Time time = new Time(parsedDate.getTime());
-			if (fimRondaEmCurso!= null && fimRondaEmCurso.after(time)) {
+			if (fimRondaEmCurso != null && fimRondaEmCurso.after(time)) {
 				return true;
 			}
 		} catch (ParseException e1) {
-			System.err.println("Could not parse the date from Movimento. Data Movimento:  " + movimento.getDataHoraMedicao() + " "+e1);
+			System.err.println("Could not parse the date from Movimento. Data Movimento:  "
+					+ movimento.getDataHoraMedicao() + " " + e1);
 		}
 
 		// isto vai ter um problema que eu não consigo pensar nele, mas se rondas
