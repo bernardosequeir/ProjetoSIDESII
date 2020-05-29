@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29-Maio-2020 às 09:51
+-- Tempo de geração: 29-Maio-2020 às 12:54
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -686,7 +686,8 @@ CREATE TABLE `ronda_planeada` (
 CREATE TABLE `sistema` (
   `IDSistema` int(11) NOT NULL,
   `IntervaloImportacaoMongo` decimal(6,2) NOT NULL DEFAULT 2.00,
-  `TempoLimiteMedicao` int(11) NOT NULL DEFAULT 4,
+  `TempoLimiteMedicao` decimal(6,2) NOT NULL DEFAULT 4.00,
+  `TempoEntreAlertas` decimal(6,2) NOT NULL DEFAULT 0.14,
   `tamanhoDosBuffersAnomalia` int(11) NOT NULL DEFAULT 5,
   `tamanhoDosBuffersAlerta` int(11) NOT NULL DEFAULT 5,
   `variacaoAnomalaTemperatura` decimal(3,2) NOT NULL DEFAULT 0.20,
@@ -698,7 +699,7 @@ CREATE TABLE `sistema` (
   `luminosidadeLuzesDesligadas` int(11) NOT NULL DEFAULT 1000,
   `limiteTemperatura` int(11) NOT NULL DEFAULT 50,
   `limiteHumidade` int(11) NOT NULL DEFAULT 50,
-  `periocidadeImportacaoExportacaoAuditor` int(11) NOT NULL DEFAULT 5
+  `periocidadeImportacaoExportacaoAuditor` decimal(6,2) NOT NULL DEFAULT 5.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
