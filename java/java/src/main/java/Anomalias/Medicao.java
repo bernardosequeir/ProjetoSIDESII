@@ -142,7 +142,7 @@ public class Medicao {
 			Date date = timeFormatISO.parse(dataHoraMedicao);
 			Timestamp stamp = new Timestamp(date.getTime());
 			SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-			if (sensor.equals("/sid_lab_2019_2") || sensor.equals("sid_lab_2020"))
+			if (sensor.equals("/sid_lab_2019_2") || sensor.equals("/sid_lab_2020"))
 				timezone = "GMT+2";
 			else if (sensor.equals("grupo12"))
 				timezone = "GMT+1";

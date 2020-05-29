@@ -134,7 +134,7 @@ public class AvaliaAlertaAssalto {
 
 		} catch (Exception e) {
 			System.err.println(
-					"Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: " + tipoAlerta + " " + "e");
+					"Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: " + tipoAlerta + " " + e);
 		}
 	}
 
@@ -147,7 +147,7 @@ public class AvaliaAlertaAssalto {
 			System.out.println(fimRondaEmCurso);
 			if(fimRondaEmCurso != null){
 				System.out.println(time);
-				if (fimRondaEmCurso.after(time)) {
+				if (fimRondaEmCurso.before(time)) {
 					System.out.println("A ronda ainda não acabou");
 					return true;
 				}
