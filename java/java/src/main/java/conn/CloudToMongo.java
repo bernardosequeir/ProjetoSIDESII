@@ -27,8 +27,6 @@ public class CloudToMongo implements MqttCallback {
 	static String mongo_collection = new String();
 
 	public static void main(String[] args) {
-
-		//TODO set up das réplicas
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream("cloudToMongo.ini"));
@@ -75,7 +73,7 @@ public class CloudToMongo implements MqttCallback {
 
 			document_json = (DBObject) JSON.parse(clean(c.toString()));
 			System.out.println(clean(c.toString()));
-			mongocol.insert(document_json);
+			mongocol.insert(document_json, WriteConcern.MAJORITY);
 		} catch (Exception e) {
 			System.err.println("Failed to get a Mongo Document " + e);
 		}
