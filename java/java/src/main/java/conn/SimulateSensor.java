@@ -4,6 +4,8 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.LocalDate;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import java.awt.Component;
@@ -52,7 +54,7 @@ public class SimulateSensor implements MqttCallback
         LocalTime.now();
         while (true) {
             double d = 18.0;
-           while (d < 50.0) {
+          while (d < 50.0) {
                 final String string = "{\"tmp\":\"" + d + "\",\"hum\":\"" + 35.0 + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 20 + "\",\"mov\":\"" + 0 + "\",\"sens\":\"eth\"}";
                 d += 0.5;
                 try {

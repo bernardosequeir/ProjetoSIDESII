@@ -141,8 +141,7 @@ public class AvaliaAlertaAssalto {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: "+ tipoAlerta + " " + "e");
 		}
 	}
 
@@ -155,8 +154,7 @@ public class AvaliaAlertaAssalto {
 				return true;
 			}
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.err.println("Could not parse the date from Movimento. Data Movimento:  " + movimento.getDataHoraMedicao() + " "+e1);
 		}
 
 		// isto vai ter um problema que eu não consigo pensar nele, mas se rondas
@@ -178,17 +176,13 @@ public class AvaliaAlertaAssalto {
 			Time result = rs.getTime("MAX(horaSaida)");
 			conn.close();
 			if (result != null) {
-				System.out.println("não está em ronda " + fimRondaEmCurso);
 				return false;
 			} else {
-				System.out.println("esta em ronda - acaba :" + fimRondaEmCurso);
 				fimRondaEmCurso = result;
-				System.out.println("Novo fim de ronda : " + fimRondaEmCurso);
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("SP VerificaSeExisteRonda failed. " + e);
 		}
 		return false;
 

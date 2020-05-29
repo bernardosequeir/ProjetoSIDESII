@@ -37,7 +37,7 @@ public class InsereMedicoesNoMySql {
 			conn = ConnectToMySql.connect();
 			s = conn.createStatement();
 		} catch (Exception e) {
-			System.err.println("Insere Medicoes No MySQL - Server down, unable to make the connection. ");
+			System.err.println("Insere Medicoes No MySQL - Server down, unable to make the connection. " +e);
 		}
 	}
 
@@ -45,21 +45,21 @@ public class InsereMedicoesNoMySql {
 		connect();
 		if(medicao.getValorAnomalia()==0) {
 			Sqlcommando = "CALL InserirMedicao('" + medicao.getValorMedicao() + "','" + medicao.getTipoMedicao() + "','" + dataHoraParaFormatoCerto() + "');";
-			MongoParaMysql.setDataUltimaMedicao(dataHoraParaFormatoCerto());
 		}else if(medicao.getValorAnomalia()==1){
 			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+dataHoraParaFormatoCerto()+"');";
 		}
-		//TODO tratar de sqlcommando == null
 		System.out.println(Sqlcommando);
 		try {
-			conn.createStatement().executeQuery(Sqlcommando);
+			if(Sqlcommando!= null) {
+				conn.createStatement().executeQuery(Sqlcommando);
+			} else System.err.println("SQL command is null");
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("could not connect do the SP InserirMedicao OR InserirMedicaoAnomala " + e);
 		}
 	}
 	
+	//TODO please put gmt in .ini
 	/**
 	 * The data comes in as xx-xx-xx xx:xx:xx but without leading zeros. For example 1990-5-3 12:4:20 gets converted to 1990-05-03 12:04:20
 	 * Due to the sensor's hour being an hour behind, it also add it to the correct date(GMT +1 +1 again).
@@ -75,8 +75,7 @@ public class InsereMedicoesNoMySql {
 			 timeFormatISO2.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
 			 return timeFormatISO2.format(stamp);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Could not parse the correct date. Original Date: " + medicao.getDataHoraMedicao() + "  " + e);
 		}
 		
 		return null;

@@ -1,6 +1,9 @@
 package conn;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import javax.swing.*;
 
@@ -86,6 +89,7 @@ public class MongoParaMysql {
 		connectMongo();
 		irBuscarDadosMysql();
 		criaBuffersAnomalia();
+		setDataUltimaMedicao(LocalDateTime.now().toString());
 		ultimaMedicao = getUltimoValor(); // Primeira medição do mongo
 
 		while (true) {
@@ -106,8 +110,7 @@ public class MongoParaMysql {
 			try {
 				Thread.sleep(valoresTabelaSistema.get("IntervaloImportacaoMongo").intValue() * 1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("Failed to sleep. " + e);
 			}
 		} else {
 			try {
@@ -132,20 +135,16 @@ public class MongoParaMysql {
 				valoresTabelaSistema.get("variacaoAnomalaHumidade"));
 	}
 
-	// TODO null e default? testar com valores vazios e com valorees ja na tabela
+	
 	private void irBuscarDadosMysql() {
 		conn = ConnectToMySql.connect();
 		try {
 			s = conn.createStatement();
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			System.err.println("Failed to connect to MySql. " + e2);
 		}
 		valoresTabelaSistema = new HashMap<String, Double>();
 		SqlCommando = "SELECT * from sistema;";
-		// TODO tratar tabela sistema vazia de uma forma melhor?
-		// TODO verificar se tabela sistema nao tem valores estupidos, possivelmente no
-		// mysql
 		try {
 			rs = s.executeQuery(SqlCommando);
 			rs.next();
@@ -175,8 +174,7 @@ public class MongoParaMysql {
 		try {
 			conn.close();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.err.println("Failed to close MySql connection. " + e1);
 		}
 
 	}
@@ -192,11 +190,10 @@ public class MongoParaMysql {
 		String[] date_split = doc.getString("dat").split("/");
 		String date_fixed = date_split[2] + "-" + date_split[1] + "-" + date_split[0] + " " + doc.getString("tim");
 		try {
-			// TODO decidir o que acontece aqui
 			if (doc.getString("tmp") == null || doc.getString("hum") == null || doc.getString("cell") == null
 					|| doc.getString("mov") == null)
-				System.err.println("This system is not ready to deal with sensors that doesn't contain one or more of the following fields: lum, hum, cell, mov");
-
+				System.err.println("One of the fields came as null in  one or more of the following fields: lum, hum, cell, mov probably from MongoDB");
+			
 			Medicao medicaoTemperatura = new Medicao(doc.getString("tmp"), "tmp", date_fixed);
 			Medicao medicaoHumidade = new Medicao(doc.getString("hum"), "hum", date_fixed);
 			Medicao medicaoLuminosidade = new Medicao(doc.getString("cell"), "lum", date_fixed);

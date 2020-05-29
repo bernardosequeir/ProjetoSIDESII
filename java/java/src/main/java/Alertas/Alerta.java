@@ -70,14 +70,13 @@ public class Alerta {
 		valoresTabelaSistema = MongoParaMysql.getValoresTabelaSistema();
 	}
 
-	public static double getLimite(String tipoMedicao) {
+	public static Double getLimite(String tipoMedicao) {
 
 		if (tipoMedicao.equals("tmp"))
 			return valoresTabelaSistema.get("limiteTemperatura");
 		else if (tipoMedicao.equals("hum"))
 			return valoresTabelaSistema.get("limiteHumidade");
-		//TODO verificar se é 0.0 antes
-		return 0.0;
+		return null;
 	}
 	
 	
@@ -107,7 +106,6 @@ public class Alerta {
 		return null;
 	}
 
-	//TODO tratar destes null's
 	public static Medicao getPrimeiroValor(String tipoMedicao) {
 		if (tipoMedicao.equals("tmp")) {
 			if (ultimosValoresTemperatura.size() != 0) {
@@ -128,23 +126,27 @@ public class Alerta {
 		return null;
 	}
 
-	public static double getCrescimentoInstantaneo(String tipoMedicao) {
-
+	public static Double getCrescimentoInstantaneo(String tipoMedicao) {
+		
 		if (tipoMedicao.equals("tmp"))
 			return valoresTabelaSistema.get("crescimentoInstantaneoTemperatura");
 		else if (tipoMedicao.equals("hum"))
 			return valoresTabelaSistema.get("crescimentoInstantaneoHumidade");
-		//TODO verificar se é 0.0 antes
-		return 0.0;
+		else {
+			System.err.println("Cannot get CrescimentoInstaneo");
+			return null;
+		}
 	}
 
-	public static double getCrescimentoGradual(String tipoMedicao) {
+	public static Double getCrescimentoGradual(String tipoMedicao) {
 		if (tipoMedicao.equals("tmp"))
 			return valoresTabelaSistema.get("crescimentoGradualTemperatura");
 		else if (tipoMedicao.equals("hum"))
 			return valoresTabelaSistema.get("crescimentoGradualHumidade");
-		//TODO verificar se é 0.0 antes
-		return 0.0;
+		else {
+			System.err.println("Cannot get CrescimentoInstaneo");
+			return null;
+		}
 	}
 
 	public static void enviaAlerta(String descricao, Medicao medicao, String limite) {
@@ -158,8 +160,7 @@ public class Alerta {
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("SP inserir alerta falhou " + e);
 		}
 	}
 }

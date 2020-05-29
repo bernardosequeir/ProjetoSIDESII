@@ -14,7 +14,7 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 		avaliaAlerta();
 	}
 
-	//TODO tratar do null
+	
 	private void avaliaAlerta() {
 		Double limiteMaximo = Alerta.getLimite(medicao.getTipoMedicao());
 		if (medicao.getValorMedicao() >= limiteMaximo) {
@@ -27,6 +27,7 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 				tipoMedicaousada = "hum";
 
 			}
+			//TODO verificar se não é null por exemplo getCrescimentoGradual etc
 			if (tipoMedicaousada != null) {
 				boolean crescimentoInstantaneo = (medicao.getValorMedicao()
 						/ Alerta.getUltimoValor(tipoMedicaousada).getValorMedicao()
