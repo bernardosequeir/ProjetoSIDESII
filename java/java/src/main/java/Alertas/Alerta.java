@@ -32,6 +32,7 @@ public class Alerta {
 	private static LinkedList<Medicao> ultimosValoresLuminosidade = new LinkedList<Medicao>();
 	private static String ultimaDataMovimento = null;
 	private static String ultimaDataLuminosidade = null;
+	private static String fimRondaEmCurso = null;
 	
 	
 	public static int irBuscarBuffersAlerta() {
@@ -200,5 +201,11 @@ public static Double buscarIntervaloEntreAlertas() {
 	}
 	public static void setUltimaDataLuminosidade(String ultimaData) {
 		ultimaDataLuminosidade = ultimaData;
+	}
+	public static String getFimRondaEmCurso() {
+		return fimRondaEmCurso;
+	}
+	public static void setFimRondaEmCurso(String ultimaData) {
+		fimRondaEmCurso = ultimaData;
 	}
 }

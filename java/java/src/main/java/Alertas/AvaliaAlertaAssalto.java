@@ -161,7 +161,9 @@ public class AvaliaAlertaAssalto {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			Date parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 			Time time = new Time(parsedDate.getTime());
-			if (fimRondaEmCurso != null && fimRondaEmCurso.after(time)) {
+			String fimRondaEmCurso = Alerta.getFimRondaEmCurso();
+			Time fimRondaEmCursoTime = new Time(dateFormat.parse(fimRondaEmCurso).getTime());
+			if (Alerta.getFimRondaEmCurso() != null && fimRondaEmCursoTime.after(time)) {
 				return true;
 			}
 		} catch (ParseException e1) {
