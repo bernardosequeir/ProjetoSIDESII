@@ -27,9 +27,11 @@ public class Alerta {
 		this.medicao = medicao;
 	}
 
-	static LinkedList<Medicao> ultimosValoresTemperatura = new LinkedList<Medicao>();
-	static LinkedList<Medicao> ultimosValoresHumidade = new LinkedList<Medicao>();
-	static LinkedList<Medicao> ultimosValoresLuminosidade = new LinkedList<Medicao>();
+	private static LinkedList<Medicao> ultimosValoresTemperatura = new LinkedList<Medicao>();
+	private static LinkedList<Medicao> ultimosValoresHumidade = new LinkedList<Medicao>();
+	private static LinkedList<Medicao> ultimosValoresLuminosidade = new LinkedList<Medicao>();
+	private static String ultimaDataMovimento = null;
+	private static String ultimaDataLuminosidade = null;
 	
 	
 	public static int irBuscarBuffersAlerta() {
@@ -91,8 +93,11 @@ public static Double buscarIntervaloEntreAlertas() {
 
 	public static boolean  verificarSeMandaAlerta(String dataAntiga, String dataNova) {
 		try {
-			if(dataAntiga==null) return true;
-			SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
+			if(dataAntiga==null){
+				System.out.println("data esta null lol");
+				return true;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss");
 			Date dataAntigaFormatada = sdf.parse(dataAntiga);
 			Date dataNovaFormatada = sdf.parse(dataNova);
 			if( dataNovaFormatada.getTime() - dataAntigaFormatada.getTime() > buscarIntervaloEntreAlertas() * 60 *1000) {
@@ -182,5 +187,18 @@ public static Double buscarIntervaloEntreAlertas() {
 		} catch (SQLException e) {
 			System.err.println("SP inserir alerta falhou " + e);
 		}
+	}
+
+	public static String getUltimaDataMovimento() {
+		return ultimaDataMovimento;
+	}
+	public static String getUltimaDataLuminosidade() {
+		return ultimaDataLuminosidade;
+	}
+	public static void setUltimaDataMovimento(String ultimaData) {
+		ultimaDataMovimento = ultimaData;
+	}
+	public static void setUltimaDataLuminosidade(String ultimaData) {
+		ultimaDataLuminosidade = ultimaData;
 	}
 }

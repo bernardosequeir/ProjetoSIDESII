@@ -42,16 +42,9 @@ public class AvaliaAlertaAssalto {
 	 */
 	private Medicao movimento;
 	private Medicao luminosidade;
-	private String database_password;
-	private String database_user;
-	private String database_connection;
 	private Connection conn;
-	private Statement s;
-	private ResultSet rs;
 	private String timestampUsedInRonda;
 	private Double luminosidadeLuzEscuro;
-	private String movimentoOuLuminosidade;
-	private String valorAlarmeAInserir;
 	private String tipoAlerta;
 	private Time fimRondaEmCurso = null;
 	private String ultimaDataMovimento = null;
@@ -127,30 +120,31 @@ public class AvaliaAlertaAssalto {
 	}
 
 	public void insereTabelaAlerta() {
-
+		System.out.println("entrei no insere Alerta Assalto");
 		try {
 
 			if (tipoAlerta.equals("mov")) {
-				if (Alerta.verificarSeMandaAlerta(ultimaDataMovimento,
+				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(),
 						new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto())) {
+					System.out.println("data é mais");
 					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
-					ultimaDataMovimento = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
+					Alerta.setUltimaDataMovimento(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 				}
 			} else if (tipoAlerta.equals("lum")) {
-				if (Alerta.verificarSeMandaAlerta(ultimaDataLuminosidade,
+				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataLuminosidade(),
 						new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto())) {
-					ultimaDataLuminosidade = new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto();
+					Alerta.setUltimaDataLuminosidade(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 					Alerta.enviaAlerta("Possivel Assalto", luminosidade, Double.toString(luminosidadeLuzEscuro));
 				}
 			} else if (tipoAlerta.equals("both")) {
-				if (Alerta.verificarSeMandaAlerta(ultimaDataLuminosidade,
+				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataLuminosidade(),
 						new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto())) {
-					ultimaDataLuminosidade = new InsereMedicoesNoMySql(luminosidade).dataHoraParaFormatoCerto();
+					Alerta.setUltimaDataLuminosidade(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 					Alerta.enviaAlerta("Possivel Assalto", luminosidade, Double.toString(luminosidadeLuzEscuro));
 				}
-				if (Alerta.verificarSeMandaAlerta(ultimaDataMovimento,
+				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(),
 						new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto())) {
-					ultimaDataMovimento = new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto();
+					Alerta.setUltimaDataMovimento(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 				}
 
@@ -194,10 +188,10 @@ public class AvaliaAlertaAssalto {
 			Time result = rs.getTime("MAX(horaSaida)");
 			conn.close();
 			if (result != null) {
-				return false;
-			} else {
 				fimRondaEmCurso = result;
 				return true;
+			} else {
+				return false;
 			}
 		} catch (SQLException e) {
 			System.err.println("SP VerificaSeExisteRonda failed. " + e);
