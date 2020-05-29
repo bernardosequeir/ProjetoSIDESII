@@ -33,7 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         getWritableDatabase().insert(DatabaseConfig.MedicoesTemperatura.TABLE_NAME,null,values);
     }
 
-    public void insert_alertaGlobal(String descricao, String dataHoraMedicao, String tipoSensor, double valorMedicao, double limite) {
+    public void insert_alertaGlobal(String descricao, String dataHoraMedicao, String tipoSensor, String valorMedicao, String limite) {
         ContentValues values = new ContentValues();
         values.put(DatabaseConfig.AlertasGlobais.COLUMN_NAME_DATAHORAMEDICAO,dataHoraMedicao);
         values.put(DatabaseConfig.AlertasGlobais.COLUMN_NAME_TIPO_SENSOR,tipoSensor);

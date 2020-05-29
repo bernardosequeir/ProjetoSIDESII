@@ -102,18 +102,8 @@ public class AlertasGlobaisActivity extends AppCompatActivity {
                     JSONObject c = medicoesTemperatura.getJSONObject(i);
                     String dataHoraMedicao = c.getString("DataHoraMedicao");
                     String tipoSensor = c.getString("TipoSensor");
-                    double valorMedicao;
-                    try {
-                        valorMedicao = c.getDouble("ValorMedicao");
-                    } catch (Exception e) {
-                        valorMedicao = -1000.0;
-                    }
-                    double limite;
-                    try {
-                        limite = c.getDouble("Limite");
-                    } catch (Exception e) {
-                        limite = -1000.0;
-                    }
+                    String valorMedicao = c.getString("ValorMedicao");
+                    String limite = c.getString("Limite");
                     String descricao = c.getString("Descricao");
                     db.insert_alertaGlobal(descricao,dataHoraMedicao,tipoSensor,valorMedicao,limite);
                 }
@@ -187,7 +177,12 @@ public class AlertasGlobaisActivity extends AppCompatActivity {
             TextView tipoSensor = new TextView(this);
             String valorTipoSensor = cursorAlertasGlobais.getString(cursorAlertasGlobais.getColumnIndex("TipoSensor"));
             if (valorTipoSensor == null || valorTipoSensor.equals("null")) valorTipoSensor = "";
+            if(valorTipoSensor.equals("tmp")) valorTipoSensor = "Temperatura";
+            if(valorTipoSensor.equals("hum")) valorTipoSensor = "Humidade";
+            if(valorTipoSensor.equals("mov")) valorTipoSensor = "Movimento";
+            if(valorTipoSensor.equals("lum")) valorTipoSensor = "Luminosidade";
             tipoSensor.setText(valorTipoSensor);
+
             tipoSensor.setPadding(dpAsPixels(16),dpAsPixels(5),dpAsPixels(5),0);
 
             TextView valorMedicao = new TextView(this);
@@ -197,7 +192,7 @@ public class AlertasGlobaisActivity extends AppCompatActivity {
             valorMedicao.setPadding(dpAsPixels(16),dpAsPixels(5),0,0);
 
             TextView limite = new TextView(this);
-            String valorLimite = Double.toString(cursorAlertasGlobais.getDouble(cursorAlertasGlobais.getColumnIndex("Limite")));
+            String valorLimite = cursorAlertasGlobais.getString(cursorAlertasGlobais.getColumnIndex("Limite"));
             if (valorLimite.equals("-1000.0")) valorLimite = "";
             limite.setText(valorLimite);
             limite.setPadding(dpAsPixels(16),dpAsPixels(5),0,0);
