@@ -62,21 +62,7 @@ public class AvaliaAlertaAssalto {
 
 	}
 
-	/**
-	 * Connects to the MySQL database
-	 */
-	/*
-	 * public void connectMysqlAssalto() {
-	 * 
-	 * database_password = "teste123"; database_user = "root"; database_connection =
-	 * "jdbc:mysql://localhost/g12_museum"; try {
-	 * Class.forName("com.mysql.jdbc.Driver").newInstance(); conn = DriverManager
-	 * .getConnection(database_connection + "?user=" + database_user + "&password="
-	 * + database_password); s = conn.createStatement(); } catch (Exception e) {
-	 * System.out.
-	 * println("Avalia Alerta Assalto - Server down, unable to make the connection. "
-	 * ); }
-	 */
+	
 	public void connectMysqlAssalto() {
 		conn = ConnectToMySql.connect();
 	}
