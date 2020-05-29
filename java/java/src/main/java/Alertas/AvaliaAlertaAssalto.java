@@ -162,10 +162,14 @@ public class AvaliaAlertaAssalto {
 			Date parsedDate = dateFormat.parse(new InsereMedicoesNoMySql(movimento).dataHoraParaFormatoCerto());
 			Time time = new Time(parsedDate.getTime());
 			String fimRondaEmCurso = Alerta.getFimRondaEmCurso();
-			Time fimRondaEmCursoTime = new Time(dateFormat.parse(fimRondaEmCurso).getTime());
-			if (Alerta.getFimRondaEmCurso() != null && fimRondaEmCursoTime.after(time)) {
-				return true;
+			System.out.println(fimRondaEmCurso);
+			if(fimRondaEmCurso != null){
+				Time fimRondaEmCursoTime = new Time(dateFormat.parse(fimRondaEmCurso).getTime());
+				if (fimRondaEmCursoTime.after(time)) {
+					return true;
+				}
 			}
+
 		} catch (ParseException e1) {
 			System.err.println("Could not parse the date from Movimento. Data Movimento:  "
 					+ movimento.getDataHoraMedicao() + " " + e1);
@@ -187,7 +191,7 @@ public class AvaliaAlertaAssalto {
 			String Sqlcommando = "CALL VerificaSeExisteRonda('" + timestampUsedInRonda + "')";
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
-			Time result = rs.getTime("MAX(horaSaida)");
+			Time result = rs.getTime("fimRondaActual");
 			conn.close();
 			if (result != null) {
 				System.out.println("a ronda actual acabou");
