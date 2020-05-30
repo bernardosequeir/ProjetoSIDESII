@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Maio-2020 às 15:10
+-- Tempo de geração: 30-Maio-2020 às 15:27
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -397,7 +397,7 @@ CREATE TABLE `g12_logalerta` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDAlertaAntigo` int(11) DEFAULT NULL,
   `IDAlertaNovo` int(11) DEFAULT NULL,
   `DataHoraMedicaoAntigo` timestamp NULL DEFAULT NULL,
@@ -426,7 +426,7 @@ CREATE TABLE `g12_logmedicao_sensores` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
   `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
@@ -447,7 +447,7 @@ CREATE TABLE `g12_logmedicao_sensores_anomalos` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
   `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` varchar(10) DEFAULT NULL,
@@ -468,11 +468,11 @@ CREATE TABLE `g12_logronda_extra` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraEntradaAntigo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraEntradaNovo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraSaidaAntigo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraSaidaNovo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
+  `dataHoraEntradaAntigo` timestamp NULL DEFAULT NULL,
+  `dataHoraEntradaNovo` timestamp NULL DEFAULT NULL,
+  `dataHoraSaidaAntigo` timestamp NULL DEFAULT NULL,
+  `dataHoraSaidaNovo` timestamp NULL DEFAULT NULL,
   `EmailUtilizadorAntigo` varchar(100) DEFAULT NULL,
   `EmailUtilizadorNovo` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -487,7 +487,7 @@ CREATE TABLE `g12_logronda_planeada` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `EmailUtilizadorAntigo` varchar(100) DEFAULT NULL,
   `EmailUtilizadorNovo` varchar(100) DEFAULT NULL,
   `DiaSemanaAntigo` varchar(20) DEFAULT NULL,
@@ -508,7 +508,7 @@ CREATE TABLE `g12_logsistema` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDSistemaAntigo` int(11) DEFAULT NULL,
   `IDSistemaNovo` int(11) DEFAULT NULL,
   `IntervaloImportacaoMongoAntigo` decimal(6,2) DEFAULT NULL,
@@ -553,7 +553,7 @@ CREATE TABLE `g12_loguser` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `EmailAnterior` varchar(100) NOT NULL,
   `EmailNovo` varchar(100) DEFAULT NULL,
   `NomeUtilizadorAnterior` varchar(200) DEFAULT NULL,

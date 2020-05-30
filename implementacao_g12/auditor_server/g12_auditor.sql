@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Maio-2020 às 15:22
+-- Tempo de geração: 30-Maio-2020 às 15:29
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -32,7 +32,7 @@ CREATE TABLE `g12_logalerta` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDAlertaAntigo` int(11) DEFAULT NULL,
   `IDAlertaNovo` int(11) DEFAULT NULL,
   `DataHoraMedicaoAntigo` timestamp NULL DEFAULT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `g12_logmedicao_sensores` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
   `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` decimal(6,2) DEFAULT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `g12_logmedicao_sensores_anomalos` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDMedicaoAntigo` bigint(20) DEFAULT NULL,
   `IDMedicalNovo` bigint(20) DEFAULT NULL,
   `ValorMedicaoAnterior` varchar(10) DEFAULT NULL,
@@ -103,11 +103,11 @@ CREATE TABLE `g12_logronda_extra` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraEntradaAntigo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraEntradaNovo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraSaidaAntigo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `dataHoraSaidaNovo` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
+  `dataHoraEntradaAntigo` timestamp NULL DEFAULT NULL,
+  `dataHoraEntradaNovo` timestamp NULL DEFAULT NULL,
+  `dataHoraSaidaAntigo` timestamp NULL DEFAULT NULL,
+  `dataHoraSaidaNovo` timestamp NULL DEFAULT NULL,
   `EmailUtilizadorAntigo` varchar(100) DEFAULT NULL,
   `EmailUtilizadorNovo` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -122,7 +122,7 @@ CREATE TABLE `g12_logronda_planeada` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `EmailUtilizadorAntigo` varchar(100) DEFAULT NULL,
   `EmailUtilizadorNovo` varchar(100) DEFAULT NULL,
   `DiaSemanaAntigo` varchar(20) DEFAULT NULL,
@@ -143,7 +143,7 @@ CREATE TABLE `g12_logsistema` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `IDSistemaAntigo` int(11) DEFAULT NULL,
   `IDSistemaNovo` int(11) DEFAULT NULL,
   `IntervaloImportacaoMongoAntigo` decimal(6,2) DEFAULT NULL,
@@ -188,7 +188,7 @@ CREATE TABLE `g12_loguser` (
   `id` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Operacao` varchar(10) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Time` timestamp NULL DEFAULT NULL,
   `EmailAnterior` varchar(100) NOT NULL,
   `EmailNovo` varchar(100) DEFAULT NULL,
   `NomeUtilizadorAnterior` varchar(200) DEFAULT NULL,
@@ -253,19 +253,19 @@ ALTER TABLE `g12_loguser`
 -- AUTO_INCREMENT de tabela `g12_logalerta`
 --
 ALTER TABLE `g12_logalerta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `g12_logmedicao_sensores`
 --
 ALTER TABLE `g12_logmedicao_sensores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=489;
 
 --
 -- AUTO_INCREMENT de tabela `g12_logmedicao_sensores_anomalos`
 --
 ALTER TABLE `g12_logmedicao_sensores_anomalos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT de tabela `g12_logronda_extra`
@@ -283,13 +283,13 @@ ALTER TABLE `g12_logronda_planeada`
 -- AUTO_INCREMENT de tabela `g12_logsistema`
 --
 ALTER TABLE `g12_logsistema`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `g12_loguser`
 --
 ALTER TABLE `g12_loguser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
