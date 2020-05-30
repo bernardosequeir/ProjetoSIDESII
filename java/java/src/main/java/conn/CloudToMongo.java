@@ -1,3 +1,6 @@
+/**
+ * Treats the connection aspect of the MySQL and MongoDB. Receives data and parses it correctly for other classes to deal with them.
+ */
 package conn;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -46,7 +49,8 @@ public class CloudToMongo implements MqttCallback {
 			mongo_collection = p.getProperty("mongo_collection");
 		} catch (Exception e) {
 
-			System.err.println("Error reading CloudToMongo.ini file " + e);
+			System.err.println("Error reading CloudToMongo.ini file " );
+			e.printStackTrace();
 		}
 		
 		new CloudToMongo().connectMQTTBroker();
@@ -65,7 +69,8 @@ public class CloudToMongo implements MqttCallback {
 			mqttclient.setCallback(this);
 			mqttclient.subscribe(cloud_topic);
 		} catch (MqttException e) {
-			System.err.println("Could not connect to MQTT brocker. Cloud topic is: " + cloud_topic + e);
+			System.err.println("Could not connect to MQTT brocker. Cloud topic is: " + cloud_topic );
+			e.printStackTrace();
 		}
 	}
 
@@ -78,7 +83,8 @@ public class CloudToMongo implements MqttCallback {
 		db = mongoClient.getDB(mongo_database);
 		mongocol = db.getCollection(mongo_collection);
 		} catch (Exception e) {
-			System.err.println("Failed to start MongoClient with Mongo host " + mongo_host + e);
+			System.err.println("Failed to start MongoClient with Mongo host " + mongo_host );
+			e.printStackTrace();
 		}
 	}
 
@@ -91,7 +97,8 @@ public class CloudToMongo implements MqttCallback {
 			System.out.println(clean(c.toString()));
 			mongocol.insert(document_json, WriteConcern.MAJORITY);
 		} catch (Exception e) {
-			System.err.println("Failed to get a Mongo Document " + e);
+			System.err.println("Failed to get a Mongo Document " );
+			e.printStackTrace();
 		}
 	}
 

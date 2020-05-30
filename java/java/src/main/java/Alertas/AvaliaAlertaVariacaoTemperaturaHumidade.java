@@ -1,9 +1,16 @@
+
 package Alertas;
 
 import java.util.LinkedList;
 
 import Anomalias.Medicao;
 
+/**
+ * 
+ * Checks the Alertas for temperature and humidity. Adds a new Medicao to its respective buffer and checks wether it's an alert or not in a round-robin fashion. 
+ * If there is a value that it is an alarm, checks weather there is already an alert of the same type and not within the interval defined by the user to not receive any more alerts.
+ *
+ */
 public class AvaliaAlertaVariacaoTemperaturaHumidade {
 
 	private Medicao medicao;
@@ -14,6 +21,10 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 		avaliaAlerta();
 	}
 
+	/**
+	 * Calls a method to insert into the Alert table if there is a value that is an alert and not within the interval defined by the user to not receive any more alerts.
+	 * First it checks if the temperature or humidity is above their respective limits, then checks for their growth.
+	 */
 	private void avaliaAlerta() {
 		Double limiteMaximo = Alerta.getLimite(medicao.getTipoMedicao());
 		if (medicao.getValorMedicao() >= limiteMaximo) {
@@ -39,7 +50,6 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 				tipoMedicaousada = "hum";
 
 			}
-			// TODO verificar se não é null por exemplo getCrescimentoGradual etc
 			if (tipoMedicaousada != null) {
 				boolean crescimentoInstantaneo = (medicao.getValorMedicao()
 						/ Alerta.getUltimoValor(tipoMedicaousada).getValorMedicao()
