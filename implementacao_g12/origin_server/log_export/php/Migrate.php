@@ -34,6 +34,7 @@
 
    function migrateLogData($conn1, $conn2) {
       echo "<b>Starting Log Migration...</b> </br><hr>";
+      $rows_migrated = 0;
 
       //Migrate g12_logmedicao_sensores
       $new_logs = $conn1->query("SELECT * FROM g12_logmedicao_sensores WHERE id > " .getLastID($conn2, "g12_logmedicao_sensores"). ";");
@@ -111,7 +112,7 @@
          echo "<i>[g12_logronda_planeada] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logronda_planeada VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["EmailUtilizadorAntigo	"]. "', '" .$row["EmailUtilizadorNovo"]. "', '" .$row["DiaSemanaAntigo"]. "', '" .$row["DiaSemanaNovo"]. "', '" .$row["HoraRondaInicioAntigo"]. "', '" .$row["HoraRondaInicioNovo"]. "', '" .$row["HoraRondaSaidaAntigo"]. "', '" .$row["HoraRondaSaidaNovo"]. "')";
+            $insert_query = "INSERT INTO g12_logronda_planeada VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["EmailUtilizadorAntigo"]. "', '" .$row["EmailUtilizadorNovo"]. "', '" .$row["DiaSemanaAntigo"]. "', '" .$row["DiaSemanaNovo"]. "', '" .$row["HoraRondaInicioAntigo"]. "', '" .$row["HoraRondaInicioNovo"]. "', '" .$row["HoraRondaSaidaAntigo"]. "', '" .$row["HoraRondaSaidaNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
@@ -134,7 +135,7 @@
          echo "<i>[g12_logsistema] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logsistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["IDSistemaAntigo"]. "', '" .$row["IDSistemaNovo"]. "', '" .$row["IntervaloImportacaoMongoAntigo"]. "', '" .$row["IntervaloImportacaoMongoNovo"]. "', '" .$row["TempoLimiteMedicaoAntigo"]. "', '" .$row["TempoLimiteMedicaoNovo"]. "', '" .$row["TempoEntreAlertasAntigo"]. "', '" .$row["TempoEntreAlertasNovo"]. "', '" .$row["tamanhoDosBuffersAnomaliaAntigo"]. "', '" .$row["tamanhoDosBuffersAnomaliaNovo"]. "', '" .$row["tamanhoDosBuffersAlertaAntigo"]. "', '" .$row["tamanhoDosBuffersAlertaNovo"]. "', '" .$row["variacaoAnomalaTemperaturaAntigo"]. "', '" .$row["variacaoAnomalaTemperaturaNovo"]. "', '" .$row["variacaoAnomalaHumidadeAntigo"]. "', '" .$row["variacaoAnomalaHumidadeNovo"]. "', '" .$row["crescimentoInstantaneoTemperaturaAntigo"]. "', '" .$row["crescimentoInstantaneoTemperaturaNovo"]. "', '" .$row["crescimentoGradualTemperaturaAntigo"]. "', '" .$row["crescimentoGradualTemperaturaNovo"]. "', '" .$row["crescimentoInstantaneoHumidadeAntigo"]. "', '" .$row["crescimentoInstantaneoHumidadeNovo"]. "', '" .$row["crescimentoGradualHumidadeAntigo"]. "', '" .$row["crescimentoGradualHumidadeNovo"]. "', '" .$row["luminosidadeLuzesDesligadasAntigo"]. "', '" .$row["luminosidadeLuzesDesligadasNovo "]. "', '" .$row["limiteTemperaturaAntigo"]. "', '" .$row["limiteTemperaturaNovo"]. "', '" .$row["limiteHumidadeAntigo"]. "', '" .$row["limiteHumidadeNovo"]. "', '" .$row["periocidadeImportacaoExportacaoAuditorAntigo"]. "', '" .$row["periocidadeImportacaoExportacaoAuditorNovo"]. "')";
+            $insert_query = "INSERT INTO g12_logsistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["IDSistemaAntigo"]. "', '" .$row["IDSistemaNovo"]. "', '" .$row["IntervaloImportacaoMongoAntigo"]. "', '" .$row["IntervaloImportacaoMongoNovo"]. "', '" .$row["TempoLimiteMedicaoAntigo"]. "', '" .$row["TempoLimiteMedicaoNovo"]. "', '" .$row["TempoEntreAlertasAntigo"]. "', '" .$row["TempoEntreAlertasNovo"]. "', '" .$row["tamanhoDosBuffersAnomaliaAntigo"]. "', '" .$row["tamanhoDosBuffersAnomaliaNovo"]. "', '" .$row["tamanhoDosBuffersAlertaAntigo"]. "', '" .$row["tamanhoDosBuffersAlertaNovo"]. "', '" .$row["variacaoAnomalaTemperaturaAntigo"]. "', '" .$row["variacaoAnomalaTemperaturaNovo"]. "', '" .$row["variacaoAnomalaHumidadeAntigo"]. "', '" .$row["variacaoAnomalaHumidadeNovo"]. "', '" .$row["crescimentoInstantaneoTemperaturaAntigo"]. "', '" .$row["crescimentoInstantaneoTemperaturaNovo"]. "', '" .$row["crescimentoGradualTemperaturaAntigo"]. "', '" .$row["crescimentoGradualTemperaturaNovo"]. "', '" .$row["crescimentoInstantaneoHumidadeAntigo"]. "', '" .$row["crescimentoInstantaneoHumidadeNovo"]. "', '" .$row["crescimentoGradualHumidadeAntigo"]. "', '" .$row["crescimentoGradualHumidadeNovo"]. "', '" .$row["luminosidadeLuzesDesligadasAntigo"]. "', '" .$row["luminosidadeLuzesDesligadasNovo"]. "', '" .$row["limiteTemperaturaAntigo"]. "', '" .$row["limiteTemperaturaNovo"]. "', '" .$row["limiteHumidadeAntigo"]. "', '" .$row["limiteHumidadeNovo"]. "', '" .$row["periocidadeImportacaoExportacaoAuditorAntigo"]. "', '" .$row["periocidadeImportacaoExportacaoAuditorNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
