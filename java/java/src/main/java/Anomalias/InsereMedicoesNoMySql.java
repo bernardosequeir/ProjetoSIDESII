@@ -45,6 +45,9 @@ public class InsereMedicoesNoMySql {
 		}
 	}
 
+	/**
+	 * Inserts through a Stored Procedure into the MySQL medicoes_sensores table or medicoes_sensores_anomalos the Medicoes received, if they are valid or not, respectively.
+	 */
 	public void insereMedicoesNoMySql() {
 		connect();
 		if(medicao.getValorAnomalia()==0) {

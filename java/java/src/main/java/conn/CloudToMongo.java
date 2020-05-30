@@ -82,7 +82,7 @@ public class CloudToMongo implements MqttCallback {
 		}
 	}
 
-	
+	//TODO clean the first nullpointer exception .check: https://stackoverflow.com/questions/26827020/nullpointerexception-while-subscribing-to-a-topic-on-mqttandroidclient
 	public void messageArrived(String topic, MqttMessage c) throws Exception {
 		try {
 			DBObject document_json;
@@ -109,7 +109,7 @@ public class CloudToMongo implements MqttCallback {
 			else if(cloud_topic.equals("/sid_lab_2019_2"))
 				return message.replace("\"\"s", "\",s");
 			else if(cloud_topic.equals("/sid_lab_2020"))
-				return message.replace("\"\"", "\"");
+				return message.replace("\"\", ", "\",\"");
 			else System.err.println("Não temos este tipo de sensor definido.");
 		return null;
 

@@ -7,18 +7,33 @@ import Alertas.Alerta;
 import Alertas.AvaliaAlertaAssalto;
 import Alertas.AvaliaAlertaVariacaoTemperaturaHumidade;
 
-public class AvaliaAnomalias {
+/**
+ * 
+ * In charge of finding out if a temperature or humidity measurement(the size is variable according to the users needs) is valid. 
+ * If it's valid inserts into the MySQL database and checks for alarms. If it's not valid, it only inserts into the MySQL database.
+ *
+ */
+
+//TODO verificar no java tambem se buffers são inferiores a 2.
+public class AvaliaAnomaliasVariacao {
 	private int tamanhoBuffer;
 	private Double ultimaMedicaoValida = null;
 	private double variacaoMaxima;
 	private ArrayList<Medicao> medicoes;
 
-	public AvaliaAnomalias(int tamanhoBuffer, double variacaoMaxima) {
+	public AvaliaAnomaliasVariacao(int tamanhoBuffer, double variacaoMaxima) {
 		this.tamanhoBuffer = tamanhoBuffer;
 		this.variacaoMaxima = variacaoMaxima;
 		medicoes = new ArrayList<Medicao>();
 	}
 
+	/**
+	 * Tests a certaint number of Medicoes to check if it's valid - the definition of valid is according to what the user wants. 
+	 * If the last one is invalid it <b>WILL NOT</b> appear as invalid because it can't compare to the future Medicoes.
+	 * If it's valid it inserts into the MySQL database and checks for Alertas.
+	 * If it's invalid it only inserts into the MySQL database in a separate table. 
+	 * @param lista A certaint number of Medicoes ready to be tested for its Anomalias
+	 */
 	private void testaAnomalia(List<Medicao> lista) {
 		boolean anomalia = false;
 		// Caso seja o primeiro buffer em verificação, ele compara o primeiro valor com
@@ -66,9 +81,13 @@ public class AvaliaAnomalias {
 		}
 	}
 
-	public void adicionarValores(Medicao m) {
+	/**
+	 * If it's not full it adds to the buffer. It it's full it starts to check for Anomalias and <b>clears</b> the buffer.
+	 * @param medicao Medicao to be added to the buffer.
+	 */
+	public void adicionarValores(Medicao medicao) {
 		if (medicoes.size() < tamanhoBuffer) {
-			medicoes.add(m);
+			medicoes.add(medicao);
 		}
 		if (medicoes.size() == tamanhoBuffer) {
 			testaAnomalia(medicoes);
@@ -77,9 +96,13 @@ public class AvaliaAnomalias {
 		}
 	}
 
-	private void avaliaPossivelAlertaEInsereMedicaoNoMysql(Medicao m) {
-		new InsereMedicoesNoMySql(m).insereMedicoesNoMySql();
-		new AvaliaAlertaVariacaoTemperaturaHumidade(m);
+	/**
+	 * It inserts a valid Medicao into the MySQL table and checks for Alerta's.
+	 * @param medicao Medicao ready to be inserted into the MySQL Medicoes table
+	 */
+	private void avaliaPossivelAlertaEInsereMedicaoNoMysql(Medicao medicao) {
+		new InsereMedicoesNoMySql(medicao).insereMedicoesNoMySql();
+		new AvaliaAlertaVariacaoTemperaturaHumidade(medicao);
 	}
 
 }
