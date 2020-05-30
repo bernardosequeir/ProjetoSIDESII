@@ -1,6 +1,7 @@
 
 package Anomalias;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +20,9 @@ import java.util.TimeZone;
 import conn.ConnectToMySql;
 import conn.MongoParaMysql;
 
+/**
+ * It only inserts Medicoes into MySQL.
+ */
 public class InsereMedicoesNoMySql {
 
 	private Medicao medicao;
