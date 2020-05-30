@@ -26,27 +26,28 @@ import com.mongodb.client.MongoDatabase;
 
 /**
  * 
- * @author joaof, bernardosequeir grupo12 Opens a new sql connection
- *
+ * Checks weather a Movimento or Luminosidade Medicao is an alert or not. This
+ * Medicoes have been checked before to see if they are valid or not. It this
+ * verification, it the value is an alert, it checks if there is a Ronda
+ * happening and if their is, it doesn't send an alert.
  */
 public class AvaliaAlertaAssalto {
 
-	/*
-	 * O que é que ele precisa: - Duas medição - luminosidade e movimento - Se há
-	 * ronda atual ou ronda extra
-	 *
-	 *
-	 * Luminosidade variou? Se !ronda && movimento = assalto
-	 * 
-	 *
-	 */
 	private Medicao movimento;
 	private Medicao luminosidade;
 	private Connection conn;
 	private String timestampUsedInRonda;
 	private Double luminosidadeLuzEscuro;
 	private String tipoAlerta;
-	
+
+	/**
+	 * 
+	 * Calls the method to checks weather there is an alert or not.
+	 * 
+	 * @param movimento             Medicao movimento
+	 * @param luminosidade          Medicao luminosidade
+	 * @param luminosidadeLuzEscuro Limit to the luminosidade value
+	 */
 	public AvaliaAlertaAssalto(Medicao movimento, Medicao luminosidade, Double luminosidadeLuzEscuro) {
 
 		this.movimento = movimento;
@@ -58,7 +59,6 @@ public class AvaliaAlertaAssalto {
 
 	}
 
-	
 	public void connectMysqlAssalto() {
 		conn = ConnectToMySql.connect();
 	}
@@ -67,16 +67,17 @@ public class AvaliaAlertaAssalto {
 		return valorEAlerta() && !existeRonda();
 	}
 
+	/**
+	 * Checks weather a Medicao value surpasses the limits(in the luminosidade case) or it's an 1 (there is moviment) 
+	 * @return A boolean saying wether it should be an alert or not according to its value
+	 */
 	public boolean valorEAlerta() {
 		// nao sao anomalos
 		new InsereMedicoesNoMySql(movimento).insereMedicoesNoMySql();
 		new InsereMedicoesNoMySql(luminosidade).insereMedicoesNoMySql();
 		if (movimento.isAnomalo() && luminosidade.isAnomalo()) {
 			return false;
-		} else
-		// insere sabendo se sao anomalos ou nao
-
-		if (movimento.isAnomalo()) {
+		} else if (movimento.isAnomalo()) {
 			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
 				System.out.println("luminosidade.getValorMedicao() > luminosidadeLuzEscuro");
 				tipoAlerta = "lum";
@@ -106,11 +107,10 @@ public class AvaliaAlertaAssalto {
 		try {
 
 			if (tipoAlerta.equals("mov")) {
-				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(),
-						movimento.getDataHoraMedicao())) {
+				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(), movimento.getDataHoraMedicao())) {
 					System.out.println("data é mais");
-					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 					Alerta.setUltimaDataMovimento(movimento.getDataHoraMedicao());
+					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 				}
 			} else if (tipoAlerta.equals("lum")) {
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataLuminosidade(),
@@ -124,8 +124,7 @@ public class AvaliaAlertaAssalto {
 					Alerta.setUltimaDataLuminosidade(luminosidade.getDataHoraMedicao());
 					Alerta.enviaAlerta("Possivel Assalto", luminosidade, Double.toString(luminosidadeLuzEscuro));
 				}
-				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(),
-						movimento.getDataHoraMedicao())) {
+				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(), movimento.getDataHoraMedicao())) {
 					Alerta.setUltimaDataMovimento(movimento.getDataHoraMedicao());
 					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 				}
@@ -133,8 +132,8 @@ public class AvaliaAlertaAssalto {
 			}
 
 		} catch (Exception e) {
-			System.err.println(
-					"Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: " + tipoAlerta + " " + e);
+			System.err.println("Enviar alerta falhou ou tipoAlerta não foi definido. TipoAlerta: " + tipoAlerta);
+			e.printStackTrace();
 		}
 	}
 
@@ -142,7 +141,7 @@ public class AvaliaAlertaAssalto {
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			Date parsedDate = dateFormat.parse(movimento.getDataHoraMedicao());
-			if(Alerta.getFimRondaEmCurso() != null){
+			if (Alerta.getFimRondaEmCurso() != null) {
 				Date fimRondaEmCurso = dateFormat.parse(Alerta.getFimRondaEmCurso().toString());
 				System.out.println(fimRondaEmCurso);
 				System.out.println(parsedDate);
