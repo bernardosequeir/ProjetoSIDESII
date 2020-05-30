@@ -11,9 +11,18 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
+/**
+ * 
+ * It opens a new connection to the MySQL database specified in the CloudToMongo.ini
+ *
+ */
 public class ConnectToMySql {
 
 	
+	/**
+	 * 
+	 * @return Connection open that can be used to send and receive from MySQL
+	 */
 	public static Connection connect() {
 
 		Properties p = new Properties();

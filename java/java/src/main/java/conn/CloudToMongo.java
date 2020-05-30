@@ -14,6 +14,12 @@ import java.util.Vector;
 import java.io.*;
 import javax.swing.*;
 
+
+/**
+ * 
+ * Reads the messages from the MQTT broker, "cleans"(formats) that message according to the sensor being used and inserts the message into the Mongo Client specified
+ *
+ */
 public class CloudToMongo implements MqttCallback {
 	MqttClient mqttclient;
 	static MongoClient mongoClient;
@@ -25,6 +31,10 @@ public class CloudToMongo implements MqttCallback {
 	static String mongo_database = new String();
 	static String mongo_collection = new String();
 
+	/**
+	 * 
+	 * Reads from the cloudToMongo.ini and starts the connections to the Broker and Mongo Client
+	 */
 	public static void main(String[] args) {
 		try {
 			Properties p = new Properties();
@@ -43,6 +53,9 @@ public class CloudToMongo implements MqttCallback {
 		new CloudToMongo().connectMongo();
 	}
 
+	/**
+	 * Connects to the broker according to the cloud server and topic defined in the cloudToMongo.ini
+	 */
 	public void connectMQTTBroker() {
 		int i;
 		try {
@@ -56,6 +69,9 @@ public class CloudToMongo implements MqttCallback {
 		}
 	}
 
+	/**
+	 * Connects to the Mongo Client according to the mongo host defined in the cloudToMongo.ini
+	 */
 	public void connectMongo() {
 		try {
 		mongoClient = new MongoClient(new MongoClientURI(mongo_host));
@@ -66,6 +82,7 @@ public class CloudToMongo implements MqttCallback {
 		}
 	}
 
+	
 	public void messageArrived(String topic, MqttMessage c) throws Exception {
 		try {
 			DBObject document_json;
@@ -78,35 +95,33 @@ public class CloudToMongo implements MqttCallback {
 		}
 	}
 
-	public void connectionLost(Throwable cause) {
-	}
 
-	public void deliveryComplete(IMqttDeliveryToken token) {
-	}
 
+	/**
+	 * Cleans the message received from the sensor according to the sensor being used: for example if it has two double quotes 
+	 * and it should only have one, it returns it with one double quote only
+	 * @param message Message from sensor, unformatted
+	 * @return Message from the sensor, clean and ready to be inserted into MongoDB
+	 */
 	public String clean(String message) {
-		//message.replace("\"\"", "\"");
-		//message = message.replace("\"s", "\",s");  //comentar até mais ou menos 6 da tarde
-		try {
-			Properties p = new Properties();
-			p.load(new FileInputStream("cloudToMongo.ini"));
-			String sensor = p.getProperty("cloud_topic");
 			if(cloud_topic.equals("grupo12")) 
 					return message.replaceAll("\", " , ",\""); 
 			else if(cloud_topic.equals("/sid_lab_2019_2"))
 				return message.replace("\"\"s", "\",s");
 			else if(cloud_topic.equals("/sid_lab_2020"))
 				return message.replace("\"\"", "\"");
-		} catch (NullPointerException e){
-			System.err.println("Mongo got a null Document " + e);
-		} catch (FileNotFoundException e) {
-			System.err.println("Cloud To Mongo was not found " + e);
-		
-		} catch (IOException e) {
-			System.err.println("Cloud To Mongo gave an I/O error " + e);
-		}
+			else System.err.println("Não temos este tipo de sensor definido.");
 		return null;
 
+	}
+
+	public void connectionLost(Throwable cause) {
+		System.err.println("Connection to the MQTT broker lost because of:" + cause);
+		
+	}
+
+	public void deliveryComplete(IMqttDeliveryToken token) {
+		
 	}
 
 }
