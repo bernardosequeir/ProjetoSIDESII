@@ -35,146 +35,143 @@
    function migrateLogData($conn1, $conn2) {
       echo "<b>Starting Log Migration...</b> </br><hr>";
 
-      //Number of rows migrated
-      $rows_migrated = 0;
-      
-      //Migrate logDiaSemana
-      $new_logs = $conn1->query("SELECT * FROM g12_logDiaSemana WHERE id > " .getLastID($conn2, "g12_logDiaSemana"). ";");
+      //Migrate g12_logmedicao_sensores
+      $new_logs = $conn1->query("SELECT * FROM g12_logmedicao_sensores WHERE id > " .getLastID($conn2, "g12_logmedicao_sensores"). ";");
 
       if($new_logs->num_rows > 0) {
-         echo "<i>[g12_logDiaSemana] Successfully imported data from origin.</i></br></br>";
+         echo "<i>[g12_logmedicao_sensores] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logDiaSemana VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["DiaSemana"]. "', '" .$row["HoraRonda"]. "')";
+            $insert_query = "INSERT INTO g12_logmedicao_sensores VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["IDMedicaoAntigo"]. "', '" .$row["IDMedicalNovo"]. "', '" .$row["ValorMedicaoAnterior"]. "', '" .$row["ValorMedicaoNovo"]. "', '" .$row["TipoDeSensorAnterior"]. "', '" .$row["TipoDeSensorNovo"]. "', '" .$row["DataHoraMedicaoAnterior"]. "', '" .$row["DataHoraMedicaoNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
             if ($insert_new_log === TRUE) {
-               echo "<i>[g12_logDiaSemana] Successfully exported Log with id: " . $row["id"]. "</i></br>";
+               echo "<i>[g12_logmedicao_sensores] Successfully exported Log with id: " . $row["id"]. "</i></br>";
                $rows_migrated += 1;
             } else {
-               echo "<i>[g12_logDiaSemana] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
+               echo "<i>[g12_logmedicao_sensores] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
             }
          }
       } else {
-         echo "<i>[g12_logDiaSemana] No logs to migrate.</i>";
+         echo "<i>[g12_logmedicao_sensores] No logs to migrate.</i>";
       }
 
       echo "<hr>";
-      //Migrate logMedicaoSensores
-      $new_logs = $conn1->query("SELECT * FROM g12_logMedicaoSensores WHERE id > " .getLastID($conn2, "g12_logMedicaoSensores"). ";");
+      //Migrate g12_logmedicao_sensores_anomalos
+      $new_logs = $conn1->query("SELECT * FROM g12_logmedicao_sensores_anomalos WHERE id > " .getLastID($conn2, "g12_logmedicao_sensores_anomalos"). ";");
 
       if($new_logs->num_rows > 0) {
-         echo "<i>[g12_logMedicaoSensores] Successfully imported data from origin.</i></br></br>";
+         echo "<i>[g12_logmedicao_sensores_anomalos] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logMedicaoSensores VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["ValorMedicao"]. "', '" .$row["TipoDeSensor"]. "', '" .$row["DataHoraMedicao"]. "', '" .$row["PossivelAnomalia"]. "')";
+            $insert_query = "INSERT INTO g12_logmedicao_sensores_anomalos VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["IDMedicaoAntigo"]. "', '" .$row["IDMedicalNovo"]. "', '" .$row["ValorMedicaoAnterior"]. "', '" .$row["ValorMedicaoNovo"]. "', '" .$row["TipoDeSensorAnterior"]. "', '" .$row["TipoDeSensorNovo"]. "', '" .$row["DataHoraMedicaoAnterior"]. "', '" .$row["DataHoraMedicaoNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
             if ($insert_new_log === TRUE) {
-               echo "<i>[g12_logMedicaoSensores] Successfully exported Log with id: " . $row["id"]. "</i></br>";
+               echo "<i>[g12_logmedicao_sensores_anomalos] Successfully exported Log with id: " . $row["id"]. "</i></br>";
                $rows_migrated += 1;
             } else {
-               echo "<i>[g12_logMedicaoSensores] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
+               echo "<i>[g12_logmedicao_sensores_anomalos] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
             }
          }
       } else {
-         echo "<i>[g12_logMedicaoSensores] No logs to migrate.</i>";
+         echo "<i>[g12_logmedicao_sensores_anomalos] No logs to migrate.</i>";
       }
 
       echo "<hr>";
-      //Migrate logRondaExtra
-      $new_logs = $conn1->query("SELECT * FROM g12_logRondaExtra WHERE id > " .getLastID($conn2, "g12_logRondaExtra"). ";");
+      //Migrate g12_logronda_extra
+      $new_logs = $conn1->query("SELECT * FROM g12_logronda_extra WHERE id > " .getLastID($conn2, "g12_logronda_extra"). ";");
 
       if($new_logs->num_rows > 0) {
-         echo "<i>[g12_logRondaExtra] Successfully imported data from origin.</i></br></br>";
+         echo "<i>[g12_logronda_extra] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logRondaExtra VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["DataHora"]. "', '" .$row["EmailUtilizador"]. "', '" .$row["datahoraSaida"]. "')";
+            $insert_query = "INSERT INTO g12_logronda_extra VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["dataHoraEntradaAntigo"]. "', '" .$row["dataHoraEntradaNovo"]. "', '" .$row["dataHoraSaidaAntigo"]. "', '" .$row["dataHoraSaidaNovo"]. "', '" .$row["EmailUtilizadorAntigo"]. "', '" .$row["EmailUtilizadorNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
             if ($insert_new_log === TRUE) {
-               echo "<i>[g12_logRondaExtra] Successfully exported Log with id: " . $row["id"]. "</i></br>";
+               echo "<i>[g12_logronda_extra] Successfully exported Log with id: " . $row["id"]. "</i></br>";
                $rows_migrated += 1;
             } else {
-               echo "<i>[g12_logRondaExtra] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
+               echo "<i>[g12_logronda_extra] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
             }
          }
       } else {
-         echo "<i>[g12_logRondaExtra] No logs to migrate.</i>";
+         echo "<i>[g12_logronda_extra] No logs to migrate.</i>";
       }
 
       echo "<hr>";
-      //Migrate logSistema
-      $new_logs = $conn1->query("SELECT * FROM g12_logSistema WHERE id > " .getLastID($conn2, "g12_logSistema"). ";");
+      //Migrate g12_logronda_planeada
+      $new_logs = $conn1->query("SELECT * FROM g12_logronda_planeada WHERE id > " .getLastID($conn2, "g12_logronda_planeada"). ";");
 
       if($new_logs->num_rows > 0) {
-         echo "<i>[g12_logSistema] Successfully imported data from origin.</i></br></br>";
+         echo "<i>[g12_logronda_planeada] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logSistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["IDSistema"]. "', '" .$row["LimiteTemperatura"]. "', '" .$row["LimiteHumidade"]. "', '" .$row["LimiteLuminosidade"]. "', '" .$row["LimiarTemperatura"]. "', '" .$row["LimiarHumidade"]. "', '" .$row["LimiarLuminosidade"]. "', '" .$row["DuracaoPadraoRonda"]. "', '" .$row["PeriocidadeImportacaoExportacao"]. "')";
+            $insert_query = "INSERT INTO g12_logronda_planeada VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["EmailUtilizadorAntigo	"]. "', '" .$row["EmailUtilizadorNovo"]. "', '" .$row["DiaSemanaAntigo"]. "', '" .$row["DiaSemanaNovo"]. "', '" .$row["HoraRondaInicioAntigo"]. "', '" .$row["HoraRondaInicioNovo"]. "', '" .$row["HoraRondaSaidaAntigo"]. "', '" .$row["HoraRondaSaidaNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
             if ($insert_new_log === TRUE) {
-               echo "<i>[g12_logSistema] Successfully exported Log with id: " . $row["id"]. "</i></br>";
+               echo "<i>[g12_logronda_planeada] Successfully exported Log with id: " . $row["id"]. "</i></br>";
                $rows_migrated += 1;
             } else {
-               echo "<i>[g12_logSistema] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
+               echo "<i>[g12_logronda_planeada] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
             }
          }
       } else {
-         echo "<i>[g12_logSistema] No logs to migrate.</i>";
+         echo "<i>[g12_logronda_planeada] No logs to migrate.</i>";
       }
 
       echo "<hr>";
-      //Migrate logUser
-      $new_logs = $conn1->query("SELECT * FROM g12_logUser WHERE id > " .getLastID($conn2, "g12_logUser"). ";");
+      //Migrate g12_logsistema
+      $new_logs = $conn1->query("SELECT * FROM g12_logsistema WHERE id > " .getLastID($conn2, "g12_logsistema"). ";");
 
       if($new_logs->num_rows > 0) {
-         echo "<i>[g12_logUser] Successfully imported data from origin.</i></br></br>";
+         echo "<i>[g12_logsistema] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logUser VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["Email"]. "', '" .$row["NomeUtilizador"]. "', '" .$row["TipoUtilizador"]. "', '" .$row["Morada"]. "')";
+            $insert_query = "INSERT INTO g12_logsistema VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["IDSistemaAntigo"]. "', '" .$row["IDSistemaNovo"]. "', '" .$row["IntervaloImportacaoMongoAntigo"]. "', '" .$row["IntervaloImportacaoMongoNovo"]. "', '" .$row["TempoLimiteMedicaoAntigo"]. "', '" .$row["TempoLimiteMedicaoNovo"]. "', '" .$row["TempoEntreAlertasAntigo"]. "', '" .$row["TempoEntreAlertasNovo"]. "', '" .$row["tamanhoDosBuffersAnomaliaAntigo"]. "', '" .$row["tamanhoDosBuffersAnomaliaNovo"]. "', '" .$row["tamanhoDosBuffersAlertaAntigo"]. "', '" .$row["tamanhoDosBuffersAlertaNovo"]. "', '" .$row["variacaoAnomalaTemperaturaAntigo"]. "', '" .$row["variacaoAnomalaTemperaturaNovo"]. "', '" .$row["variacaoAnomalaHumidadeAntigo"]. "', '" .$row["variacaoAnomalaHumidadeNovo"]. "', '" .$row["crescimentoInstantaneoTemperaturaAntigo"]. "', '" .$row["crescimentoInstantaneoTemperaturaNovo"]. "', '" .$row["crescimentoGradualTemperaturaAntigo"]. "', '" .$row["crescimentoGradualTemperaturaNovo"]. "', '" .$row["crescimentoInstantaneoHumidadeAntigo"]. "', '" .$row["crescimentoInstantaneoHumidadeNovo"]. "', '" .$row["crescimentoGradualHumidadeAntigo"]. "', '" .$row["crescimentoGradualHumidadeNovo"]. "', '" .$row["luminosidadeLuzesDesligadasAntigo"]. "', '" .$row["luminosidadeLuzesDesligadasNovo "]. "', '" .$row["limiteTemperaturaAntigo"]. "', '" .$row["limiteTemperaturaNovo"]. "', '" .$row["limiteHumidadeAntigo"]. "', '" .$row["limiteHumidadeNovo"]. "', '" .$row["periocidadeImportacaoExportacaoAuditorAntigo"]. "', '" .$row["periocidadeImportacaoExportacaoAuditorNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
             if ($insert_new_log === TRUE) {
-               echo "<i>[g12_logUser] Successfully exported Log with id: " . $row["id"]. "</i></br>";
+               echo "<i>[g12_logsistema] Successfully exported Log with id: " . $row["id"]. "</i></br>";
                $rows_migrated += 1;
             } else {
-               echo "<i>[g12_logUser] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
+               echo "<i>[g12_logsistema] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
             }
          }
       } else {
-         echo "<i>[g12_logUser] No logs to migrate.</i>";
+         echo "<i>[g12_logsistema] No logs to migrate.</i>";
       }
 
       echo "<hr>";
-      //Migrate logUserHasDiaSemana
-      $new_logs = $conn1->query("SELECT * FROM g12_logUserHasDiaSemana WHERE id > " .getLastID($conn2, "g12_logUserHasDiaSemana"). ";");
+      //Migrate g12_loguser
+      $new_logs = $conn1->query("SELECT * FROM g12_loguser WHERE id > " .getLastID($conn2, "g12_loguser"). ";");
 
       if($new_logs->num_rows > 0) {
-         echo "<i>[g12_logUserHasDiaSemana] Successfully imported data from origin.</i></br></br>";
+         echo "<i>[g12_loguser] Successfully imported data from origin.</i></br></br>";
 
          while($row = $new_logs->fetch_assoc()) {
-            $insert_query = "INSERT INTO g12_logUserHasDiaSemana VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["User_Email"]. "', '" .$row["DiaSemana_DiaDaSemana"]. "', '" .$row["DiaSemana_HoraRonda"]. "')";
+            $insert_query = "INSERT INTO g12_loguser VALUES ('" .$row["id"]. "', '" .$row["User"]. "', '" .$row["Operacao"]. "', '" .$row["Time"]. "', '" .$row["EmailAnterior"]. "', '" .$row["EmailNovo"]. "', '" .$row["NomeUtilizadorAnterior"]. "', '" .$row["NomeUtilizadorNovo"]. "', '" .$row["TipoUtilizadorAnterior"]. "', '" .$row["TipoUtilizadorNovo"]. "', '" .$row["MoradaAnterior"]. "', '" .$row["MoradaNovo"]. "')";
             $insert_new_log = $conn2->query($insert_query);
 
             //Check if log export insertion went well
             if ($insert_new_log === TRUE) {
-               echo "<i>[g12_logUserHasDiaSemana] Successfully exported Log with id: " . $row["id"]. "</i></br>";
+               echo "<i>[g12_loguser] Successfully exported Log with id: " . $row["id"]. "</i></br>";
                $rows_migrated += 1;
             } else {
-               echo "<i>[g12_logUserHasDiaSemana] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
+               echo "<i>[g12_loguser] Error exporting Log with id: " . $row["id"]. "</i></br>" . $conn2->error;
             }
          }
       } else {
-         echo "<i>[g12_logUserHasDiaSemana] No logs to migrate.</i>";
+         echo "<i>[g12_loguser] No logs to migrate.</i>";
       }
-      
+
       echo "<hr>";
       echo "<i>Log Migration has finished.</i>";
       echo "</br></br><i>Number of rows migrated: ".$rows_migrated.".</i></br>";
@@ -187,8 +184,8 @@
    //Open DB Connections
    //$auditor_conn = connectToDB("johnny.heliohost.org", "dctidata_g12", "senhag12", "dctidata_g12"); // Johnny [Auditor]
    //$auditor_conn = connectToDB("192.168.1.114", "root", "teste123", "dctidata_g12"); // Other local DB for faster connection [Auditor_local]
-   $auditor_conn = connectToDB("localhost", "root", "teste123", "g12_auditor");
-   $origin_conn = connectToDB("localhost", "root", "teste123", "g12_museum"); // Localhost [Origin]
+   $auditor_conn = connectToDB("localhost", "root", "", "g12_auditor");
+   $origin_conn = connectToDB("localhost", "root", "", "g12_museum"); // Localhost [Origin]
 
    //Log Migration
    migrateLogData($origin_conn, $auditor_conn);
