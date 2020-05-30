@@ -64,7 +64,7 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 								medicao.getDataHoraMedicao())
 								&& Alerta.verificarSeMandaAlerta(Alerta.getUltimoAlarmeLimiteHumidade(),
 										medicao.getDataHoraMedicao())) {
-							Alerta.enviaAlerta("Aumento Humidade (Instantaneo)", medicao,
+							Alerta.enviaAlerta("Aumento Humidade", medicao,
 									limiteEmPercentagem(Alerta.getCrescimentoInstantaneo(tipoMedicaousada)));
 							Alerta.setUltimoAlarmeCrescimentoHumidade(medicao.getDataHoraMedicao());
 							System.out.println("entrada em " + medicao.getDataHoraMedicao());
@@ -75,7 +75,7 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 								&& Alerta.verificarSeMandaAlerta(Alerta.getUltimoAlarmeLimiteTemperatura(),
 										medicao.getDataHoraMedicao())) {
 
-							Alerta.enviaAlerta("Aumento Temperatura (Instantaneo)", medicao,
+							Alerta.enviaAlerta("Aumento Temperatura", medicao,
 									limiteEmPercentagem(Alerta.getCrescimentoInstantaneo(tipoMedicaousada)));
 							Alerta.setUltimoAlarmeCrescimentoTemperatura(medicao.getDataHoraMedicao());
 							System.out.println("entrada em " + medicao.getDataHoraMedicao());
@@ -88,7 +88,7 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 									medicao.getDataHoraMedicao())
 									&& Alerta.verificarSeMandaAlerta(Alerta.getUltimoAlarmeLimiteHumidade(),
 											medicao.getDataHoraMedicao())) {
-								Alerta.enviaAlerta("Aumento Humidade (Gradual)", medicao,
+								Alerta.enviaAlerta("Aumento Humidade", medicao,
 										limiteEmPercentagem(Alerta.getCrescimentoGradual(tipoMedicaousada)));
 								Alerta.setUltimoAlarmeCrescimentoHumidade(medicao.getDataHoraMedicao());
 							}
@@ -98,7 +98,7 @@ public class AvaliaAlertaVariacaoTemperaturaHumidade {
 										medicao.getDataHoraMedicao())
 										&& Alerta.verificarSeMandaAlerta(Alerta.getUltimoAlarmeLimiteTemperatura(),
 												medicao.getDataHoraMedicao())) {
-									Alerta.enviaAlerta("Aumento Temperatura  (Gradual)", medicao,
+									Alerta.enviaAlerta("Aumento Temperatura", medicao,
 											limiteEmPercentagem(Alerta.getCrescimentoGradual(tipoMedicaousada)));
 									Alerta.setUltimoAlarmeCrescimentoTemperatura(medicao.getDataHoraMedicao());
 								}
