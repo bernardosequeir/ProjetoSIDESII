@@ -102,6 +102,11 @@ public class AvaliaAlertaAssalto {
 
 	}
 
+	/**
+	 * Inserts into the tabela Alerta - according to the type of alert, it checks wether the last alert of that type was send was in an interval superior to what the user wanted.
+	 * If it is not, it will not send an Alerta - it will not insert into the table and the Android application won't catch it. 
+	 * If it sends an alert, the variable responsible for keeping track of the last time an alert of type x was send gets reseted.
+	 */
 	public void insereTabelaAlerta() {
 		System.out.println("entrei no insere Alerta Assalto");
 		try {
@@ -137,6 +142,12 @@ public class AvaliaAlertaAssalto {
 		}
 	}
 
+	/**
+	 * Checks wether there is a Ronda happening or not. If a ronda happens for more than 48h it will not work. 
+	 * It will call a Stored Procedure to check in the medicao_sensores and medicao_sensores_anomalos if there is a ronda. 
+	 * If there is a ronda happening a variable gets updated and it will not be check again until the current one finishes.
+	 * @return wether a Ronda exists or not.
+	 */
 	public boolean existeRonda() {
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");

@@ -107,7 +107,7 @@ public class CloudToMongo implements MqttCallback {
 			if(cloud_topic.equals("grupo12")) 
 					return message.replaceAll("\", " , ",\""); 
 			else if(cloud_topic.equals("/sid_lab_2019_2"))
-				return message.replace("\"\"s", "\",s");
+				return message.replace("\"\"", "\",\"");
 			else if(cloud_topic.equals("/sid_lab_2020"))
 				return message.replace("\"\", ", "\",\"");
 			else System.err.println("Não temos este tipo de sensor definido.");

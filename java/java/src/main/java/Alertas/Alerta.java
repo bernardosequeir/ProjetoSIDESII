@@ -12,7 +12,6 @@ import Anomalias.Medicao;
 import conn.ConnectToMySql;
 import conn.MongoParaMysql;
 
-import com.sun.java.swing.plaf.motif.MotifEditorPaneUI;
 
 /**
  * 
@@ -33,7 +32,6 @@ public class Alerta {
 
 	private static LinkedList<Medicao> ultimosValoresTemperatura = new LinkedList<Medicao>();
 	private static LinkedList<Medicao> ultimosValoresHumidade = new LinkedList<Medicao>();
-	private static LinkedList<Medicao> ultimosValoresLuminosidade = new LinkedList<Medicao>();
 	private static String ultimaAlertaMovimento = null;
 	private static String ultimaAlertaLuminosidade = null;
 	private static Date fimRondaEmCurso = null;
@@ -76,14 +74,7 @@ public class Alerta {
 				ultimosValoresHumidade.poll();
 			} else
 				ultimosValoresHumidade.add(medicao);
-			// TODO para o que é que temos a luminosidade??
-		} else if (medicao.getTipoMedicao().equals("lum")) {
-			if (ultimosValoresLuminosidade.size() == irBuscarBuffersAlerta()) {
-				ultimosValoresLuminosidade.poll();
-			} else
-				ultimosValoresLuminosidade.add(medicao);
 		}
-
 	}
 
 	public static Double buscarIntervaloEntreAlertas() {
@@ -104,9 +95,14 @@ public class Alerta {
 	}
 
 	/**
-	 * Checks weather if an alert should be sent if there is one already of the same type sent before - for example if the user says he should receive an alert of the same type every 5 minutes,  this methods checks if there is a new alert to be sent of an x type, if the last one received of the x type by the user was longer than 5 minutes ago then it will be sent another alert of the x type.
+	 * Checks weather if an alert should be sent if there is one already of the same
+	 * type sent before - for example if the user says he should receive an alert of
+	 * the same type every 5 minutes, this methods checks if there is a new alert to
+	 * be sent of an x type, if the last one received of the x type by the user was
+	 * longer than 5 minutes ago then it will be sent another alert of the x type.
+	 * 
 	 * @param dataAntiga Older date to compare
-	 * @param dataNova Newer date to compare
+	 * @param dataNova   Newer date to compare
 	 * @return wether a new alert should be sent
 	 */
 	public static boolean verificarSeMandaAlerta(String dataAntiga, String dataNova) {
@@ -145,11 +141,6 @@ public class Alerta {
 				return ultimosValoresHumidade.getLast();
 			}
 			return null;
-		} else if (tipoMedicao.equals("lum")) {
-			if (ultimosValoresHumidade.size() != 0) {
-				return ultimosValoresHumidade.getLast();
-			}
-			return null;
 		}
 		return null;
 	}
@@ -165,11 +156,6 @@ public class Alerta {
 			}
 			return null;
 		} else if (tipoMedicao.equals("hum")) {
-			if (ultimosValoresHumidade.size() != 0) {
-				return ultimosValoresHumidade.getFirst();
-			}
-			return null;
-		} else if (tipoMedicao.equals("lum")) {
 			if (ultimosValoresHumidade.size() != 0) {
 				return ultimosValoresHumidade.getFirst();
 			}
@@ -201,12 +187,12 @@ public class Alerta {
 		}
 	}
 
-	
 	/**
 	 * Calls the SP responsible to write in the Alerta table the new alert.
+	 * 
 	 * @param descricao What the alert should be named
-	 * @param medicao The Medicao containing the value, type and date
-	 * @param limite The limit, in % or absolute, that triggered the alert
+	 * @param medicao   The Medicao containing the value, type and date
+	 * @param limite    The limit, in % or absolute, that triggered the alert
 	 */
 	public static void enviaAlerta(String descricao, Medicao medicao, String limite) {
 		try {
@@ -219,7 +205,7 @@ public class Alerta {
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			conn.close();
 		} catch (SQLException e) {
-			System.err.println("SP inserir alerta falhou " );
+			System.err.println("SP inserir alerta falhou ");
 			e.printStackTrace();
 		}
 	}
