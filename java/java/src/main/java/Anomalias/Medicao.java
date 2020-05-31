@@ -189,6 +189,8 @@ public class Medicao {
 			System.err.println("Unable to find cloudToMongo.ini " + e);
 		} catch (IOException e) {
 			System.err.println("I/O exception when reading cloudToMongo.ini ");
+		} catch (NullPointerException e){
+			return null;
 		}
 
 		return null;
