@@ -58,7 +58,6 @@ public class AvaliaAnomaliasVariacao {
 							- 1.00) >= variacaoMaxima) {
 						
 						lista.get(i).marcarComoAnomalia();
-						System.out.println("variacao maxima: " +variacaoMaxima);
 						System.out.println("valor de j-1 "+lista.get(j - 1).getValorMedicao());
 						System.out.println("valor de j "+ lista.get(j).getValorMedicao());
 						System.out.println(Math.abs((lista.get(j - 1).getValorMedicao() / lista.get(j).getValorMedicao())

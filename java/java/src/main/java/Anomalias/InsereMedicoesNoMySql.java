@@ -70,9 +70,15 @@ public class InsereMedicoesNoMySql {
 				conn.createStatement().executeQuery(Sqlcommando);
 			} else
 				System.err.println("SQL command is null");
-			conn.close();
 		} catch (SQLException e) {
 			System.err.println("The InserirMedicao didn't insert into Table. Possible reasons: fields are too long or fields are invalid " + e);
+		} finally 	{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.err.println("Could not close MySQL connection");
+				e.printStackTrace();
+			}
 		}
 	}
 
