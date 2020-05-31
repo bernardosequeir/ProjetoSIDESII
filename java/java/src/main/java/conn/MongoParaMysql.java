@@ -28,8 +28,9 @@ import com.mongodb.client.model.Filters;
 import java.sql.*;
 
 /**
- * Reads the parameters set by the client in the Sistema table.
- * Connects to Mongo, reads the new Medicoes there and sends them to be tested in the Medicao and AvaliaAnomalia to see if they are valid.
+ * Reads the parameters set by the client in the Sistema table. Connects to
+ * Mongo, reads the new Medicoes there and sends them to be tested in the
+ * Medicao and AvaliaAnomalia to see if they are valid.
  *
  */
 public class MongoParaMysql {
@@ -52,8 +53,9 @@ public class MongoParaMysql {
 	private final Bson lastFilter = new Document("_id", -1);
 
 	/**
-	 * Calls the methods that set up what the class needs - a MySQL connections, check the user's parameters and created the Anomalias Buffers. 
-	 * Constantly checks for new values from Mongo.
+	 * Calls the methods that set up what the class needs - a MySQL connections,
+	 * check the user's parameters and created the Anomalias Buffers. Constantly
+	 * checks for new values from Mongo.
 	 */
 	private void run() {
 
@@ -69,9 +71,9 @@ public class MongoParaMysql {
 		}
 
 	}
-	
+
 	/**
-	 * Opens a new Mongo connection similar to the one done in CloudToMongo. 
+	 * Opens a new Mongo connection similar to the one done in CloudToMongo.
 	 */
 	public void connectMongo() {
 		Properties p = new Properties();
@@ -89,27 +91,28 @@ public class MongoParaMysql {
 	}
 
 	public static HashMap<String, Double> getValoresTabelaSistema() {
-		if(valoresTabelaSistema==null) System.err.println("a tabela sistema esta vazia");
+		if (valoresTabelaSistema == null)
+			System.err.println("a tabela sistema esta vazia");
 		return valoresTabelaSistema;
 	}
 
-
-	public static String getDataUltimaMedicao(){
+	public static String getDataUltimaMedicao() {
 		return ultimaDataVálida;
 	}
 
-	public static void setDataUltimaMedicao(String data){
+	public static void setDataUltimaMedicao(String data) {
 		ultimaDataVálida = data;
 	}
 
-	public static double getTempoLimiteMedicao(){
+	public static double getTempoLimiteMedicao() {
 		return valoresTabelaSistema.get("TempoLimiteMedicao");
 	}
 
-
 	/**
-	 * Checks wether the last Medicao received is the same as the new one read - if it is it waits the time defined by the user.
-	 * If they are different it makes them check for Anomalias - in the verificarAssalto() or it adds them to the buffers, according to the type of sensor.
+	 * Checks wether the last Medicao received is the same as the new one read - if
+	 * it is it waits the time defined by the user. If they are different it makes
+	 * them check for Anomalias - in the verificarAssalto() or it adds them to the
+	 * buffers, according to the type of sensor.
 	 */
 	private void verificaValoresNovos() {
 		Document novo = getUltimoValor();
@@ -136,8 +139,9 @@ public class MongoParaMysql {
 	}
 
 	/**
-	 * When the medicao object is created it checks if it's not an Anomalia.
-	 * Calls the AvaliaAlerta class to check weather the movimento and luminosidade values received in a Medicao are an alert.
+	 * When the medicao object is created it checks if it's not an Anomalia. Calls
+	 * the AvaliaAlerta class to check weather the movimento and luminosidade values
+	 * received in a Medicao are an alert.
 	 */
 	private void verificarAssalto() {
 		Medicao movimento = valoresASerConferidos.get("mov");
@@ -146,31 +150,33 @@ public class MongoParaMysql {
 	}
 
 	/**
-	 * Creates the Temperatura and Humidity buffers <b>only</b> when the system is started and only then.
+	 * Creates the Temperatura and Humidity buffers <b>only</b> when the system is
+	 * started and only then.
 	 */
 	private void criaBuffersAnomalia() {
 		avaliaAnomaliasTemperatura = new AvaliaAnomaliasVariacao(
 				valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),
 				valoresTabelaSistema.get("variacaoAnomalaTemperatura"));
-		avaliaAnomaliasHumidade = new AvaliaAnomaliasVariacao(valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),
+		avaliaAnomaliasHumidade = new AvaliaAnomaliasVariacao(
+				valoresTabelaSistema.get("tamanhoDosBuffersAnomalia").intValue(),
 				valoresTabelaSistema.get("variacaoAnomalaHumidade"));
 	}
 
-	
 	/**
-	 * Connects to the MySQL database, gets the system values that the user defined for the project and puts them in a HashMap to be used in the future.
-	 * If the table is empty, it calls an SP to fill it according to the default values.
+	 * Connects to the MySQL database, gets the system values that the user defined
+	 * for the project and puts them in a HashMap to be used in the future. If the
+	 * table is empty, it calls an SP to fill it according to the default values.
 	 */
 	private void irBuscarDadosMysql() {
 		conn = ConnectToMySql.connect();
 		try {
 			s = conn.createStatement();
 		} catch (SQLException e2) {
-			System.err.println("Failed to connect to MySql. " );
+			System.err.println("Failed to connect to MySql. ");
 			e2.printStackTrace();
 		}
 		valoresTabelaSistema = new HashMap<String, Double>();
-		//TODO isto não lê vários valores da tabela sistema????
+		// TODO isto não lê vários valores da tabela sistema????
 		SqlCommando = "SELECT * from sistema;";
 		try {
 			rs = s.executeQuery(SqlCommando);
@@ -196,7 +202,9 @@ public class MongoParaMysql {
 				rs = s.executeQuery("CALL InsereTabelaSistemaValoresDefault();");
 				irBuscarDadosMysql();
 			} catch (SQLException e1) {
-				System.err.println("Could not call the SP InsereTabelaSistemaValoresDefault - maybe it is deleted or it is modified" + e1);
+				System.err.println(
+						"Could not call the SP InsereTabelaSistemaValoresDefault - maybe it is deleted or it is modified"
+								+ e1);
 			}
 		}
 		try {
@@ -207,7 +215,6 @@ public class MongoParaMysql {
 
 	}
 
-	
 	private Document getUltimoValor() {
 		List<Document> novosresultados = new ArrayList<Document>();
 		mongocol.find().sort(lastFilter).limit(1).into(novosresultados);
@@ -216,18 +223,25 @@ public class MongoParaMysql {
 	}
 
 	/**
-	 * Gets a message from the sensor converted already to the Document format and splits it into Medicao objects, 1 for each type of sensor and puts them in an HashMap.
+	 * Gets a message from the sensor converted already to the Document format and
+	 * splits it into Medicao objects, 1 for each type of sensor and puts them in an
+	 * HashMap.
+	 * 
 	 * @param document Mongo Document that came from the MongoDB.
-	 * @return The hashmap containing a single String(the medicoes that we got in a single date time) that are divided into Medicao objects, each one for each type of sensor.
+	 * @return The hashmap containing a single String(the medicoes that we got in a
+	 *         single date time) that are divided into Medicao objects, each one for
+	 *         each type of sensor.
 	 */
 	private HashMap<String, Medicao> getValoresMedicao(Document document) {
-		String[] date_split = document.getString("dat").split("/");
-		String date_fixed = date_split[2] + "-" + date_split[1] + "-" + date_split[0] + " " + document.getString("tim");
 		try {
-			if (document.getString("tmp") == null || document.getString("hum") == null || document.getString("cell") == null
-					|| document.getString("mov") == null)
-				System.err.println("One of the fields came as null in  one or more of the following fields: lum, hum, cell, mov probably from MongoDB");
-			
+			String[] date_split = document.getString("dat").split("/");
+			String date_fixed = date_split[2] + "-" + date_split[1] + "-" + date_split[0] + " "
+					+ document.getString("tim");
+			if (document.getString("tmp") == null || document.getString("hum") == null
+					|| document.getString("cell") == null || document.getString("mov") == null)
+				System.err.println(
+						"One of the fields came as null in  one or more of the following fields: lum, hum, cell, mov probably from MongoDB");
+			//TODO 1 valor nulo destroi o programa
 			Medicao medicaoTemperatura = new Medicao(document.getString("tmp"), "tmp", date_fixed);
 			Medicao medicaoHumidade = new Medicao(document.getString("hum"), "hum", date_fixed);
 			Medicao medicaoLuminosidade = new Medicao(document.getString("cell"), "lum", date_fixed);
@@ -239,9 +253,12 @@ public class MongoParaMysql {
 			medicoes.put("mov", medicaoMovimento);
 			System.out.println(document.toString());
 			return medicoes;
+		} catch (ArrayIndexOutOfBoundsException e1) {
+			System.err.println("A data recebida não está com um formato xx-yy-yyyy");
+			e1.printStackTrace();
 		} catch (Exception e) {
 			System.err.println("String parsing fail (\"tmp\" did not get converted correctly as \"tmp\")" + e);
-			
+
 		}
 		return null;
 

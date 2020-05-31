@@ -1,7 +1,6 @@
 
 package Anomalias;
 
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class InsereMedicoesNoMySql {
 
 	public InsereMedicoesNoMySql(Medicao medicao) {
 		this.medicao = medicao;
-		
+
 	}
 
 	/**
@@ -46,30 +45,35 @@ public class InsereMedicoesNoMySql {
 			conn = ConnectToMySql.connect();
 			s = conn.createStatement();
 		} catch (Exception e) {
-			System.err.println("Insere Medicoes No MySQL - Server down, unable to make the connection. " +e);
+			System.err.println("Insere Medicoes No MySQL - Server down, unable to make the connection. " + e);
 		}
 	}
 
 	/**
-	 * Inserts through a Stored Procedure into the MySQL medicoes_sensores table or medicoes_sensores_anomalos the Medicoes received, if they are valid or not, respectively.
+	 * Inserts through a Stored Procedure into the MySQL medicoes_sensores table or
+	 * medicoes_sensores_anomalos the Medicoes received, if they are valid or not,
+	 * respectively.
 	 */
 	public void insereMedicoesNoMySql() {
 		connect();
-		if(medicao.getValorAnomalia()==0) {
-			Sqlcommando = "CALL InserirMedicao('" + medicao.getValorMedicao() + "','" + medicao.getTipoMedicao() + "','" + medicao.getDataHoraMedicao() + "');";
-		}else if(medicao.getValorAnomalia()==1){
-			Sqlcommando = "CALL InserirMedicaoAnomala('"+medicao.getValorMedicaoAnomalo()+"','"+medicao.getTipoMedicao()+"','"+medicao.getDataHoraMedicao()+"');";
+		if (medicao.getValorAnomalia() == 0) {
+			Sqlcommando = "CALL InserirMedicao('" + medicao.getValorMedicao() + "','" + medicao.getTipoMedicao() + "','"
+					+ medicao.getDataHoraMedicao() + "');";
+		} else if (medicao.getValorAnomalia() == 1) {
+
+			Sqlcommando = "CALL InserirMedicaoAnomala('" + medicao.getValorMedicaoAnomalo() + "','"
+					+ medicao.getTipoMedicao() + "','" + medicao.getDataHoraMedicao() + "');";
 		}
 		System.out.println(Sqlcommando);
 		try {
-			if(Sqlcommando!= null) {
+			if (Sqlcommando != null) {
 				conn.createStatement().executeQuery(Sqlcommando);
-			} else System.err.println("SQL command is null");
+			} else
+				System.err.println("SQL command is null");
 			conn.close();
 		} catch (SQLException e) {
-			System.err.println("could not connect do the SP InserirMedicao OR InserirMedicaoAnomala " + e);
+			System.err.println("The InserirMedicao didn't insert into Table. Possible reasons: fields are too long or fields are invalid " + e);
 		}
 	}
-	
 
 }
