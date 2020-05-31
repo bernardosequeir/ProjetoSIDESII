@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Maio-2020 às 15:27
+-- Tempo de geração: 31-Maio-2020 às 21:41
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -159,7 +159,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicao` (IN `ValorMedicao` 
 	INSERT INTO medicao_sensores VALUES (NULL,ValorMedicao,TipoSensor,DataHoraMedicao);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicaoAnomala` (IN `ValorMedicao` VARCHAR(10), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirMedicaoAnomala` (IN `ValorMedicao` VARCHAR(30), IN `TipoSensor` VARCHAR(3), IN `DataHoraMedicao` TIMESTAMP)  BEGIN
 	INSERT INTO medicao_sensores_anomalos VALUES (NULL,ValorMedicao,TipoSensor,DataHoraMedicao);
 END$$
 
@@ -617,7 +617,7 @@ DELIMITER ;
 
 CREATE TABLE `medicao_sensores_anomalos` (
   `idMedicao` bigint(20) NOT NULL,
-  `ValorMedicao` varchar(10) NOT NULL,
+  `ValorMedicao` varchar(30) NOT NULL,
   `TipoSensor` varchar(3) NOT NULL,
   `DataHoraMedicao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -769,7 +769,7 @@ CREATE TABLE `sistema` (
   `luminosidadeLuzesDesligadas` int(11) NOT NULL DEFAULT 1000,
   `limiteTemperatura` int(11) NOT NULL DEFAULT 50,
   `limiteHumidade` int(11) NOT NULL DEFAULT 50,
-  `periocidadeImportacaoExportacaoAuditor` decimal(6,2) NOT NULL DEFAULT 5.00
+  `periocidadeImportacaoExportacaoAuditor` int(11) NOT NULL DEFAULT 5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -814,10 +814,10 @@ CREATE TRIGGER `sistema_before_insert` BEFORE INSERT ON `sistema` FOR EACH ROW B
     if(new.TempoEntreAlertas < 0 ) THEN
         set new.TempoEntreAlertas = NULL;
     end if;
-    if(new.tamanhoDosBuffersAnomalia < 0 ) THEN
+    if(new.tamanhoDosBuffersAnomalia < 2 ) THEN
         set new.tamanhoDosBuffersAnomalia = NULL;
     end if;
-    if(new.tamanhoDosBuffersAlerta < 0 ) THEN
+    if(new.tamanhoDosBuffersAlerta < 2 ) THEN
         set new.tamanhoDosBuffersAlerta = NULL;
     end if;
     if(new.variacaoAnomalaTemperatura < 0 ) THEN

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Maio-2020 às 15:29
+-- Tempo de geração: 31-Maio-2020 às 21:41
 -- Versão do servidor: 10.4.10-MariaDB
 -- versão do PHP: 7.1.33
 
@@ -253,19 +253,19 @@ ALTER TABLE `g12_loguser`
 -- AUTO_INCREMENT de tabela `g12_logalerta`
 --
 ALTER TABLE `g12_logalerta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `g12_logmedicao_sensores`
 --
 ALTER TABLE `g12_logmedicao_sensores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=489;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `g12_logmedicao_sensores_anomalos`
 --
 ALTER TABLE `g12_logmedicao_sensores_anomalos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `g12_logronda_extra`
@@ -283,13 +283,13 @@ ALTER TABLE `g12_logronda_planeada`
 -- AUTO_INCREMENT de tabela `g12_logsistema`
 --
 ALTER TABLE `g12_logsistema`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `g12_loguser`
 --
 ALTER TABLE `g12_loguser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
