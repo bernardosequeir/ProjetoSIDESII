@@ -26,7 +26,7 @@ public class Medicao {
 	private double valorMedicao;
 	private String tipoMedicao;
 	private String dataHoraMedicao;
-	private boolean possivelAnomalia = false;
+	private boolean possivelAnomalia;
 	private String valorMedicaoAnomalo;
 
 	public String getDataHoraMedicao() {
@@ -44,6 +44,7 @@ public class Medicao {
 		if (tipoMedicao.equals("tmp") || tipoMedicao.equals("hum") || tipoMedicao.equals("lum")
 				|| tipoMedicao.equals("mov")) {
 			this.dataHoraMedicao = this.dataHoraParaFormatoCerto(dataHoraMedicao);
+			this.tipoMedicao = tipoMedicao;
 			verificaSeEDouble(valorMedicao);
 			verificaSeDataEValida(valorMedicao);
 			if ((tipoMedicao.equals("hum") || tipoMedicao.equals("lum")) && !possivelAnomalia) {
@@ -52,7 +53,7 @@ public class Medicao {
 			if (tipoMedicao.equals("mov") && !possivelAnomalia) {
 				verificaSeMovimentoEAnomalia(valorMedicao);
 			}
-			this.tipoMedicao = tipoMedicao;
+			
 		} else {
 			System.err.println("TipoMedicao is invalid - only tmp, hum, lum and mov are allowed");
 		}
@@ -88,6 +89,7 @@ public class Medicao {
 		try {
 			this.valorMedicao = Double.valueOf(valorMedicao);
 		} catch (Exception e) {
+			System.out.println("Valor medicao: " +valorMedicao);
 			marcarComoAnomalia(valorMedicao);
 		}
 	}
@@ -114,10 +116,16 @@ public class Medicao {
 	}
 
 	public void marcarComoAnomalia(String valorMedicao) {
+		System.out.println("ESTÁ a converter");
 		this.valorMedicaoAnomalo = valorMedicao;
 		possivelAnomalia = true;
 	}
 
+	public void marcarComoAnomalia() {
+		this.valorMedicaoAnomalo = String.valueOf(valorMedicao);
+		possivelAnomalia = true;
+
+	}
 	public String getValorMedicaoAnomalo() {
 		System.out.println(valorMedicaoAnomalo);
 		return valorMedicaoAnomalo;
@@ -141,10 +149,13 @@ public class Medicao {
 
 	public int getValorAnomalia() {
 		if (isAnomalo()) {
-			this.valorMedicaoAnomalo = String.valueOf(valorMedicao);
 			return 1;
 		}
 		return 0;
+	}
+
+	public void setValorMedicao(double valorMedicao) {
+		this.valorMedicao = valorMedicao;
 	}
 
 	/**
@@ -178,6 +189,8 @@ public class Medicao {
 			System.err.println("Unable to find cloudToMongo.ini " + e);
 		} catch (IOException e) {
 			System.err.println("I/O exception when reading cloudToMongo.ini ");
+		} catch (NullPointerException e){
+			return null;
 		}
 
 		return null;

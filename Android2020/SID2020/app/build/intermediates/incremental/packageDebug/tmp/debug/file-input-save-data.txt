@@ -1,7 +1,7 @@
 #Internal package file, do not edit.
-#Sun May 10 12:10:49 BST 2020
+#Sat May 30 19:00:01 BST 2020
 0.baseType=DIRECTORY
-0.base=C\:\\Users\\joaof\\Downloads\\Android2020\\SID2020\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+0.base=C\:\\Users\\Bernardo\\Documents\\GitHub\\ProjetoSIDESII\\Android2020\\SID2020\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
 0.path=classes.dex
 0.set=DEX
 count=1

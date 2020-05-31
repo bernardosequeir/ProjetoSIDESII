@@ -40,6 +40,7 @@ public class Alerta {
 	private static String ultimoAlarmeCrescimentoTemperatura = null;
 	private static String ultimoAlarmeLimiteHumidade = null;
 	private static String ultimoAlarmeCrescimentoHumidade = null;
+	private static Connection conn;
 
 	public static int irBuscarBuffersAlerta() {
 		return valoresTabelaSistema.get("tamanhoDosBuffersAlerta").intValue();
@@ -68,13 +69,13 @@ public class Alerta {
 				ultimosValoresTemperatura.poll();
 			} else {
 				System.out.println("entrou buffers nao cheios");
-				ultimosValoresTemperatura.add(medicao);
+				ultimosValoresTemperatura.addFirst(medicao);
 			}
 		} else if (medicao.getTipoMedicao().equals("hum")) {
 			if (ultimosValoresHumidade.size() == irBuscarBuffersAlerta()) {
 				ultimosValoresHumidade.poll();
 			} else
-				ultimosValoresHumidade.add(medicao);
+				ultimosValoresHumidade.addFirst(medicao);
 		}
 	}
 
@@ -197,17 +198,24 @@ public class Alerta {
 	 */
 	public static void enviaAlerta(String descricao, Medicao medicao, String limite) {
 		try {
-			Connection conn = ConnectToMySql.connect();
+			conn = ConnectToMySql.connect();
 			Statement st = conn.createStatement();
 			String Sqlcommando = "CALL InserirAlerta( '" + medicao.getDataHoraMedicao() + "','"
 					+ medicao.getTipoMedicao() + "','" + medicao.getValorMedicao() + "','" + limite + "','" + descricao
 					+ "',0,'');";
 
 			ResultSet rs = st.executeQuery(Sqlcommando);
-			conn.close();
+			System.out.println(Sqlcommando);
 		} catch (SQLException e) {
 			System.err.println("SP inserir alerta falhou ");
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.err.println("could not close MySQL connection");
+				e.printStackTrace();
+			}
 		}
 	}
 	// TODO substituir e por e.print...

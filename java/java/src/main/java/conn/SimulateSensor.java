@@ -1,12 +1,9 @@
-
 package conn;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.LocalDate;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import java.awt.Component;
@@ -16,6 +13,10 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
+
+// 
+// Decompiled by Procyon v0.5.36
+// 
 
 public class SimulateSensor implements MqttCallback
 {
@@ -55,16 +56,15 @@ public class SimulateSensor implements MqttCallback
         LocalTime.now();
         while (true) {
             double d = 18.0;
-          while (d < 50.0) {
-        	  
-                final String string = "{\"tmp\":\"" + d + "\",\"hum\":\"" + -35.0 + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 20 + "\",\"mov\":\"" + 1 + "\",\"sens\":\"eth\"}";
+            while (d < 50.0) {
+                final String string = "{\"tmp\":\"" + 35.0 + "\",\"hum\":\"" + d + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 1500 + "\",\"mov\":\"" + 0 + "\",\"sens\":\"eth\"}";
                 d += 0.5;
                 try {
                     Thread.sleep(2000L);
                 }
                 catch (InterruptedException ex) {}
                 this.publishSensor(string);
-            } 
+            }
             int i = 1;
             while (i < 10) {
                 final String string2 = "{\"tmp\":\"" + d + "\",\"hum\":\"" + 35.0 + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 20 + "\",\"mov\":\"" + 0 + "\",\"sens\":\"eth\"}";
@@ -113,8 +113,7 @@ public class SimulateSensor implements MqttCallback
                 Thread.sleep(2000L);
             }
             catch (InterruptedException ex8) {}
-            
-            this.publishSensor(string8);  
+            this.publishSensor(string8);
             final String string9 = "{\"tmp\":\"" + 18.0 + "\",\"hum\":\"" + 35.0 + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 20 + "\",\"mov\":\"" + 1 + "\",\"sens\":\"eth\"}";
             try {
                 Thread.sleep(2000L);
@@ -133,7 +132,6 @@ public class SimulateSensor implements MqttCallback
             }
             catch (InterruptedException ex11) {}
             this.publishSensor(string11);
-            
             final String string12 = "{\"tmp\":\"" + 50.0 + "\",\"hum\":\"" + 35.0 + "\",\"dat\":\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\",\"tim\":\"" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "\",\"cell\":\"" + 20 + "\",\"mov\":\"x\",\"sens\":\"eth\"}";
             try {
                 Thread.sleep(2000L);

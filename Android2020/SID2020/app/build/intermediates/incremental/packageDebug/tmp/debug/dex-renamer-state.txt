@@ -1,4 +1,4 @@
-#Fri May 29 09:06:20 BST 2020
-base.0=C\:\\Users\\joaof\\Downloads\\Android2020\\SID2020\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+#Sat May 30 19:00:01 BST 2020
+base.0=C\:\\Users\\Bernardo\\Documents\\GitHub\\ProjetoSIDESII\\Android2020\\SID2020\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
 path.0=classes.dex
 renamed.0=classes.dex
