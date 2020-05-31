@@ -57,18 +57,13 @@ public class Alerta {
 	 */
 	public static void adicionaValor(Medicao medicao) {
 		if (primeiraMedicao) {
-			System.out.println("Fui buscar valores");
 			buscarValoresTabelaSistema();
-			System.out.println(valoresTabelaSistema);
 			primeiraMedicao = false;
 		}
 		if (medicao.getTipoMedicao().equals("tmp")) {
-			System.out.println("entrou tmp");
 			if (ultimosValoresTemperatura.size() == irBuscarBuffersAlerta()) {
-				System.out.println("entrou buffers cheios");
 				ultimosValoresTemperatura.poll();
 			} else {
-				System.out.println("entrou buffers nao cheios");
 				ultimosValoresTemperatura.addFirst(medicao);
 			}
 		} else if (medicao.getTipoMedicao().equals("hum")) {
@@ -205,7 +200,6 @@ public class Alerta {
 					+ "',0,'');";
 
 			ResultSet rs = st.executeQuery(Sqlcommando);
-			System.out.println(Sqlcommando);
 		} catch (SQLException e) {
 			System.err.println("SP inserir alerta falhou ");
 			e.printStackTrace();

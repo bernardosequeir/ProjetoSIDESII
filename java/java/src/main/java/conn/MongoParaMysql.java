@@ -258,7 +258,6 @@ public class MongoParaMysql {
             medicoes.put("hum", medicaoHumidade);
             medicoes.put("lum", medicaoLuminosidade);
             medicoes.put("mov", medicaoMovimento);
-            System.out.println(document.toString());
             return medicoes;
 
 

@@ -64,7 +64,6 @@ public class InsereMedicoesNoMySql {
 			Sqlcommando = "CALL InserirMedicaoAnomala('" + medicao.getValorMedicaoAnomalo() + "','"
 					+ medicao.getTipoMedicao() + "','" + medicao.getDataHoraMedicao() + "');";
 		}
-		System.out.println(Sqlcommando);
 		try {
 			if (Sqlcommando != null) {
 				conn.createStatement().executeQuery(Sqlcommando);

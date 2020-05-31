@@ -85,11 +85,9 @@ public class Medicao {
 
 	
 	private void verificaSeEDouble(String valorMedicao) {
-		System.out.println(valorMedicao);
 		try {
 			this.valorMedicao = Double.valueOf(valorMedicao);
 		} catch (Exception e) {
-			System.out.println("Valor medicao: " +valorMedicao);
 			marcarComoAnomalia(valorMedicao);
 		}
 	}
@@ -107,7 +105,6 @@ public class Medicao {
 			Date dataAgora = dateFormat.parse(formatDateTime);
 			Date parsedDate = dateFormat.parse(this.dataHoraMedicao);
 			if (dataAgora.getTime() - parsedDate.getTime() > MongoParaMysql.getTempoLimiteMedicao() * 60 * 1000) {
-				System.out.println("antiga " + parsedDate.getTime() + dataAgora.getTime());
 				marcarComoAnomalia(valorMedicao);
 			}
 		} catch (ParseException e) {
@@ -116,7 +113,6 @@ public class Medicao {
 	}
 
 	public void marcarComoAnomalia(String valorMedicao) {
-		System.out.println("ESTÁ a converter");
 		this.valorMedicaoAnomalo = valorMedicao;
 		possivelAnomalia = true;
 	}
@@ -127,7 +123,6 @@ public class Medicao {
 
 	}
 	public String getValorMedicaoAnomalo() {
-		System.out.println(valorMedicaoAnomalo);
 		return valorMedicaoAnomalo;
 	}
 

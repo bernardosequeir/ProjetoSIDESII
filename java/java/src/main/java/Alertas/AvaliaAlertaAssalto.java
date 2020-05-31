@@ -80,7 +80,6 @@ public class AvaliaAlertaAssalto {
 			return false;
 		} else if (movimento.isAnomalo()) {
 			if (luminosidade.getValorMedicao() > luminosidadeLuzEscuro) {
-				System.out.println("luminosidade.getValorMedicao() > luminosidadeLuzEscuro");
 				tipoAlerta = "lum";
 				return true;
 			}
@@ -109,12 +108,10 @@ public class AvaliaAlertaAssalto {
 	 * If it sends an alert, the variable responsible for keeping track of the last time an alert of type x was send gets reseted.
 	 */
 	public void insereTabelaAlerta() {
-		System.out.println("entrei no insere Alerta Assalto");
 		try {
 
 			if (tipoAlerta.equals("mov")) {
 				if (Alerta.verificarSeMandaAlerta(Alerta.getUltimaDataMovimento(), movimento.getDataHoraMedicao())) {
-					System.out.println("data é mais");
 					Alerta.setUltimaDataMovimento(movimento.getDataHoraMedicao());
 					Alerta.enviaAlerta("Possivel Assalto", movimento, "1");
 				}
@@ -155,10 +152,7 @@ public class AvaliaAlertaAssalto {
 			Date parsedDate = dateFormat.parse(movimento.getDataHoraMedicao());
 			if (Alerta.getFimRondaEmCurso() != null) {
 				Date fimRondaEmCurso = dateFormat.parse(Alerta.getFimRondaEmCurso().toString());
-				System.out.println(fimRondaEmCurso);
-				System.out.println(parsedDate);
 				if (fimRondaEmCurso.after(parsedDate)) {
-					System.out.println("A ronda ainda não acabou");
 					return true;
 				}
 			}
@@ -178,9 +172,7 @@ public class AvaliaAlertaAssalto {
 		Statement st;
 		try {
 			connectMysqlAssalto();
-			System.out.println("comeca a verificar ronda");
 			st = conn.createStatement();
-			System.out.println("timestampUsedInRonda" + timestampUsedInRonda);
 			String Sqlcommando = "CALL VerificaSeExisteRonda('" + timestampUsedInRonda + "')";
 			ResultSet rs = st.executeQuery(Sqlcommando);
 			rs.next();
@@ -190,7 +182,6 @@ public class AvaliaAlertaAssalto {
 				Alerta.setFimRondaEmCurso(result);
 				return true;
 			} else {
-				System.out.println("nao ha nenhuma ronda a acontecer ");
 				return false;
 			}
 		} catch (SQLException e) {
