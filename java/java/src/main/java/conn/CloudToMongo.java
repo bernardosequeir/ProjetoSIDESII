@@ -110,7 +110,7 @@ public class CloudToMongo implements MqttCallback {
 	 * @return Message from the sensor, clean and ready to be inserted into MongoDB
 	 */
 	public String clean(String message) {
-			if(cloud_topic.equals("grupo12")) 
+			if(cloud_topic.equals("sid_exame"))
 					return message.replaceAll("\", " , ",\""); 
 			else if(cloud_topic.equals("/sid_lab_2019_2"))
 				return message.replace("\"\"", "\",\"");

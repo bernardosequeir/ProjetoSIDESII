@@ -173,7 +173,7 @@ public class Medicao {
 			SimpleDateFormat timeFormatISO2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			if (sensor.equals("/sid_lab_2019_2") || sensor.equals("/sid_lab_2020"))
 				timezone = "GMT+2";
-			else if (sensor.equals("grupo12"))
+			else if (sensor.equals("sid_exame"))
 				timezone = "GMT+1";
 			else System.err.println("Tipo de Sensor não definido - não é nem /sid_lab_2020 nem /sid_lab_2019_2 nem grupo12. Mudar código no dataHoraParaFormatoCerto na classe Medicao ");
 			timeFormatISO2.setTimeZone(TimeZone.getTimeZone(timezone));
