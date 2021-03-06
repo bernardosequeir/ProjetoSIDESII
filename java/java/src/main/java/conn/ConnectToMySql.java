@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 /**
  * 
- * It opens a new connection to the MySQL database specified in the CloudToMongo.ini
+ * It opens a new connection to the MySQL database specified in the CloudToMongo.ini lol
  *
  */
 public class ConnectToMySql {
